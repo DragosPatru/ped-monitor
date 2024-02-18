@@ -1,0 +1,4 @@
+
+app.indicator-meta[ELECTRICITY_CONSUMPTION]:
+  target: 100
+  unit: KWH

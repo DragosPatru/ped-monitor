@@ -1,0 +1,51 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.0'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'com.diffplug.spotless' version '6.22.0'
+}
+
+group = 'com.simplypositive'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+project.ext {
+	lombokVersion = '1.18.30'
+}
+
+repositories {
+	mavenCentral()
+}
+
+// configure the spotless to use the Google Java Format
+spotless {
+	java {
+		googleJavaFormat('1.17.0')
+		//licenseHeaderFile './licenseHeaderFile'
+	}
+
+	// enable to check the format during ./gradlew check
+	enforceCheck = false
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	compileOnly "org.projectlombok:lombok:$lombokVersion"
+	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+	testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+	testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
