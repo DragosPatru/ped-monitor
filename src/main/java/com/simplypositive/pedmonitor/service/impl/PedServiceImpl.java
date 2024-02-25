@@ -1,10 +1,14 @@
-package com.simplypositive.pedmonitor.service;
+package com.simplypositive.pedmonitor.service.impl;
 
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.domain.PositiveEnergyDistrict;
 import com.simplypositive.pedmonitor.repository.PedRepository;
+import com.simplypositive.pedmonitor.service.PedService;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class PedServiceImpl implements PedService {
 
   private final PedRepository repository;

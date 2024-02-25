@@ -7,12 +7,17 @@ import com.simplypositive.pedmonitor.domain.PositiveEnergyDistrict;
 import com.simplypositive.pedmonitor.domain.SustainabilityIndicator;
 import com.simplypositive.pedmonitor.service.PedService;
 import java.util.List;
-import org.springframework.http.ResponseEntity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class PedController implements PedApi {
 
   private final PedService pedService;
 
+  @Autowired
   public PedController(PedService pedService) {
     this.pedService = pedService;
   }

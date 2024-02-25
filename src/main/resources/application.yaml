@@ -2,3 +2,15 @@
 app.indicator-meta[ELECTRICITY_CONSUMPTION]:
   target: 100
   unit: KWH
+
+spring:
+  datasource:
+    url: jdbc:h2:file:~/pedmonitor/data
+    driverClassName: org.h2.Driver
+    username: ${DB_USER:dbuser}
+    password: ${DB_USER:dbpassword}
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+      globally_quoted_identifiers: true

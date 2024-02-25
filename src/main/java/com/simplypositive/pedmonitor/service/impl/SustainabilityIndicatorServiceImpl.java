@@ -1,12 +1,17 @@
-package com.simplypositive.pedmonitor.service;
+package com.simplypositive.pedmonitor.service.impl;
 
 import com.simplypositive.pedmonitor.api.model.SustainabilityIndicatorOverview;
 import com.simplypositive.pedmonitor.domain.RecordedValue;
 import com.simplypositive.pedmonitor.domain.SustainabilityIndicator;
 import com.simplypositive.pedmonitor.domain.Task;
 import com.simplypositive.pedmonitor.repository.SustainabilityIndicatorRepository;
+import com.simplypositive.pedmonitor.service.SustainabilityIndicatorRegistry;
+import com.simplypositive.pedmonitor.service.SustainabilityIndicatorService;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class SustainabilityIndicatorServiceImpl implements SustainabilityIndicatorService {
 
   private final SustainabilityIndicatorRegistry registry;
