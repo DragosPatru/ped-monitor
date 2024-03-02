@@ -1,9 +1,9 @@
 package com.simplypositive.pedmonitor.service;
 
-import com.simplypositive.pedmonitor.domain.SustainabilityIndicatorType;
+import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicatorType;
 import java.util.Optional;
 
-public interface SustainabilityIndicatorRegistry {
+public interface SustainabilityCalculatorRegistry {
 
   void register(SustainabilityCalculator calculator, SustainabilityIndicatorType indicatorType);
 

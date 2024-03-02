@@ -1,39 +1,40 @@
 package com.simplypositive.pedmonitor.service.impl;
 
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
-import com.simplypositive.pedmonitor.domain.PositiveEnergyDistrict;
-import com.simplypositive.pedmonitor.repository.PedRepository;
+import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
+import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
+import com.simplypositive.pedmonitor.persistence.repository.PedRepository;
 import com.simplypositive.pedmonitor.service.PedService;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PedServiceImpl implements PedService {
 
   private final PedRepository repository;
 
+  @Autowired
   public PedServiceImpl(PedRepository repository) {
     this.repository = repository;
   }
 
   @Override
   public PositiveEnergyDistrict create(PositiveEnergyDistrict ped) {
-    return null;
+    return repository.save(ped);
   }
 
   @Override
-  public PositiveEnergyDistrict update(String pedId, String newName) {
-    return null;
+  public PositiveEnergyDistrict updateName(Integer pedId, String newName)
+      throws ResourceNotFoundException {
+    PositiveEnergyDistrict ped =
+        repository.findById(pedId).orElseThrow(() -> new ResourceNotFoundException("PED", pedId));
+    ped.setName(newName);
+    return repository.save(ped);
   }
 
   @Override
   public List<PositiveEnergyDistrict> search(SearchCriteria criteria) {
-    return null;
-  }
-
-  @Override
-  public PedRepository repository() {
-    return null;
+    throw new IllegalStateException("Not implemented");
   }
 }

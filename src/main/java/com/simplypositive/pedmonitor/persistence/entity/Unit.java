@@ -1,4 +1,4 @@
-package com.simplypositive.pedmonitor.domain;
+package com.simplypositive.pedmonitor.persistence.entity;
 
 public enum Unit {
   KWH("kWh"),

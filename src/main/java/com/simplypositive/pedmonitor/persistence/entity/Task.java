@@ -1,14 +1,13 @@
-package com.simplypositive.pedmonitor.domain;
+package com.simplypositive.pedmonitor.persistence.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
 @Setter
@@ -23,8 +22,8 @@ public class Task {
   private Integer sustainabilityIndicatorId;
 
   private String name;
-  private TaskStatus status;
-  private Instant createdDate;
+  private TaskStatus status = TaskStatus.INITIAL;
+  private Instant createdAt = Instant.now();
   private Instant deadline;
 
   private double expectedCostReduction;

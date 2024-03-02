@@ -1,14 +1,15 @@
-package com.simplypositive.pedmonitor.domain;
+package com.simplypositive.pedmonitor.persistence.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.Instant;
 
 @Getter
 @Setter
@@ -19,9 +20,11 @@ public class PositiveEnergyDistrict {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
-  private String name;
 
-  private Instant created;
-  private Instant startDate;
-  private Instant endDate;
+  @NotEmpty private String name;
+
+  private Instant createdAt = Instant.now();
+
+  @NotNull private Instant startDate;
+  @NotNull private Instant endDate;
 }
