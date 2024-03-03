@@ -15,7 +15,7 @@ public class EnergyConsumptionCalculator implements SustainabilityCalculator {
   }
 
   @Override
-  public boolean aplicableFor(SustainabilityIndicatorType indicatorType) {
+  public boolean applicableFor(SustainabilityIndicatorType indicatorType) {
     return this.indicatorType.equals(indicatorType);
   }
 

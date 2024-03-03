@@ -1,22 +1,24 @@
 package com.simplypositive.pedmonitor.api;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 import com.simplypositive.pedmonitor.api.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.api.model.SearchResult;
 import com.simplypositive.pedmonitor.application.PedDefinitionHandler;
 import com.simplypositive.pedmonitor.domain.PedDefinition;
+import com.simplypositive.pedmonitor.domain.PedOverview;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
 import com.simplypositive.pedmonitor.service.PedService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-import static org.springframework.http.ResponseEntity.ok;
-
 @RestController
+@ControllerAdvice
 public class PedController implements PedApi {
 
   private final PedService pedService;
@@ -48,5 +50,10 @@ public class PedController implements PedApi {
   public ResponseEntity<SearchResult<PositiveEnergyDistrict>> search() {
     List<PositiveEnergyDistrict> peds = pedService.getAll(new SearchCriteria());
     return ok(SearchResult.ofData(peds));
+  }
+
+  @Override
+  public ResponseEntity<PedOverview> getOverview(Integer pedId) throws ResourceNotFoundException {
+    return ok(pedDefinitionHandler.getOverview(pedId));
   }
 }

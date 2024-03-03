@@ -5,7 +5,7 @@ import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicatorT
 
 public interface SustainabilityCalculator {
 
-  boolean aplicableFor(SustainabilityIndicatorType indicatorType);
+  boolean applicableFor(SustainabilityIndicatorType indicatorType);
 
   double calculateProgress(SustainabilityIndicator indicator, Double targetValue);
 }

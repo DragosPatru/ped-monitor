@@ -17,8 +17,13 @@ public interface SustainabilityIndicatorService {
 
   SustainabilityIndicatorOverview getProgress(int indicatorId) throws ResourceNotFoundException;
 
-  List<RecordedValue> addData(int indicatorId, List<RecordedValue> values)
+  RecordedValue addData(int indicatorId, RecordedValue values)
       throws ResourceNotFoundException;
 
   Task addTask(int indicatorId, Task task) throws ResourceNotFoundException;
+
+  List<RecordedValue> getData(int indicatorId)
+          throws ResourceNotFoundException;
+
+  List<Task> getTasks(int indicatorId) throws ResourceNotFoundException;
 }

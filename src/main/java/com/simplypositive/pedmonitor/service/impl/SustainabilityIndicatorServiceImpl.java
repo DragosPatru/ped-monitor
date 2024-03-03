@@ -71,7 +71,15 @@ public class SustainabilityIndicatorServiceImpl implements SustainabilityIndicat
     return new SustainabilityIndicatorOverview(progress, indicator);
   }
 
+
   @Override
+  public RecordedValue addData(int indicatorId, RecordedValue value)
+          throws ResourceNotFoundException {
+    findByIdElseThrow(indicatorId);
+    value.setSustainabilityIndicatorId(indicatorId);
+    return valueRepository.save(value);
+  }
+
   public List<RecordedValue> addData(int indicatorId, List<RecordedValue> values)
       throws ResourceNotFoundException {
     findByIdElseThrow(indicatorId);
@@ -91,6 +99,16 @@ public class SustainabilityIndicatorServiceImpl implements SustainabilityIndicat
     findByIdElseThrow(indicatorId);
     task.setSustainabilityIndicatorId(indicatorId);
     return taskRepository.save(task);
+  }
+
+  @Override
+  public List<RecordedValue> getData(int indicatorId) throws ResourceNotFoundException {
+    return valueRepository.findAllBySustainabilityIndicatorId(indicatorId);
+  }
+
+  @Override
+  public List<Task> getTasks(int indicatorId) throws ResourceNotFoundException {
+    return taskRepository.findAllBySustainabilityIndicatorId(indicatorId);
   }
 
   private SustainabilityIndicator findByIdElseThrow(int indicatorId)
