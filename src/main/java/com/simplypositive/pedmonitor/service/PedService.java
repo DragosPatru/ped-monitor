@@ -11,5 +11,5 @@ public interface PedService {
 
   PositiveEnergyDistrict updateName(Integer pedId, String newName) throws ResourceNotFoundException;
 
-  List<PositiveEnergyDistrict> search(SearchCriteria criteria);
+  List<PositiveEnergyDistrict> getAll(SearchCriteria criteria);
 }

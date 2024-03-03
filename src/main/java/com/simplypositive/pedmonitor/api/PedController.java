@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 public class PedController implements PedApi {
 
@@ -26,14 +30,14 @@ public class PedController implements PedApi {
 
   @Override
   public ResponseEntity<PedDefinition> create(PedDefinition pedDefinition) {
-    return ResponseEntity.ok(pedDefinitionHandler.create(pedDefinition));
+    return ok(pedDefinitionHandler.create(pedDefinition));
   }
 
   @Override
   public ResponseEntity<PositiveEnergyDistrict> update(
       Integer pedId, PedUpdateRequest updateRequest) {
     try {
-      return ResponseEntity.ok(pedService.updateName(pedId, updateRequest.getName()));
+      return ok(pedService.updateName(pedId, updateRequest.getName()));
 
     } catch (ResourceNotFoundException e) {
       return ResponseEntity.notFound().build();
@@ -41,7 +45,8 @@ public class PedController implements PedApi {
   }
 
   @Override
-  public ResponseEntity<SearchResult<PositiveEnergyDistrict>> search(SearchCriteria criteria) {
-    return null;
+  public ResponseEntity<SearchResult<PositiveEnergyDistrict>> search() {
+    List<PositiveEnergyDistrict> peds = pedService.getAll(new SearchCriteria());
+    return ok(SearchResult.ofData(peds));
   }
 }

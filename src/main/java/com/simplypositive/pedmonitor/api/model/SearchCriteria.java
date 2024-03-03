@@ -13,4 +13,5 @@ import lombok.Setter;
 public class SearchCriteria {
 
   private List<Sorting> sorting = new ArrayList<>(Arrays.asList());
+
 }
