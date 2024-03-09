@@ -11,11 +11,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 public class PedMonitorConfig {
 
   @Bean
-  public SustainabilityCalculatorRegistry indicatorRegistry() {
-    return new SustainabilityCalculatorRegistryImpl();
-  }
-
-  @Bean
   @Description("Spring Message Resolver")
   public ResourceBundleMessageSource messageSource() {
     ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();

@@ -10,7 +10,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <lombok.version>1.18.30</lombok.version>
-        <spotless.version>6.22.0</spotless.version>
+        <spotless.version>2.43.0</spotless.version>
         <googleJavaFormat.version>1.21.0</googleJavaFormat.version>
     </properties>
 

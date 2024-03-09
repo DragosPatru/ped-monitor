@@ -5,6 +5,23 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+/backend/target/
+/node/
+/frontend/bin/
+/frontend/node/
+/frontend/build
+/.idea/
+
+# Editor-based Rest Client
+.idea/httpRequests
+
+# Android studio 3.1+ serialized cache file
+.idea/caches/build_file_checksums.ser
+
+# Project exclude paths
+/frontend/node_modules/
+/frontend/target/
+
 ### STS ###
 .apt_generated
 .classpath

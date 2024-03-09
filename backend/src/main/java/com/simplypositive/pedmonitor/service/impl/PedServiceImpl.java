@@ -7,6 +7,7 @@ import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
 import com.simplypositive.pedmonitor.persistence.repository.PedRepository;
 import com.simplypositive.pedmonitor.service.PedService;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -44,6 +45,11 @@ public class PedServiceImpl implements PedService {
       repository.findAll(Sort.by(orderList));
     }
     return repository.findAll();
+  }
+
+  @Override
+  public Optional<PositiveEnergyDistrict> getById(Integer pedId) {
+    return repository.findById(pedId);
   }
 
   private Sort.Order toOrder(Sorting sorting) {
