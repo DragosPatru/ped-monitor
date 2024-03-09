@@ -1,7 +1,5 @@
 package com.simplypositive.pedmonitor;
 
-import com.simplypositive.pedmonitor.service.SustainabilityCalculatorRegistry;
-import com.simplypositive.pedmonitor.service.impl.SustainabilityCalculatorRegistryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;

@@ -71,10 +71,9 @@ public class SustainabilityIndicatorServiceImpl implements SustainabilityIndicat
     return new SustainabilityIndicatorOverview(progress, indicator);
   }
 
-
   @Override
   public RecordedValue addData(int indicatorId, RecordedValue value)
-          throws ResourceNotFoundException {
+      throws ResourceNotFoundException {
     findByIdElseThrow(indicatorId);
     value.setSustainabilityIndicatorId(indicatorId);
     return valueRepository.save(value);

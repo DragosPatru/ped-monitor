@@ -6,7 +6,6 @@ import com.simplypositive.pedmonitor.domain.SustainabilityIndicatorOverview;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.persistence.entity.RecordedValue;
 import com.simplypositive.pedmonitor.persistence.entity.Task;
-import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,14 +32,9 @@ public interface SustainabilityIndicatorApi {
       produces = APPLICATION_JSON_VALUE)
   ResponseEntity<?> addTask(int indicatorId, Task task) throws ResourceNotFoundException;
 
-
-  @GetMapping(
-          value = "/{indicatorId}/data",
-          produces = APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/{indicatorId}/data", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<?> getData(@PathVariable int indicatorId) throws ResourceNotFoundException;
 
-  @GetMapping(
-          value = "/{indicatorId}/tasks",
-          produces = APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/{indicatorId}/tasks", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<?> getTasks(int indicatorId, Task task) throws ResourceNotFoundException;
 }
