@@ -1,10 +1,10 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* Material Dashboard 2 React - v2.2.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
 
 Coded by www.creative-tim.com
 
@@ -18,63 +18,13 @@ Coded by www.creative-tim.com
   you can customize the states for the different components here.
 */
 
-import { createContext, useContext, useReducer, useMemo, useState, useEffect } from "react";
+import { createContext, useContext, useReducer, useMemo } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
-import { useLocation, useNavigate } from "react-router-dom";
 
 // Material Dashboard 2 React main context
 const MaterialUI = createContext();
-
-// authentication context
-export const AuthContext = createContext({
-  isAuthenticated: false,
-  login: () => {},
-  register: () => {},
-  logout: () => {},
-});
-
-const AuthContextProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (!token) return;
-
-    setIsAuthenticated(true);
-    navigate(location.pathname);
-  }, []);
-
-  useEffect(() => {
-    if (!token) return;
-
-    setIsAuthenticated(isAuthenticated);
-    navigate(location.pathname);
-  }, [isAuthenticated]);
-
-  const login = (token) => {
-    localStorage.setItem("token", token);
-    setIsAuthenticated(true);
-    navigate("/dashboard");
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
-    navigate("/auth/login");
-  };
-
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
 // Setting custom name for the context which is visible on react dev tools
 MaterialUI.displayName = "MaterialUIContext";
@@ -171,7 +121,6 @@ const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
 
 export {
-  AuthContextProvider,
   MaterialUIControllerProvider,
   useMaterialUIController,
   setMiniSidenav,

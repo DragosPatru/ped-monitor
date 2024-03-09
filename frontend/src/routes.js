@@ -1,10 +1,10 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* Material Dashboard 2 React - v2.2.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
 
 Coded by www.creative-tim.com
 
@@ -44,14 +44,6 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
-
-import UserProfile from "layouts/user-profile";
-import UserManagement from "layouts/user-management";
-
-import Login from "auth/login";
-import Register from "auth/register";
-import ForgotPassword from "auth/forgot-password";
-import ResetPassword from "auth/reset-password";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -114,60 +106,12 @@ const routes = [
     component: <SignIn />,
   },
   {
-    type: "examples",
-    name: "User Profile",
-    key: "user-profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/user-profile",
-    component: <UserProfile />,
-  },
-  {
-    type: "examples",
-    name: "User Management",
-    key: "user-management",
-    icon: <Icon fontSize="small">list</Icon>,
-    route: "/user-management",
-    component: <UserManagement />,
-  },
-  {
     type: "collapse",
     name: "Sign Up",
     key: "sign-up",
     icon: <Icon fontSize="small">assignment</Icon>,
     route: "/authentication/sign-up",
     component: <SignUp />,
-  },
-  {
-    type: "auth",
-    name: "Login",
-    key: "login",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/auth/login",
-    component: <Login />,
-  },
-  {
-    type: "auth",
-    name: "Register",
-    key: "register",
-    icon: <Icon fontSize="small">reigster</Icon>,
-    route: "/auth/register",
-    component: <Register />,
-  },
-  {
-    type: "auth",
-    name: "Forgot Password",
-    key: "forgot-password",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/auth/forgot-password",
-    component: <ForgotPassword />,
-  },
-  {
-    type: "auth",
-    name: "Reset Password",
-    key: "reset-password",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/auth/reset-password",
-    component: <ResetPassword />,
   },
 ];
 

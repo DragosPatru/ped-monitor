@@ -1,10 +1,10 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* Material Dashboard 2 React - v2.2.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
 
 Coded by www.creative-tim.com
 
@@ -15,7 +15,6 @@ Coded by www.creative-tim.com
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
-import { useLocation } from "react-router-dom";
 
 // @mui material components
 import Container from "@mui/material/Container";
@@ -31,10 +30,9 @@ import typography from "assets/theme/base/typography";
 
 function Footer({ light }) {
   const { size } = typography;
-  const {pathname} = useLocation()
 
   return (
-    <MDBox position={pathname !== '/auth/login' ? 'absolute' : 'relative'} width="100%" bottom={0} py={4}>
+    <MDBox position="absolute" width="100%" bottom={0} py={4}>
       <Container>
         <MDBox
           width="100%"
@@ -64,12 +62,6 @@ function Footer({ light }) {
                 &nbsp;Creative Tim&nbsp;
               </MDTypography>
             </Link>
-            &amp;
-            <Link href="https://www.updivision.com/" target="_blank">
-              <MDTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
-                &nbsp;UPDIVISION&nbsp;
-              </MDTypography>
-            </Link>
             for a better web.
           </MDBox>
           <MDBox
@@ -89,17 +81,6 @@ function Footer({ light }) {
               },
             })}
           >
-            <MDBox component="li" pr={2} lineHeight={1}>
-              <Link href="https://www.updivision.com/" target="_blank">
-                <MDTypography
-                  variant="button"
-                  fontWeight="regular"
-                  color={light ? "white" : "dark"}
-                >
-                  UPDIVISION
-                </MDTypography>
-              </Link>
-            </MDBox>
             <MDBox component="li" pr={2} lineHeight={1}>
               <Link href="https://www.creative-tim.com/" target="_blank">
                 <MDTypography
