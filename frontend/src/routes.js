@@ -35,11 +35,20 @@ Coded by www.creative-tim.com
   10. The `component` key is used to store the component of its route.
 */
 
+
+//// TODO
+// https://github.com/creativetimofficial/material-dashboard-material-ui-v4/blob/main/src/components/Table/Table.js
+// https://github.com/creativetimofficial/light-bootstrap-dashboard-react - pt lista editabila
+
+// Pt crearea unui card cu "NEW PED"
+// https://demos.creative-tim.com/soft-ui-dashboard-react/?_ga=2.28429436.1113405783.1710087585-1586395320.1709997043#/profile
+//https://www.creative-tim.com/learning-lab/react/placeholder-card/soft-ui-dashboard/
+
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
+import PedsOverview from "layouts/peds-overview";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
@@ -49,6 +58,14 @@ import SignUp from "layouts/authentication/sign-up";
 import Icon from "@mui/material/Icon";
 
 const routes = [
+  {
+    type: "collapse",
+    name: "PEDs",
+    key: "peds",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/peds",
+    component: <PedsOverview />,
+  },
   {
     type: "collapse",
     name: "Dashboard",
@@ -72,14 +89,6 @@ const routes = [
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/billing",
     component: <Billing />,
-  },
-  {
-    type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    route: "/rtl",
-    component: <RTL />,
   },
   {
     type: "collapse",
