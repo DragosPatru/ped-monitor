@@ -134,3 +134,38 @@ export {
   setLayout,
   setDarkMode,
 };
+
+
+
+// // authentication context
+// export const LanguageContext = createContext({
+//   currentLocale: "EN",
+//   setLocale: () => {},
+// });
+
+// const LanguageContext = ({ children }) => {
+//   const [currentLocale, setCurrentLocale] = useState("EN");
+
+//   const locale = localStorage.getItem("locale");
+
+//   useEffect(() => {
+//     if (!locale) return;
+//     setCurrentLocale(locale);
+//   }, []);
+
+//   useEffect(() => {
+//     if (!locale) return;
+//     setCurrentLocale(locale);
+//   }, [currentLocale]);
+
+//   const setLocale = (locale) => {
+//     localStorage.setItem("locale", locale);
+//     //navigate("/dashboard");
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
