@@ -3,6 +3,8 @@ package com.simplypositive.pedmonitor.api;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
+import com.simplypositive.pedmonitor.AppConfigurationProperties;
+import com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta;
 import com.simplypositive.pedmonitor.domain.SustainabilityIndicatorOverview;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.persistence.entity.RecordedValue;
@@ -19,16 +21,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class SustainabilityIndicatorController implements SustainabilityIndicatorApi {
 
   private final SustainabilityIndicatorService service;
+  private final AppConfigurationProperties configProps;
 
   @Autowired
-  public SustainabilityIndicatorController(SustainabilityIndicatorService service) {
+  public SustainabilityIndicatorController(SustainabilityIndicatorService service, AppConfigurationProperties configProps) {
     this.service = service;
+      this.configProps = configProps;
   }
 
   @Override
   public ResponseEntity<SustainabilityIndicatorOverview> getProgress(int indicatorId)
       throws ResourceNotFoundException {
     return ok(service.getProgress(indicatorId));
+  }
+
+  @Override
+  public ResponseEntity<SustainabilityIndicatorsMeta> getIndicatorsMeta() throws ResourceNotFoundException {
+    SustainabilityIndicatorsMeta meta = new SustainabilityIndicatorsMeta();
+    configProps.getIndicatorMeta().keySet().forEach(type -> {
+      IndicatorMeta metaInfo = configProps.getMetaData(type);
+      meta.addMeta(type, metaInfo.getTarget(), metaInfo.getUnit());
+    });
+    return ok(meta);
   }
 
   @Override

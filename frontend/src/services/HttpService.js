@@ -44,7 +44,7 @@ export class HttpService {
           })
           .catch((ex) => {
             // Check if ex.response exists and has a data property
-            if (ex.response && ex.response.data) {
+            if (ex.response && ex.response) {
               // Reject with the response data if it exists
               reject(ex.response.data);
             } else {

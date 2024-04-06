@@ -25,6 +25,9 @@ public class AppConfigurationProperties {
                     "Sustainability indicator " + type.name() + " not found"));
   }
 
+  @Getter
+  @Setter
+  @NoArgsConstructor
   public static class IndicatorMeta {
 
     private Double target;

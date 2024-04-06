@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
 
 // custom components
 import MDBox from "components/MDBox";
@@ -32,9 +31,9 @@ function PedsOverview() {
     <MDSnackbar
       color="error"
       icon="warning"
-      title="Material Dashboard"
-      content="Hello, world! This is a notification message"
-      dateTime="11 mins ago"
+      title="Error"
+      content="Could not retrieve data from the server !"
+      dateTime="2 seconds ago"
       open={errorSB}
       onClose={closeErrorSB}
       close={closeErrorSB}

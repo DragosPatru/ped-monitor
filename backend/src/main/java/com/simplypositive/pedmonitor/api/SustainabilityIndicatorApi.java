@@ -14,10 +14,16 @@ public interface SustainabilityIndicatorApi {
 
   @GetMapping(
       value = "/{indicatorId}/overview",
-      consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
   ResponseEntity<SustainabilityIndicatorOverview> getProgress(@PathVariable int indicatorId)
       throws ResourceNotFoundException;
+
+  @GetMapping(
+          value = "/meta",
+          produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<SustainabilityIndicatorsMeta> getIndicatorsMeta()
+          throws ResourceNotFoundException;
+
 
   @PutMapping(
       value = "/{indicatorId}/data",

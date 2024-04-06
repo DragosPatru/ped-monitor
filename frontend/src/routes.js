@@ -47,6 +47,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import PedsOverview from "pages/peds-overview";
+import DefinePed from "pages/define-ped";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
@@ -65,6 +66,14 @@ const routes = [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/peds",
     component: <PedsOverview />,
+  },
+  {
+    type: "collapse",
+    name: "Define PED",
+    key: "defineped",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/define-ped",
+    component: <DefinePed />,
   },
   {
     type: "collapse",
