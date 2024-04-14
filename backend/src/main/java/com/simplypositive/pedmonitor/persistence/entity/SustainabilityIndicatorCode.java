@@ -1,12 +1,12 @@
 package com.simplypositive.pedmonitor.persistence.entity;
 
-public enum SustainabilityIndicatorType {
+public enum SustainabilityIndicatorCode {
   ELECTRICITY_CONSUMPTION("Electricity Consumption"),
   CO2_EMISSIONS("CO2 Emissions");
 
   private final String displayName;
 
-  SustainabilityIndicatorType(String displayName) {
+  SustainabilityIndicatorCode(String displayName) {
     this.displayName = displayName;
   }
 

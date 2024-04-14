@@ -20,7 +20,11 @@ public class RecordedValue {
   private Integer id;
 
   private Double amount;
-  private Instant createdAt = Instant.now();
+
+  /** the source of data */
+  private String dataSourceCode;
 
   private Integer sustainabilityIndicatorId;
+
+  private Instant createdAt = Instant.now();
 }

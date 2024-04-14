@@ -22,13 +22,16 @@ public class SustainabilityIndicator {
 
   @NotBlank private String name;
 
-  @NotNull
-  @Enumerated(EnumType.STRING)
-  private SustainabilityIndicatorType type;
+  @NotBlank
+  private String code;
 
-  @NotNull private Unit unit;
+  @NotBlank private String unit;
 
   @NotNull private Double targetValue;
+
+  private String category;
+
+  private Integer parentIndicatorId;
 
   private Instant createdAt = Instant.now();
 }

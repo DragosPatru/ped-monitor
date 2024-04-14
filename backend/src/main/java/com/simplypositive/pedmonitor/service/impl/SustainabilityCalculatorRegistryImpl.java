@@ -1,6 +1,6 @@
 package com.simplypositive.pedmonitor.service.impl;
 
-import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicatorType;
+import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicatorCode;
 import com.simplypositive.pedmonitor.service.SustainabilityCalculator;
 import com.simplypositive.pedmonitor.service.SustainabilityCalculatorRegistry;
 import java.util.HashMap;
@@ -11,19 +11,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class SustainabilityCalculatorRegistryImpl implements SustainabilityCalculatorRegistry {
 
-  private Map<SustainabilityIndicatorType, SustainabilityCalculator> calculatorMap =
+  private Map<String, SustainabilityCalculator> calculatorMap =
       new HashMap<>();
 
   @Override
   public void register(
-      SustainabilityCalculator calculator, SustainabilityIndicatorType indicatorType) {
-    calculatorMap.put(indicatorType, calculator);
+      SustainabilityCalculator calculator, String indicatorCode) {
+    if (calculatorMap.getOrDefault(indicatorCode, null) != null) {
+      throw new IllegalStateException("Calculator already registered for " + indicatorCode);
+    }
+    calculatorMap.put(indicatorCode, calculator);
   }
 
   @Override
-  public Optional<SustainabilityCalculator> getCalculator(SustainabilityIndicatorType indicator) {
-    return calculatorMap.get(indicator) == null
+  public Optional<SustainabilityCalculator> getCalculator(String indicatorCode) {
+    return calculatorMap.get(indicatorCode) == null
         ? Optional.empty()
-        : Optional.of(calculatorMap.get(indicator));
+        : Optional.of(calculatorMap.get(indicatorCode));
   }
 }

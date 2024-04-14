@@ -63,11 +63,11 @@ public class SustainabilityIndicatorServiceImpl implements SustainabilityIndicat
     SustainabilityIndicator indicator = findByIdElseThrow(indicatorId);
     SustainabilityCalculator calculator =
         registry
-            .getCalculator(indicator.getType())
+            .getCalculator(indicator.getCode())
             .orElseThrow(
                 () -> new ResourceNotFoundException("Sustainability calculator not defined"));
 
-    double progress = calculator.calculateProgress(indicator, indicator.getTargetValue());
+    double progress = calculator.compute();
     return new SustainabilityIndicatorOverview(progress, indicator);
   }
 

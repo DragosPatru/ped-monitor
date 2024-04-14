@@ -1,0 +1,126 @@
+{
+  "data-source-factors": [
+    {
+      "version-number": 1,
+      "year": 2024,
+      "data": {
+        "electricity": {
+          "title": "Electricity",
+          "value": "EF1 - from PED definition"
+        },
+        "locally_produced_heat_cold": {
+          "title": "Locally produced Heat/cold",
+          "value": "EF2 - form PED definition"
+        },
+        "natural_gas": {
+          "title": "Natural gas",
+          "value": 0.202
+        },
+        "liquefied_petroleum_gases": {
+          "title": "Liquefied Petroleum Gases",
+          "value": 0.227
+        },
+        "natural_gas_liquids": {
+          "title": "Natural Gas Liquids",
+          "value": 0.232
+        },
+        "gas_diesel_oil": {
+          "title": "Gas/diesel oil",
+          "value": 0.268
+        },
+        "motor_gasoline": {
+          "title": "Motor gasoline",
+          "value": 0.25
+        },
+        "lignite": {
+          "title": "Lignite",
+          "value": 0.365
+        },
+        "anthracite": {
+          "title": "Anthracite",
+          "value": 0.355
+        },
+        "other_bituminous_coal": {
+          "title": "Other Bituminous Coal",
+          "value": 0.342
+        },
+        "sub_bituminous_coal": {
+          "title": "Sub-Bituminous Coal",
+          "value": 0.348
+        },
+        "peat": {
+          "title": "Peat",
+          "value": 0.383
+        },
+        "municipal_wastes_non_biomass": {
+          "title": "Municipal Wastes (non-biomass fraction)",
+          "value": 0.337
+        },
+        "other_liquid_biofuels_sustainable": {
+          "title": "Other liquid biofuels from sustainable sources",
+          "value": 0.001
+        },
+        "other_liquid_biofuels_non_sustainable": {
+          "title": "Other liquid biofuels from non-sustainable sources",
+          "value": 0.287
+        },
+        "bio_gasoline_sustainable": {
+          "title": "Bio-gasoline from sustainable sources",
+          "value": 0.001
+        },
+        "bio_gasoline_non_sustainable": {
+          "title": "Bio-gasoline from non-sustainable sources",
+          "value": 0.256
+        },
+        "biodiesel_sustainable": {
+          "title": "Biodiesel from sustainable sources",
+          "value": 0.001
+        },
+        "biodiesel_non_sustainable": {
+          "title": "Biodiesel from non-sustainable sources",
+          "value": 0.256
+        },
+        "wood_waste_sustainable": {
+          "title": "Wood / wood waste from sustainable sources",
+          "value": 0.007
+        },
+        "wood_waste_non_sustainable": {
+          "title": "Wood / wood waste from non-sustainable sources",
+          "value": 0.41
+        },
+        "municipal_wastes_biomass_sustainable": {
+          "title": "Municipal wastes (biomass fraction) from sustainable sources",
+          "value": 0.007
+        },
+        "municipal_wastes_biomass_non_sustainable": {
+          "title": "Municipal wastes (biomass fraction) from non-sustainable sources",
+          "value": 0.367
+        },
+        "other_primary_biomass_sustainable": {
+          "title": "Other primary solid biomass from sustainable sources",
+          "value": 0.007
+        },
+        "other_primary_biomass_non_sustainable": {
+          "title": "Other primary solid biomass from non-sustainable sources",
+          "value": 0.367
+        },
+        "biogas_sustainable": {
+          "title": "Biogas from sustainable sources",
+          "value": 0.0
+        },
+        "biogas_non_sustainable": {
+          "title": "Biogas from non-sustainable sources",
+          "value": 0.197
+        },
+        "solar_thermal": {
+          "title": "Solar thermal",
+          "value": 0.0
+        },
+        "geothermal": {
+          "title": "Geothermal",
+          "value": 0.0
+        }
+      }
+    }
+  ]
+}

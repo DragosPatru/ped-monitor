@@ -36,16 +36,6 @@ public class SustainabilityIndicatorController implements SustainabilityIndicato
   }
 
   @Override
-  public ResponseEntity<SustainabilityIndicatorsMeta> getIndicatorsMeta() throws ResourceNotFoundException {
-    SustainabilityIndicatorsMeta meta = new SustainabilityIndicatorsMeta();
-    configProps.getIndicatorMeta().keySet().forEach(type -> {
-      IndicatorMeta metaInfo = configProps.getMetaData(type);
-      meta.addMeta(type, metaInfo.getTarget(), metaInfo.getUnit());
-    });
-    return ok(meta);
-  }
-
-  @Override
   public ResponseEntity<?> addData(int indicatorId, RecordedValue value)
       throws ResourceNotFoundException {
     return ok(service.addData(indicatorId, value));

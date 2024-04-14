@@ -1,11 +1,11 @@
 package com.simplypositive.pedmonitor.service;
 
 import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
-import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicatorType;
+import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicatorCode;
 
 public interface SustainabilityCalculator {
 
-  boolean applicableFor(SustainabilityIndicatorType indicatorType);
+  boolean applicableFor(String indicatorCode);
 
-  double calculateProgress(SustainabilityIndicator indicator, Double targetValue);
+  double compute();
 }
