@@ -47,7 +47,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import PedsOverview from "pages/peds-overview";
-import DefinePed from "pages/define-ped";
+import DefinePed from "pages/define-ped-new";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";

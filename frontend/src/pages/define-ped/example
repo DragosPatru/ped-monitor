@@ -38,7 +38,7 @@ import useFormState from './useFormState'; // Adjust the import path as needed
 import MDInput from 'components/MDInput'; // Adjust the import path as needed
 
 function MyFormComponent() {
-  const [formState, handleInputChange] = useFormState();
+  const [basicFormState, handleBasicInputChange] = useBasicState();
 
   const handleSubmit = (e) => {
     e.preventDefault();

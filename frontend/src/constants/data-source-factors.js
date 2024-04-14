@@ -1,0 +1,33 @@
+// beware the keys are very important
+const dataSourceFactors = [
+    { key: "electricity", title: "Electricity" },
+    { key: "locally_produced_heat_cold", title: "Locally produced Heat/cold" },
+    { key: "natural_gas", title: "Natural gas" },
+    { key: "liquefied_petroleum_gases", title: "Liquefied Petroleum Gases" },
+    { key: "natural_gas_liquids", title: "Natural Gas Liquids" },
+    { key: "gas_diesel_oil", title: "Gas/diesel oil" },
+    { key: "motor_gasoline", title: "Motor gasoline" },
+    { key: "lignite", title: "Lignite" },
+    { key: "anthracite", title: "Anthracite" },
+    { key: "other_bituminous_coal", title: "Other Bituminous Coal" },
+    { key: "sub_bituminous_coal", title: "Sub-Bituminous Coal" },
+    { key: "peat", title: "Peat" },
+    { key: "municipal_wastes_non_biomass", title: "Municipal Wastes (non-biomass fraction)" },
+    { key: "other_liquid_biofuels_sustainable", title: "Other liquid biofuels from sustainable sources" },
+    { key: "other_liquid_biofuels_non_sustainable", title: "Other liquid biofuels from non-sustainable sources" },
+    { key: "bio_gasoline_sustainable", title: "Bio-gasoline from sustainable sources" },
+    { key: "bio_gasoline_non_sustainable", title: "Bio-gasoline from non-sustainable sources" },
+    { key: "biodiesel_sustainable", title: "Biodiesel from sustainable sources" },
+    { key: "biodiesel_non_sustainable", title: "Biodiesel from non-sustainable sources" },
+    { key: "wood_waste_sustainable", title: "Wood / wood waste from sustainable sources" },
+    { key: "wood_waste_non_sustainable", title: "Wood / wood waste from non-sustainable sources" },
+    { key: "municipal_wastes_biomass_sustainable", title: "Municipal wastes (biomass fraction) from sustainable sources" },
+    { key: "municipal_wastes_biomass_non_sustainable", title: "Municipal wastes (biomass fraction) from non-sustainable sources" },
+    { key: "other_primary_biomass_sustainable", title: "Other primary solid biomass from sustainable sources" },
+    { key: "other_primary_biomass_non_sustainable", title: "Other primary solid biomass from non-sustainable sources" },
+    { key: "biogas_sustainable", title: "Biogas from sustainable sources" },
+    { key: "biogas_non_sustainable", title: "Biogas from non-sustainable sources" },
+    { key: "solar_thermal", title: "Solar thermal" },
+    { key: "geothermal", title: "Geothermal" }
+  ];
+  export default dataSourceFactors;
