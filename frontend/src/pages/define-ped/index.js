@@ -13,78 +13,31 @@ import MDSnackbar from "components/MDSnackbar";
 import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
 
-import ValidatedInput from "fragments/ValidatedInput";
-import Dropdown from "fragments/Dropdown";
-
-import SustainabilityIndicatorService from "services/SustainabilityIndicatorService"
-
 import { useRef, useState, useEffect } from 'react';
 
+import useBasicState from "./useBasicState";
+import IndicatorsTreeView from "./indicatorsTree5"
+
 function DefinePed() {
+    const [basicFormState, handleBasicInputChange] = useBasicState();
+
     const form = useRef();
 
     const createPed = (e) => {
         e.preventDefault();
-        const pedValid = nameState.isValid && startDateState.isValid && endDateState.isValid;
-        const allIndicatorsValid = indicators.every(indicator => indicator.isValid);
-        if (pedValid && allIndicatorsValid) {
-            //   emailjs.sendForm('wfMz-ctTy-s', 'yTJ-yp1-tm', form.current, 'wfMz-ctTy_yTJ-yp1')
-            //     .then((result) => {
-            //       setShowSuccess(true);
-            //     }, (error) => {
-            //       setShowError(true);
-            //     });
-        } else {
+        e.preventDefault();
+        // Check if all fields are valid before submitting
+        const allValid = Object.values(basicFormState).every(field => field.isValid);
+        if (!allValid) {
+            console.error("Validation failed.");
             openValidationErrorSB();
+            return;
         }
+
+        // do the call
+        console.log("Form submitted:", basicFormState);
     };
 
-    const notEmptyRegex = new RegExp('.+');
-
-    // Form fields
-    // PED
-    const [nameState, setNameState] = useState({ name: "", isValid: false });
-    const onNameStateChange = (name, isValid) => {
-        setNameState({ name: name, isValid: isValid });
-    }
-
-    const [startDateState, setStartDateState] = useState({ startDate: null, isValid: false });
-    const onStartDateStateChange = (startDate, isValid) => setStartDateState({ startDate: startDate, isValid: isValid });
-
-    const [endDateState, setEndDateState] = useState({ endDate: null, isValid: false });
-    const onEndDateStateChange = (endDate, isValid) => setEndDateState({ endDate: endDate, isValid: isValid });
-
-    // INDICATORS
-    const [indicators, setIndicators] = useState([]);
-
-    // Function to add a new indicator
-    const addIndicator = () => {
-        setIndicators(indicators => [...indicators, { name: '', type: '', unit: '', targetValue: 0, isValid: false }]);
-    };
-
-    const updateIndicator = (index, field, value) => {
-        const updatedIndicators = indicators.map((indicator, i) => {
-            if (i === index) {
-                const updatedIndicator = { ...indicator, [field]: value };
-
-                // Simple validation for demonstration: Ensure name is not empty
-                if (field === 'name') {
-                    updatedIndicator.isValid = value.trim() !== '';
-                }
-
-                return updatedIndicator;
-            }
-            return indicator;
-        });
-
-        setIndicators(updatedIndicators);
-    };
-
-    const removeIndicator = (index) => {
-        // Filter out the indicator at the given index
-        const updatedIndicators = indicators.filter((_, i) => i !== index);
-        setIndicators(updatedIndicators);
-    };
 
     // Validation toast message
     const [validationErrorSB, setValidationErrorSB] = useState(false);
@@ -104,35 +57,22 @@ function DefinePed() {
         />
     );
 
-
-    const [dropdownItems, setDropdownItems] = useState([]);
-
-    useEffect(() => {
-        const fetchMenuItems = async () => {
-            try {
-                const response = await SustainabilityIndicatorService.getIndicatorsMeta();
-                setDropdownItems(response);
-                
-            } catch (error) {
-                console.error('Failed to fetch menu items:', error);
-            }
-        };
-
-        fetchMenuItems();
-    }, []);
-
-    const handleMenuItemClick = (item) => {
-        console.log(`Clicked on menu item with action: ${item}`);
-        // Handle the action
-    };
-
     const commonInputProps = {
         variant: "standard",
-        InputLabelProps: { shrink: true, style: { fontSize: "1.15rem" } },
-        inputProps: { style: { fontSize: "1rem" } },
+        InputLabelProps: { shrink: true, style: { fontSize: "1.2rem" } },
+        inputProps: { style: { fontSize: "1.05rem" } },
         fullWidth: true,
         required: true,
     };
+
+    const commonInputPropsNotRequired = {
+        variant: "standard",
+        InputLabelProps: { shrink: true, style: { fontSize: "1.2rem" } },
+        inputProps: { style: { fontSize: "1.05rem" } },
+        fullWidth: true,
+        required: false,
+    };
+
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -161,88 +101,132 @@ function DefinePed() {
                                     <MDBox px={3} py={{ xs: 2, sm: 6 }}>
                                         <Grid container spacing={3}>
                                             <Grid item xs={12} md={6}>
-                                                <ValidatedInput name="name" label="Name" helperText="" validationRegex={notEmptyRegex} changeResultCallback={onNameStateChange} required />
+                                                <MDInput
+                                                    label="Name"
+                                                    name="name"
+                                                    value={basicFormState.name.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.name.isValid}
+                                                    helperText={!basicFormState.name.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12} md={6}>
+                                                <MDInput
+                                                    label="Baseline Year"
+                                                    name="baselineYear"
+                                                    type="number"
+                                                    value={basicFormState.baselineYear.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.baselineYear.isValid}
+                                                    helperText={!basicFormState.baselineYear.isValid ? "Value required. Greater than 2000" : ""}
+                                                    {...commonInputProps}
+                                                />
                                             </Grid>
                                             <Grid item xs={12} md={6}>
-                                                <ValidatedInput name="startDate" label="Start Date" helperText="" type="date" validationRegex={notEmptyRegex} changeResultCallback={onStartDateStateChange} required />
+                                                <MDInput
+                                                    label="Target Year"
+                                                    name="targetYear"
+                                                    value={basicFormState.targetYear.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.targetYear.isValid}
+                                                    helperText={!basicFormState.targetYear.isValid ? "Value required. Greater than 2000" : ""}
+                                                    {...commonInputProps}
+                                                />
                                             </Grid>
+
+
+                                            <Grid item xs={12} md={12}>
+                                                <MDInput
+                                                    label="Description"
+                                                    name="description"
+                                                    value={basicFormState.description.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.description.isValid}
+                                                    helperText={!basicFormState.description.isValid ? "No more than 250 characters" : ""}
+                                                    {...commonInputPropsNotRequired}
+                                                    multiline
+                                                    rows={3}
+                                                />
+                                            </Grid>
+
+
+                                            {/* Additional Fields */}
+                                            {/* Total Area Size */}
                                             <Grid item xs={12} md={6}>
-                                                <ValidatedInput name="endDate" label="End Date" helperText="" type="date" validationRegex={notEmptyRegex} changeResultCallback={onEndDateStateChange} required />
+                                                <MDInput
+                                                    label="Total Area Size (sq. meters)"
+                                                    name="totalAreaSize"
+                                                    type="number"
+                                                    value={basicFormState.totalAreaSize.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.totalAreaSize.isValid}
+                                                    helperText={!basicFormState.totalAreaSize.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
                                             </Grid>
+                                            {/* Build Up Area Size */}
+                                            <Grid item xs={12} md={6}>
+                                                <MDInput
+                                                    label="Build Up Area Size (sq. meters)"
+                                                    name="buildUpAreaSize"
+                                                    type="number"
+                                                    value={basicFormState.buildUpAreaSize.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.buildUpAreaSize.isValid}
+                                                    helperText={!basicFormState.buildUpAreaSize.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
+                                            </Grid>
+                                            {/* Number of Citizens */}
+                                            <Grid item xs={12} md={6}>
+                                                <MDInput
+                                                    label="Number of Citizens"
+                                                    name="numberOfCitizens"
+                                                    type="number"
+                                                    value={basicFormState.numberOfCitizens.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.numberOfCitizens.isValid}
+                                                    helperText={!basicFormState.numberOfCitizens.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={0} md={6} sx={{ display: { xs: 'none', md: 'block' } }}></Grid>
+
+                                            {/* Heating Degree Days */}
+                                            <Grid item xs={12} md={6}>
+                                                <MDInput
+                                                    label="Heating Degree Days"
+                                                    name="heatingDegreeDays"
+                                                    type="number"
+                                                    value={basicFormState.heatingDegreeDays.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.heatingDegreeDays.isValid}
+                                                    helperText={!basicFormState.heatingDegreeDays.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
+                                            </Grid>
+                                            {/* Cooling Degree Days */}
+                                            <Grid item xs={12} md={6}>
+                                                <MDInput
+                                                    label="Cooling Degree Days"
+                                                    name="coolingDegreeDays"
+                                                    type="number"
+                                                    value={basicFormState.coolingDegreeDays.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.coolingDegreeDays.isValid}
+                                                    helperText={!basicFormState.coolingDegreeDays.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
+                                            </Grid>
+
 
                                             {/* Indicators */}
                                             <Grid item xs={12}>
-                                                <MDButton variant="outlined" color="success" onClick={() => addIndicator()}>
-                                                    + Add Sustainability Indicator
-                                                </MDButton>
 
-                                                {indicators.map((indicator, index) => (
-                                                    <MDBox
-                                                        bgColor="grey-100"
-                                                        borderRadius="lg"
-                                                        p={3}
-                                                        mb={0}
-                                                        mt={2}
-                                                    >
-                                                        <Grid container spacing={2} key={index} >
-                                                            <Grid item xs={12}>
-                                                                <MDBox display="flex"
-                                                                    justifyContent="space-between"
-                                                                    alignItems={{ xs: "flex-start", sm: "center" }}
-                                                                    flexDirection={{ xs: "column", sm: "row" }}
-                                                                    mb={2}>
-                                                                    <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
-                                                                        Sustainability Indicator {index}
-                                                                    </MDTypography>
-                                                                    <MDBox>
-                                                                        <MDButton variant="text" color="error" onClick={() => removeIndicator(index)}>
-                                                                            <Icon>delete</Icon>&nbsp;Remove
-                                                                        </MDButton>
-                                                                    </MDBox>
-                                                                </MDBox>
-                                                            </Grid>
-
-                                                            <Grid item xs={12} md={6}>
-                                                                <MDInput
-                                                                    label="Type"
-                                                                    value={indicator.type}
-                                                                    onChange={(e) => updateIndicator(index, 'type', e.target.value)}
-                                                                    error={!indicator.isValid}
-                                                                    helperText={!indicator.isValid && "Value cannot be empty"}
-                                                                    {...commonInputProps}
-                                                                />
-                                                            </Grid>
-                                                            <Grid item xs={12} md={6}>
-                                                                <MDInput
-                                                                    label="Name"
-                                                                    value={indicator.name}
-                                                                    onChange={(e) => updateIndicator(index, 'name', e.target.value)}
-                                                                    error={!indicator.isValid}
-                                                                    helperText={!indicator.isValid && "Value cannot be empty"}
-                                                                    {...commonInputProps}
-                                                                />
-                                                            </Grid>
-                                                            <Grid item xs={12} md={6}>
-                                                                <MDInput label="Target Value" type="number"
-                                                                    value={indicator.targetValue}
-                                                                    onChange={(e) => updateIndicator(index, 'targetValue', e.target.value)}
-                                                                    error={!indicator.isValid}
-                                                                    helperText={!indicator.isValid && "Value cannot be empty"}
-                                                                    {...commonInputProps}
-                                                                />
-                                                            </Grid>
-
-                                                            <Grid item xs={12} md={6}>
-                                                                <Dropdown
-                                                                    label="Indicator Type ..."
-                                                                    items={dropdownItems}
-                                                                    onMenuItemClick={handleMenuItemClick}
-                                                                />
-                                                            </Grid>
-
-                                                        </Grid>
-                                                    </MDBox>
-                                                ))}
+                                                
+                                            <IndicatorsTreeView />
 
                                             </Grid>
 
@@ -261,6 +245,12 @@ function DefinePed() {
 
                             </MDBox>
                         </Card>
+                    </Grid>
+
+                    <Grid item xs={12} lg={8}>
+                        <MDBox p={2}>
+                            {renderValidationErrorSB}
+                        </MDBox>
                     </Grid>
                 </Grid>
             </MDBox>
