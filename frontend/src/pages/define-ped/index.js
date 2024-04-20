@@ -16,7 +16,7 @@ import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
 import { useRef, useState, useEffect } from 'react';
 
 import useBasicState from "./useBasicState";
-import IndicatorsTreeView from "./indicatorsTree5"
+import IndicatorsForm from "./indicatorsForm"
 
 function DefinePed() {
     const [basicFormState, handleBasicInputChange] = useBasicState();
@@ -226,7 +226,7 @@ function DefinePed() {
                                             <Grid item xs={12}>
 
                                                 
-                                            <IndicatorsTreeView />
+                                            <IndicatorsForm />
 
                                             </Grid>
 

@@ -20,13 +20,14 @@ const ExpandMore = styled((props) => {
 }));
 
 
-export default function CollapsableRow({ title, titleVariant, titleColor, rightMostText, description, descriptionVariant, descriptionFontSize, children }) {
+export default function CollapsableRow({ title, titleVariant, titleColor, titleFontWeight, rightMostText, description, descriptionVariant, descriptionFontSize, children }) {
     const [expanded, setExpanded] = useState(false);
 
     const _titleVariant = titleVariant ? titleVariant : "h6";
     const _titleColor = titleColor ? titleColor : "text";
     const _descriptionVariant = descriptionVariant ? descriptionVariant : "body2";
     const _descriptionSize = descriptionFontSize ? descriptionFontSize : "1rem";
+    const _titleFontWeight = titleFontWeight ? titleFontWeight : "bold";
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -42,7 +43,7 @@ export default function CollapsableRow({ title, titleVariant, titleColor, rightM
     return (
         <MDBox sx={{ cursor: "pointer" }}>
             <MDBox onClick={handleExpandClick} mt={2} pb={1} pt={1} display="flex" sx={{ justifyContent: "space-between", alignItems: "center", borderBottom: "0.0625rem solid rgb(222, 226, 230);" }}>
-                <MDTypography variant={_titleVariant} fontWeight="bold" color={_titleColor}>
+                <MDTypography variant={_titleVariant} fontWeight={_titleFontWeight} color={_titleColor}>
                     {title}
                 </MDTypography>
 

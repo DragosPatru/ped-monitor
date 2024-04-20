@@ -13,6 +13,7 @@ const useBasicState = () => {
       coolingDegreeDays: { value: '', isValid: false },
       percentRenewableEnergyInBaseline: { value: '', isValid: false },
       primaryEnergyFactor: { value: '', isValid: false },
+      
       ghgEmissionsTotalInBaseline: { value: '', isValid: false },
       ghgEmissionFactorElectricity: { value: '', isValid: false },
       ghgEmissionFactorElectricitySourceCode: { value: '', isValid: false },
