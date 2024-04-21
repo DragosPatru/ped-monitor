@@ -89,7 +89,6 @@ export default function IndicatorsForm() {
             mb={0}
             mt={2}
         >
-
             <MDTypography variant="subtitle1" color="dark" fontWeight="bold" mb={2}>
                 Relevant indicators for PED
             </MDTypography>
@@ -101,10 +100,8 @@ export default function IndicatorsForm() {
                 rightMostText=""
                 description="">
 
-
                 <FormControl component="fieldset" variant="outlined"
                     sx={{ width: "100%" }}>
-
                     <MDBox ml={2} mr={2}>
                         <DataSourceFactorsFET itemNamePrefix="fet-source-" />
                     </MDBox>

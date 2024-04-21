@@ -17,11 +17,23 @@ import { useRef, useState, useEffect } from 'react';
 
 import useBasicState from "./useBasicState";
 import IndicatorsForm from "./indicatorsForm"
+import Dropdown from "fragments/Dropdown";
+
+import { countriesEU } from "constants/eu-countries"
 
 function DefinePed() {
     const [basicFormState, handleBasicInputChange] = useBasicState();
 
     const form = useRef();
+
+    const handleCountrySelect = (item) => {
+        handleBasicInputChange({
+            target: {
+                name: 'country',
+                value: item.key,
+            },
+        });
+    };
 
     const createPed = (e) => {
         e.preventDefault();
@@ -113,6 +125,16 @@ function DefinePed() {
                                             </Grid>
 
                                             <Grid item xs={12} md={6}>
+                                                <Dropdown
+                                                    name="country"
+                                                    label="Select Country * ..."
+                                                    items={countriesEU}
+                                                    onMenuItemClick={handleCountrySelect}
+                                                    valid={!basicFormState.country.isValid}
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12} md={6}>
                                                 <MDInput
                                                     label="Baseline Year"
                                                     name="baselineYear"
@@ -135,7 +157,6 @@ function DefinePed() {
                                                     {...commonInputProps}
                                                 />
                                             </Grid>
-
 
                                             <Grid item xs={12} md={12}>
                                                 <MDInput
@@ -225,8 +246,8 @@ function DefinePed() {
                                             {/* Indicators */}
                                             <Grid item xs={12}>
 
-                                                
-                                            <IndicatorsForm />
+
+                                                <IndicatorsForm />
 
                                             </Grid>
 

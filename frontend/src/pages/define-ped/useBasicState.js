@@ -4,6 +4,7 @@ const useBasicState = () => {
     const [formState, setFormState] = useState({
       name: { value: '', isValid: false },
       description: { value: '', isValid: true},
+      country: {value: '', isValid: false},
       baselineYear: { value: '', isValid: false },
       targetYear: { value: '', isValid: false },
       totalAreaSize: { value: '', isValid: false },
@@ -24,6 +25,8 @@ const useBasicState = () => {
 
     // Generalized input change handler
     const handleInputChange = (e) => {
+      console.log("Form input change event")
+      console.log(e);
       const { name, value } = e.target;
       let isValid = true; 
 
