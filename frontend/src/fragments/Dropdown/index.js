@@ -17,9 +17,11 @@ const Dropdown = ({ name, label, items, icon, onMenuItemClick, valid = true }) =
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    if (!selectedItem.key) {
+  const handleClose = (item) => {
+    if (!item.title) {
       setIsValid(false);
+    } else {
+      setIsValid(true);
     }
     setAnchorEl(null);
   };
@@ -27,7 +29,7 @@ const Dropdown = ({ name, label, items, icon, onMenuItemClick, valid = true }) =
   const handleMenuItemClick = (item) => () => {
     setSelectedItem(item);
     onMenuItemClick(item);
-    handleClose();
+    handleClose(item);
   };
 
   const buttonLabel = selectedItem.title ? selectedItem.title : label;
@@ -42,7 +44,7 @@ const Dropdown = ({ name, label, items, icon, onMenuItemClick, valid = true }) =
 
   return (
     <>
-      <MDButton variant="outlined" color="text" onClick={handleClick}>
+      <MDButton variant="outlined" color="secondary" onClick={handleClick}>
         {buttonLabel} <Icon sx={iconStyles}>{icon || "expand_more"}</Icon>
       </MDButton>
       <Menu name={name} anchorEl={anchorEl} open={open} onClose={handleClose} PaperProps={{ style: { maxHeight: "15rem", }, }}>

@@ -12,10 +12,13 @@ const useBasicState = () => {
       numberOfCitizens: { value: '', isValid: false },
       heatingDegreeDays: { value: '', isValid: false },
       coolingDegreeDays: { value: '', isValid: false },
-      percentRenewableEnergyInBaseline: { value: '', isValid: false },
-      primaryEnergyFactor: { value: '', isValid: false },
+      avgHouseholdIncome: {value: '', isValid: false},
+
+      percentSelfSupplyRenewableEnergyInBaseline: { value: '', isValid: false },
+      primaryEnergyFactor: { value: '2.5', isValid: true },
       
       ghgEmissionsTotalInBaseline: { value: '', isValid: false },
+
       ghgEmissionFactorElectricity: { value: '', isValid: false },
       ghgEmissionFactorElectricitySourceCode: { value: '', isValid: false },
       ghgEmissionFactorForHeathColdGenerated: { value: '', isValid: false },
@@ -25,8 +28,6 @@ const useBasicState = () => {
 
     // Generalized input change handler
     const handleInputChange = (e) => {
-      console.log("Form input change event")
-      console.log(e);
       const { name, value } = e.target;
       let isValid = true; 
 
@@ -38,9 +39,15 @@ const useBasicState = () => {
 
       if (name === 'baselineYear' || name === 'targetYear') {
         isValid = !isNaN(value) && (new Number(value)) > 2000;
+        if (isValid && name === 'baselineYear') {
+          if (formState.targetYear.value !== '')
+          isValid = value < formState.targetYear.value;
+
+        } else if (isValid && name === 'targetYear') {
+          isValid = value > formState.baselineYear.value;
+        }
       }
         
-      
       setFormState(prevState => ({
         ...prevState,
         [name]: { value, isValid },

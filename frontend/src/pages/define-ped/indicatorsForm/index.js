@@ -15,13 +15,13 @@ const dataSourceFactorsListFET = Array.from(dataSourceFactorsFET).map(([key, val
     return { key, title: value }; // Transform into an array of objects
 });
 
-function IndicatorSection({ section, sectionKey, itemNamePrefix }) {
+function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChange }) {
     const title = section.title;
     const renderChildNode = (childKey) => {
         const childTitle = indicatorsMap.get(childKey).title;
         return (
             <FormControlLabel key={itemNamePrefix + childKey}
-                control={<Checkbox name={childKey} />}
+                control={<Checkbox name={childKey} onChange={onIndicatorChange} />}
                 label={childTitle}
                 sx={{
                     '& .MuiFormControlLabel-label': {
@@ -46,12 +46,12 @@ function IndicatorSection({ section, sectionKey, itemNamePrefix }) {
     );
 }
 
-function DataSourceFactorsFET({ itemNamePrefix }) {
+function DataSourceFactorsFET({ itemNamePrefix, onDataSourceChange }) {
     const renderChildNode = (item) => {
         return (
-            <Grid item xs={6}>
+            <Grid item xs={6} key={"ds-grid-" + item.key}>
                 <FormControlLabel key={itemNamePrefix + item.key}
-                    control={<Checkbox name={item.key} />}
+                    control={<Checkbox name={item.key} onChange={onDataSourceChange} />}
                     label={item.title}
                     sx={{
                         '& .MuiFormControlLabel-label': {
@@ -80,7 +80,7 @@ function DataSourceFactorsFET({ itemNamePrefix }) {
     );
 }
 
-export default function IndicatorsForm() {
+export default function IndicatorsForm({ handleIndicatorSelection, handleDataSourceSelection }) {
     return (
         <MDBox
             //bgColor="grey-100"
@@ -103,7 +103,7 @@ export default function IndicatorsForm() {
                 <FormControl component="fieldset" variant="outlined"
                     sx={{ width: "100%" }}>
                     <MDBox ml={2} mr={2}>
-                        <DataSourceFactorsFET itemNamePrefix="fet-source-" />
+                        <DataSourceFactorsFET itemNamePrefix="data-source-" onDataSourceChange={handleDataSourceSelection} />
                     </MDBox>
 
                     <MDBox ml={2} mr={2} mt={4}>
@@ -116,11 +116,11 @@ export default function IndicatorsForm() {
 
                     <MDBox ml={4} mr={4}>
                         {energyRelatedIndicators.sectionsFET.map((item, index) => (
-                            <IndicatorSection key={"fet-group-" + index} section={item} sectionKey={"fet-group-" + index} itemNamePrefix={"fet-indicator-"} />
+                            <IndicatorSection key={"fet-group-" + index} section={item} sectionKey={"fet-group-" + index} itemNamePrefix={"indicator-"} onIndicatorChange={handleIndicatorSelection} />
                         ))}
 
                         {energyRelatedIndicators.sectionsRES.map((item, index) => (
-                            <IndicatorSection key={"res-group-" + index} section={item} sectionKey={"res-group-" + index} itemNamePrefix={"res-indicator-"} />
+                            <IndicatorSection key={"res-group-" + index} section={item} sectionKey={"res-group-" + index} itemNamePrefix={"indicator-"} onIndicatorChange={handleIndicatorSelection} />
                         ))}
                     </MDBox>
 
