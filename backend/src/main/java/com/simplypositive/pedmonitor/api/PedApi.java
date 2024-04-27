@@ -2,6 +2,7 @@ package com.simplypositive.pedmonitor.api;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import com.simplypositive.pedmonitor.api.model.PedDefinitionRequest;
 import com.simplypositive.pedmonitor.api.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.api.model.SearchResult;
 import com.simplypositive.pedmonitor.domain.PedDefinition;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/peds")
 public interface PedApi {
 
+//  @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+//  ResponseEntity<PedDefinition> create(@RequestBody PedDefinition pedDefinition);
+
   @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<PedDefinition> create(@RequestBody PedDefinition pedDefinition);
+  ResponseEntity<PedDefinition> create(@RequestBody PedDefinitionRequest pedDefinitionRequest);
 
   @PutMapping(
       value = "/{pedId}",

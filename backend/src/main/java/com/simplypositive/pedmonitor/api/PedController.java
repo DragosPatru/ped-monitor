@@ -2,6 +2,7 @@ package com.simplypositive.pedmonitor.api;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+import com.simplypositive.pedmonitor.api.model.PedDefinitionRequest;
 import com.simplypositive.pedmonitor.api.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.api.model.SearchResult;
@@ -31,7 +32,7 @@ public class PedController implements PedApi {
   }
 
   @Override
-  public ResponseEntity<PedDefinition> create(PedDefinition pedDefinition) {
+  public ResponseEntity<PedDefinition> create(PedDefinitionRequest pedDefinitionRequest) {
     return ok(pedDefinitionHandler.create(pedDefinition));
   }
 

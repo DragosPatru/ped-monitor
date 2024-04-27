@@ -60,17 +60,11 @@ public class PositiveEnergyDistrict {
   // target year set up by the user to achieve PED status
   private Integer targetYear;
 
+  @NotNull
   // percent of final energy consumption provided by renewable energy generated on-site in baseline year
   private Double percentRenewableEnergyInBaseline;
 
-  private Double primaryEnergyFactor;
-
+  @NotNull
   //total quantity of GHG emissions in baseline year
   private Double ghgEmissionsTotalInBaseline;
-
-  private Double ghgEmissionFactorElectricity;
-  private String ghgEmissionFactorElectricitySourceCode;
-
-  private Double ghgEmissionFactorForHeathColdGenerated;
-  private String ghgEmissionFactorForHeathColdGeneratedSourceCode;
 }

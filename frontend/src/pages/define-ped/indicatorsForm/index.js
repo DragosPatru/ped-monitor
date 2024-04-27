@@ -18,7 +18,7 @@ const dataSourceFactorsListFET = Array.from(dataSourceFactorsFET).map(([key, val
 function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChange }) {
     const title = section.title;
     const renderChildNode = (childKey) => {
-        const childTitle = indicatorsMap.get(childKey).title;
+        const childTitle = indicatorsMap.get(childKey).shortTitleInSubcategory;
         return (
             <FormControlLabel key={itemNamePrefix + childKey}
                 control={<Checkbox name={childKey} onChange={onIndicatorChange} />}
@@ -33,6 +33,28 @@ function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChan
         );
     };
 
+    const renderSubsection = (subsection) => {
+        console.log(subsection);
+        const children = (<>{subsection.items.map(renderChildNode)}</>);
+        console.log(children);
+        const content = subsection.isContainer ? (
+            <MDBox ml={2} mr={2} mt={2} key={subsection.key + "-subsection"}>
+                <MDTypography variant="h6" fontWeight="normal" color="text">
+                    {subsection.title} &nbsp;
+                </MDTypography>
+                <Divider></Divider>
+                {children}
+            </MDBox>
+        ) : (
+            <MDBox ml={2} mr={2} mt={0} key={subsection.key + "-subsection"}> <Divider></Divider>{children} <Divider></Divider></MDBox>);
+
+        return (
+            <>{content}</>
+
+        );
+    };
+
+
     return (
         <CollapsableRow
             title={title}
@@ -40,7 +62,8 @@ function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChan
             rightMostText=""
             description="">
             <FormGroup key={sectionKey + "-section"} sx={{ paddingLeft: '1rem' }}>
-                {section.items.map(renderChildNode)}
+                {section.hasSubsections ? (
+                    section.subsections.map(renderSubsection)) : (section.items.map(renderChildNode))}
             </FormGroup>
         </CollapsableRow>
     );
