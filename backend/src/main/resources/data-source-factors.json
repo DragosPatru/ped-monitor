@@ -1,16 +1,15 @@
 {
-  "data-source-factors": [
+  "dataSourceFactors": [
     {
-      "version-number": 1,
       "year": 2024,
       "data": {
         "electricity": {
           "title": "Electricity",
-          "value": "EF1 - from PED definition"
+          "value": 0.0
         },
         "locally_produced_heat_cold": {
           "title": "Locally produced Heat/cold",
-          "value": "EF2 - form PED definition"
+          "value": 0.0
         },
         "natural_gas": {
           "title": "Natural gas",

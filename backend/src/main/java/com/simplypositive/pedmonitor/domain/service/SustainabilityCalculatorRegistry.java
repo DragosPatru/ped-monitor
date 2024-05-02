@@ -1,6 +1,5 @@
-package com.simplypositive.pedmonitor.service;
+package com.simplypositive.pedmonitor.domain.service;
 
-import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicatorCode;
 import java.util.Optional;
 
 public interface SustainabilityCalculatorRegistry {

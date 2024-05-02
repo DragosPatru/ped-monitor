@@ -43,7 +43,7 @@ app:
       unit: kWh/a
       title: "Energy consumption: municipal buildings, equipment/facilities"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "FET1_1"
     FET1_1_2:
       unit: kWh/a
       title: "Energy consumption: public lighting"

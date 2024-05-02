@@ -13,17 +13,23 @@ import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
 
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
+
+import SimpleBackdrop from "fragments/Backdrop";
 
 import useBasicState from "./useBasicState";
 import IndicatorsForm from "./indicatorsForm"
 import Dropdown from "fragments/Dropdown";
 
 import { countriesEU } from "constants/eu-countries"
+import PedService from "services/PedService";
 
 function DefinePed() {
     const [basicFormState, handleBasicInputChange] = useBasicState();
     const [selectedIndicators, setSelectedIndicators] = useState(new Set());
     const [selectedDataSources, setSelectedDataSources] = useState(new Set());
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const form = useRef();
 
@@ -62,18 +68,41 @@ function DefinePed() {
         });
     };
 
-    const createPed = (e) => {
+    const createPed = async (e) => {
         e.preventDefault();
-
-        console.log("Selected Indicators:", selectedIndicators);
-        console.log("Selected Data Sources:", selectedDataSources);
+        setLoading(true);
 
         // Check if all fields are valid before submitting
         const allValid = Object.values(basicFormState).every(field => field.isValid);
         if (!allValid) {
             console.error("Validation failed.");
-            openValidationErrorSB();
+            openValidationErrorSB("Please make sure all the required values are filled and at least one indicator and data-source are selected !");
             return;
+        
+        }
+
+        const submissionData = {
+            ...Object.keys(basicFormState).reduce((acc, key) => {
+                const value = basicFormState[key].value;
+                // Convert to number if possible, otherwise keep as original
+                acc[key] = Number.isFinite(+value) ? +value : value;
+                return acc;
+            }, {}),
+            indicators: Array.from(selectedIndicators),
+            fetDataSources: Array.from(selectedDataSources)
+        };
+
+        try {
+            console.log("Submitting:", submissionData);
+            const result = await PedService.create(submissionData);
+            navigate('/peds'); // Redirect to success page
+
+        } catch (error) {
+            console.error("Failed to create PED:", error);
+            openValidationErrorSB("Failed to create the PED!");
+
+        } finally {
+            setLoading(false);
         }
 
         // do the call
@@ -82,23 +111,24 @@ function DefinePed() {
 
 
     // Validation toast message
-    const [validationErrorSB, setValidationErrorSB] = useState(false);
-    const openValidationErrorSB = () => setValidationErrorSB(true);
-    const closeValidationErrorSB = () => setValidationErrorSB(false);
+    const [validationErrorSB, setValidationErrorSB] = useState({open: false, message: ""});
+    const openValidationErrorSB = (message) => setValidationErrorSB({open: true, message: message});
+    const closeValidationErrorSB = () => setValidationErrorSB({open: false, message: ""});
     const renderValidationErrorSB = (
         <MDSnackbar
             color="error"
             icon="warning"
             title="Error"
-            content="Please make sure all the required values are filled and at least one indicator and data-source are selected !"
+            content={validationErrorSB.message}
             dateTime="2 seconds ago"
-            open={validationErrorSB}
+            open={validationErrorSB.open}
             onClose={closeValidationErrorSB}
             close={closeValidationErrorSB}
             bgWhite
         />
     );
 
+    
     const commonInputProps = {
         variant: "standard",
         InputLabelProps: { shrink: true, style: { fontSize: "1.2rem" } },
@@ -118,6 +148,8 @@ function DefinePed() {
     return (
         <DashboardLayout>
             <DashboardNavbar />
+            
+            <SimpleBackdrop open={loading} />
 
             <MDBox pt={6} pb={3}>
                 <Grid container spacing={6}>
@@ -202,18 +234,56 @@ function DefinePed() {
                                                 />
                                             </Grid>
 
+                                            <Grid item xs={12} md={6}>
+                                                <MDInput
+                                                    label="Degree of energetic self-supply by RES in baseline year (%)"
+                                                    name="percentSelfSupplyRenewableEnergyInBaseline"
+                                                    type="number"
+                                                    value={basicFormState.percentSelfSupplyRenewableEnergyInBaseline.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.percentSelfSupplyRenewableEnergyInBaseline.isValid}
+                                                    helperText={!basicFormState.percentSelfSupplyRenewableEnergyInBaseline.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12} md={6}>
+                                                <MDInput
+                                                    label="GHG emissions in baseline year (tCO2eq/a)"
+                                                    name="ghgEmissionsTotalInBaseline"
+                                                    type="number"
+                                                    value={basicFormState.ghgEmissionsTotalInBaseline.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.ghgEmissionsTotalInBaseline.isValid}
+                                                    helperText={!basicFormState.ghgEmissionsTotalInBaseline.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
+                                            </Grid>
 
                                             {/* Additional Fields */}
                                             {/* Total Area Size */}
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Total Area Size (sq. meters)"
-                                                    name="totalAreaSize"
+                                                    label="Size of Focus District (sq. meters)"
+                                                    name="focusDistrictSize"
                                                     type="number"
-                                                    value={basicFormState.totalAreaSize.value}
+                                                    value={basicFormState.focusDistrictSize.value}
                                                     onChange={handleBasicInputChange}
-                                                    error={!basicFormState.totalAreaSize.isValid}
-                                                    helperText={!basicFormState.totalAreaSize.isValid ? "Value required" : ""}
+                                                    error={!basicFormState.focusDistrictSize.isValid}
+                                                    helperText={!basicFormState.focusDistrictSize.isValid ? "Value required" : ""}
+                                                    {...commonInputProps}
+                                                />
+                                            </Grid>
+                                            {/* Number of Citizens */}
+                                            <Grid item xs={12} md={6}>
+                                                <MDInput
+                                                    label="Population of Focus District"
+                                                    name="focusDistrictPopulation"
+                                                    type="number"
+                                                    value={basicFormState.focusDistrictPopulation.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.focusDistrictPopulation.isValid}
+                                                    helperText={!basicFormState.focusDistrictPopulation.isValid ? "Value required" : ""}
                                                     {...commonInputProps}
                                                 />
                                             </Grid>
@@ -227,19 +297,6 @@ function DefinePed() {
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.buildUpAreaSize.isValid}
                                                     helperText={!basicFormState.buildUpAreaSize.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
-                                                />
-                                            </Grid>
-                                            {/* Number of Citizens */}
-                                            <Grid item xs={12} md={6}>
-                                                <MDInput
-                                                    label="Number of Citizens"
-                                                    name="numberOfCitizens"
-                                                    type="number"
-                                                    value={basicFormState.numberOfCitizens.value}
-                                                    onChange={handleBasicInputChange}
-                                                    error={!basicFormState.numberOfCitizens.isValid}
-                                                    helperText={!basicFormState.numberOfCitizens.isValid ? "Value required" : ""}
                                                     {...commonInputProps}
                                                 />
                                             </Grid>
@@ -291,19 +348,6 @@ function DefinePed() {
                                             {/* Dynamic indicators */}
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Degree of energetic self-supply by RES in baseline year (%)"
-                                                    name="percentSelfSupplyRenewableEnergyInBaseline"
-                                                    type="number"
-                                                    value={basicFormState.percentSelfSupplyRenewableEnergyInBaseline.value}
-                                                    onChange={handleBasicInputChange}
-                                                    error={!basicFormState.percentSelfSupplyRenewableEnergyInBaseline.isValid}
-                                                    helperText={!basicFormState.percentSelfSupplyRenewableEnergyInBaseline.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
-                                                />
-                                            </Grid>
-
-                                            <Grid item xs={12} md={6}>
-                                                <MDInput
                                                     label="Primary Energy Factor"
                                                     name="primaryEnergyFactor"
                                                     type="number"
@@ -322,20 +366,6 @@ function DefinePed() {
                                                     </MDTypography>
                                                 </MDBox>
                                             </Grid>
-
-                                            <Grid item xs={12} md={6}>
-                                                <MDInput
-                                                    label="In baseline year (tCO2eq/a)"
-                                                    name="ghgEmissionsTotalInBaseline"
-                                                    type="number"
-                                                    value={basicFormState.ghgEmissionsTotalInBaseline.value}
-                                                    onChange={handleBasicInputChange}
-                                                    error={!basicFormState.ghgEmissionsTotalInBaseline.isValid}
-                                                    helperText={!basicFormState.ghgEmissionsTotalInBaseline.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={0} md={6} sx={{ display: { xs: 'none', md: 'block' } }}></Grid>
 
                                             <Grid item xs={12} md={6}>
                                                 <MDInput

@@ -7,9 +7,9 @@ const useBasicState = () => {
       country: {value: '', isValid: false},
       baselineYear: { value: '', isValid: false },
       targetYear: { value: '', isValid: false },
-      totalAreaSize: { value: '', isValid: false },
+      focusDistrictSize: { value: '', isValid: false },
       buildUpAreaSize: { value: '', isValid: false },
-      numberOfCitizens: { value: '', isValid: false },
+      focusDistrictPopulation: { value: '', isValid: false },
       heatingDegreeDays: { value: '', isValid: false },
       coolingDegreeDays: { value: '', isValid: false },
       avgHouseholdIncome: {value: '', isValid: false},
@@ -38,7 +38,7 @@ const useBasicState = () => {
       }
 
       if (name === 'baselineYear' || name === 'targetYear') {
-        isValid = !isNaN(value) && (new Number(value)) > 2000;
+        isValid = !isNaN(value) && (Number(value)) > 2000;
         if (isValid && name === 'baselineYear') {
           if (formState.targetYear.value !== '')
           isValid = value < formState.targetYear.value;

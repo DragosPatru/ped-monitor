@@ -4,7 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,12 +22,13 @@ public class RecordedValue {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  private Double amount;
+  @NotNull private Double amount;
 
   /** the source of data */
-  private String dataSourceCode;
+  @NotBlank private String dataSourceCode;
 
-  private Integer sustainabilityIndicatorId;
+  @NotNull private Integer sustainabilityIndicatorId;
 
-  private Instant createdAt = Instant.now();
+  private Instant creationTime = Instant.now();
+  private Integer creationYear = LocalDate.now().getYear();
 }

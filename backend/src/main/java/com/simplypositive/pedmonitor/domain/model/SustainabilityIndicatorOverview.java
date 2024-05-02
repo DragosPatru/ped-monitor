@@ -1,4 +1,4 @@
-package com.simplypositive.pedmonitor.domain;
+package com.simplypositive.pedmonitor.domain.model;
 
 import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
 import lombok.AllArgsConstructor;

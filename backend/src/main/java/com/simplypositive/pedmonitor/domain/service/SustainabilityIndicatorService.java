@@ -1,7 +1,7 @@
-package com.simplypositive.pedmonitor.service;
+package com.simplypositive.pedmonitor.domain.service;
 
-import com.simplypositive.pedmonitor.domain.SustainabilityIndicatorOverview;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
+import com.simplypositive.pedmonitor.domain.model.SustainabilityIndicatorOverview;
 import com.simplypositive.pedmonitor.persistence.entity.RecordedValue;
 import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
 import com.simplypositive.pedmonitor.persistence.entity.Task;

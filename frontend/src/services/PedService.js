@@ -4,6 +4,17 @@ const PEDS_BASE_PATH = "peds";
 
 class PedService {
 
+
+  create = async (definition) => {
+    try {
+        const endpoint = PEDS_BASE_PATH;
+        return await HttpService.post(endpoint, definition);
+    } catch (error) {
+        console.error("Error creating PED", error);
+        throw error;
+    }
+  };
+
     getById = async (id) => {
         try {
             const endpoint = PEDS_BASE_PATH + '/' + id;

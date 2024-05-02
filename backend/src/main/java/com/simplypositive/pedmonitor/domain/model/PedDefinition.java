@@ -1,7 +1,6 @@
-package com.simplypositive.pedmonitor.domain;
+package com.simplypositive.pedmonitor.domain.model;
 
 import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
-import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,5 +17,5 @@ import lombok.Setter;
 public class PedDefinition {
 
   @NotNull @Valid private PositiveEnergyDistrict ped;
-  @NotEmpty @Valid private List<SustainabilityIndicator> indicators;
+  @NotEmpty @Valid private List<AnnualReport> annualReports;
 }

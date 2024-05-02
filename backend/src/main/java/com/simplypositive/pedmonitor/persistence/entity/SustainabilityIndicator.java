@@ -18,20 +18,19 @@ public class SustainabilityIndicator {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  private Integer pedId;
+  @NotNull private Integer pedId;
 
   @NotBlank private String name;
 
-  @NotBlank
-  private String code;
+  @NotBlank private String code;
 
   @NotBlank private String unit;
 
   @NotNull private Double targetValue;
 
-  private String category;
+  @NotBlank private String category;
 
-  private Integer parentIndicatorId;
+  @NotBlank private String parentIndicatorCode;
 
   private Instant createdAt = Instant.now();
 }

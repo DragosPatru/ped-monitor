@@ -34,9 +34,7 @@ function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChan
     };
 
     const renderSubsection = (subsection) => {
-        console.log(subsection);
         const children = (<>{subsection.items.map(renderChildNode)}</>);
-        console.log(children);
         const content = subsection.isContainer ? (
             <MDBox ml={2} mr={2} mt={2} key={subsection.key + "-subsection"}>
                 <MDTypography variant="h6" fontWeight="normal" color="text">

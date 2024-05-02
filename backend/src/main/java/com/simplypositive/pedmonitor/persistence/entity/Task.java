@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +21,9 @@ public class Task {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  private Integer sustainabilityIndicatorId;
+  @NotNull private Integer sustainabilityIndicatorId;
 
-  private String name;
+  @NotBlank private String name;
   private TaskStatus status = TaskStatus.INITIAL;
   private Instant createdAt = Instant.now();
   private Instant deadline;

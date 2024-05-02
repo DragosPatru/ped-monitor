@@ -1,18 +1,18 @@
-package com.simplypositive.pedmonitor.service.impl;
+package com.simplypositive.pedmonitor.domain.service.impl;
 
 import static java.util.stream.StreamSupport.stream;
 
-import com.simplypositive.pedmonitor.domain.SustainabilityIndicatorOverview;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
+import com.simplypositive.pedmonitor.domain.model.SustainabilityIndicatorOverview;
+import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculator;
+import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculatorRegistry;
+import com.simplypositive.pedmonitor.domain.service.SustainabilityIndicatorService;
 import com.simplypositive.pedmonitor.persistence.entity.RecordedValue;
 import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
 import com.simplypositive.pedmonitor.persistence.entity.Task;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorValueRepository;
 import com.simplypositive.pedmonitor.persistence.repository.SustainabilityIndicatorRepository;
 import com.simplypositive.pedmonitor.persistence.repository.TaskRepository;
-import com.simplypositive.pedmonitor.service.SustainabilityCalculator;
-import com.simplypositive.pedmonitor.service.SustainabilityCalculatorRegistry;
-import com.simplypositive.pedmonitor.service.SustainabilityIndicatorService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;

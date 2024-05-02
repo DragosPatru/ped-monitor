@@ -7,11 +7,11 @@ import com.simplypositive.pedmonitor.api.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.api.model.SearchResult;
 import com.simplypositive.pedmonitor.application.PedDefinitionHandler;
-import com.simplypositive.pedmonitor.domain.PedDefinition;
-import com.simplypositive.pedmonitor.domain.PedOverview;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
+import com.simplypositive.pedmonitor.domain.model.PedDefinition;
+import com.simplypositive.pedmonitor.domain.model.PedOverview;
+import com.simplypositive.pedmonitor.domain.service.PedService;
 import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
-import com.simplypositive.pedmonitor.service.PedService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +32,9 @@ public class PedController implements PedApi {
   }
 
   @Override
-  public ResponseEntity<PedDefinition> create(PedDefinitionRequest pedDefinitionRequest) {
-    return ok(pedDefinitionHandler.create(pedDefinition));
+  public ResponseEntity<PedDefinition> create(PedDefinitionRequest request) {
+    pedDefinitionHandler.createPedDefinition(request);
+    return ok().build();
   }
 
   @Override

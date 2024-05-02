@@ -1,5 +1,7 @@
 package com.simplypositive.pedmonitor.persistence.entity;
 
+import static org.hibernate.engine.jdbc.ClobProxy.generateProxy;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,11 +9,10 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-
+import jakarta.validation.constraints.Size;
 import java.sql.Clob;
 import java.time.Instant;
-
-import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity(name = "POSITIVE_ENERGY_DISTRICT")
+@Builder
 public class PositiveEnergyDistrict {
 
   @Id
@@ -27,26 +29,28 @@ public class PositiveEnergyDistrict {
   private Integer id;
 
   @Size(max = 150)
-  @NotEmpty private String name;
+  @NotEmpty
+  private String name;
 
-  @Size(max = 250)
-  private String description;
+  private Clob description;
 
   private Instant createdAt = Instant.now();
 
   @Min(1)
   @NotNull
-  private Double totalAreaSize;
+  private Double focusDistrictSize;
+
   @Min(1)
   @NotNull
   private Double buildUpAreaSize;
 
   @Min(1)
   @NotNull
-  private Long numberOfCitizens;
+  private Long focusDistrictPopulation;
 
   @Min(1)
   private Integer heatingDegreeDays;
+
   @Min(1)
   private Integer coolingDegreeDays;
 
@@ -61,10 +65,44 @@ public class PositiveEnergyDistrict {
   private Integer targetYear;
 
   @NotNull
-  // percent of final energy consumption provided by renewable energy generated on-site in baseline year
+  // percent of final energy consumption provided by renewable energy generated on-site in baseline
+  // year
   private Double percentRenewableEnergyInBaseline;
 
   @NotNull
-  //total quantity of GHG emissions in baseline year
+  // total quantity of GHG emissions in baseline year
   private Double ghgEmissionsTotalInBaseline;
+
+  public PositiveEnergyDistrict(
+      Integer id,
+      String name,
+      Clob description,
+      Instant createdAt,
+      Double focusDistrictSize,
+      Double buildUpAreaSize,
+      Long focusDistrictPopulation,
+      Integer heatingDegreeDays,
+      Integer coolingDegreeDays,
+      Integer baselineYear,
+      Integer targetYear,
+      Double percentRenewableEnergyInBaseline,
+      Double ghgEmissionsTotalInBaseline) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.createdAt = createdAt;
+    this.focusDistrictSize = focusDistrictSize;
+    this.buildUpAreaSize = buildUpAreaSize;
+    this.focusDistrictPopulation = focusDistrictPopulation;
+    this.heatingDegreeDays = heatingDegreeDays;
+    this.coolingDegreeDays = coolingDegreeDays;
+    this.baselineYear = baselineYear;
+    this.targetYear = targetYear;
+    this.percentRenewableEnergyInBaseline = percentRenewableEnergyInBaseline;
+    this.ghgEmissionsTotalInBaseline = ghgEmissionsTotalInBaseline;
+  }
+
+  public void setDescription(String description) {
+    this.description = generateProxy(description);
+  }
 }

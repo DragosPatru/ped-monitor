@@ -1,9 +1,8 @@
 package com.simplypositive.pedmonitor;
 
+import jakarta.annotation.PostConstruct;
 import java.util.Map;
 import java.util.Optional;
-
-import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,14 +21,7 @@ public class AppConfigurationProperties {
   public IndicatorMeta getMetaData(String code) throws IllegalStateException {
     return Optional.ofNullable(indicators.get(code))
         .orElseThrow(
-            () ->
-                new IllegalStateException(
-                    "Sustainability indicator " + code + " not found"));
-  }
-
-  @PostConstruct
-  public void test() {
-    log.debug("Test");
+            () -> new IllegalStateException("Sustainability indicator " + code + " not found"));
   }
 
   @Getter
@@ -45,6 +37,5 @@ public class AppConfigurationProperties {
     public boolean hasParent() {
       return !NO_PARENT_VALUE.equalsIgnoreCase(parent);
     }
-
   }
 }

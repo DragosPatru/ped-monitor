@@ -1,4 +1,4 @@
-package com.simplypositive.pedmonitor.domain;
+package com.simplypositive.pedmonitor.domain.model;
 
 import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
 import java.util.List;
@@ -14,5 +14,6 @@ import lombok.Setter;
 public class PedOverview {
 
   private PositiveEnergyDistrict ped;
+  private AnnualReport currentYearReport;
   private List<SustainabilityIndicatorOverview> indicatorsOverview;
 }

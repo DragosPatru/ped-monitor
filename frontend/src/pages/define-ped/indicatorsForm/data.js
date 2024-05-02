@@ -2,7 +2,7 @@ const energyRelatedIndicators = {
     title: "Energy Related",
     sectionsFET: [
         {
-            title: "Buildings, equipment/facilities and industries Indicators",
+            title: "Buildings, equipment/facilities and industries",
             hasSubsections: true,
             subsections: [
                 {
@@ -40,7 +40,7 @@ const energyRelatedIndicators = {
 
         },
         {
-            title: "Transport Indicators",
+            title: "Transport",
             hasSubsections: true,
             subsections: [
                 {
@@ -93,7 +93,7 @@ const energyRelatedIndicators = {
 
     sectionsRES: [
         {
-            title: "RES generation Indicators",
+            title: "RES generation",
             hasSubsections: false,
             items: [
                 "RES1",

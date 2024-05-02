@@ -4,12 +4,11 @@ import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
 import com.simplypositive.pedmonitor.AppConfigurationProperties;
-import com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta;
-import com.simplypositive.pedmonitor.domain.SustainabilityIndicatorOverview;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
+import com.simplypositive.pedmonitor.domain.model.SustainabilityIndicatorOverview;
+import com.simplypositive.pedmonitor.domain.service.SustainabilityIndicatorService;
 import com.simplypositive.pedmonitor.persistence.entity.RecordedValue;
 import com.simplypositive.pedmonitor.persistence.entity.Task;
-import com.simplypositive.pedmonitor.service.SustainabilityIndicatorService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +23,10 @@ public class SustainabilityIndicatorController implements SustainabilityIndicato
   private final AppConfigurationProperties configProps;
 
   @Autowired
-  public SustainabilityIndicatorController(SustainabilityIndicatorService service, AppConfigurationProperties configProps) {
+  public SustainabilityIndicatorController(
+      SustainabilityIndicatorService service, AppConfigurationProperties configProps) {
     this.service = service;
-      this.configProps = configProps;
+    this.configProps = configProps;
   }
 
   @Override
