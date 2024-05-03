@@ -18,4 +18,10 @@ public class PedDefinition {
 
   @NotNull @Valid private PositiveEnergyDistrict ped;
   @NotEmpty @Valid private List<AnnualReport> annualReports;
+
+  public static PedDefinition ofPed(PositiveEnergyDistrict ped) {
+    PedDefinition pedDefinition = new PedDefinition();
+    pedDefinition.setPed(ped);
+    return pedDefinition;
+  }
 }

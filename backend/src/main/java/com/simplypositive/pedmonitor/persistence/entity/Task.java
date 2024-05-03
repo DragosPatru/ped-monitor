@@ -24,7 +24,7 @@ public class Task {
   @NotNull private Integer sustainabilityIndicatorId;
 
   @NotBlank private String name;
-  private TaskStatus status = TaskStatus.INITIAL;
+  private ResourceStatus status = ResourceStatus.INITIAL;
   private Instant createdAt = Instant.now();
   private Instant deadline;
 

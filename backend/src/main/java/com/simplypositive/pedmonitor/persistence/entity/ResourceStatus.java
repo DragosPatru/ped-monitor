@@ -1,8 +1,9 @@
 package com.simplypositive.pedmonitor.persistence.entity;
 
-public enum TaskStatus {
+public enum ResourceStatus {
   INITIAL,
-  DONE,
+
   IN_PROGRESS,
-  WONT_DO;
+
+  DONE
 }

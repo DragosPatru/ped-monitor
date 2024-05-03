@@ -39,9 +39,11 @@ public class PedDefinitionHandler {
   }
 
   @Transactional
-  public void createPedDefinition(PedDefinitionRequest request) {
+  public PedDefinition createPedDefinition(PedDefinitionRequest request) {
     PositiveEnergyDistrict ped = request.pedData();
     pedService.create(new PedDefinition(ped, annualReportsSpec(request)));
+    indicatorService.defineAll(request.getIndicators(), ped.getId());
+    return PedDefinition.ofPed(ped);
   }
 
   private List<AnnualReport> annualReportsSpec(PedDefinitionRequest request) {

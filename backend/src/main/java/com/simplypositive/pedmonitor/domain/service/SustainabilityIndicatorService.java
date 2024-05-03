@@ -6,10 +6,13 @@ import com.simplypositive.pedmonitor.persistence.entity.RecordedValue;
 import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
 import com.simplypositive.pedmonitor.persistence.entity.Task;
 import java.util.List;
+import java.util.Set;
 
 public interface SustainabilityIndicatorService {
 
   SustainabilityIndicator create(SustainabilityIndicator indicator);
+
+  List<SustainabilityIndicator> defineAll(Set<String> indicatorCodes, Integer pedId);
 
   List<SustainabilityIndicator> createAll(List<SustainabilityIndicator> indicators);
 
