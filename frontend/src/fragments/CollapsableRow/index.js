@@ -19,7 +19,6 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-
 export default function CollapsableRow({ title, titleVariant, titleColor, titleFontWeight, rightMostText, description, descriptionVariant, descriptionFontSize, children }) {
     const [expanded, setExpanded] = useState(false);
 

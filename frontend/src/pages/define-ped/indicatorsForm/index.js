@@ -20,7 +20,7 @@ function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChan
     const renderChildNode = (childKey) => {
         const childTitle = indicatorsMap.get(childKey).shortTitleInSubcategory;
         return (
-            <FormControlLabel key={itemNamePrefix + childKey}
+            <FormControlLabel key={itemNamePrefix + childKey + "_label"}
                 control={<Checkbox name={childKey} onChange={onIndicatorChange} />}
                 label={childTitle}
                 sx={{
@@ -34,20 +34,20 @@ function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChan
     };
 
     const renderSubsection = (subsection) => {
-        const children = (<>{subsection.items.map(renderChildNode)}</>);
+        const children = (<MDBox key={subsection.key + "-children"}>{subsection.items.map(renderChildNode)}</MDBox>);
         const content = subsection.isContainer ? (
-            <MDBox ml={2} mr={2} mt={2} key={subsection.key + "-subsection"}>
-                <MDTypography variant="h6" fontWeight="normal" color="text">
+            <MDBox ml={2} mr={2} mt={2}>
+                <MDTypography variant="h6" fontWeight="medium" color="text">
                     {subsection.title} &nbsp;
                 </MDTypography>
                 <Divider></Divider>
                 {children}
             </MDBox>
         ) : (
-            <MDBox ml={2} mr={2} mt={0} key={subsection.key + "-subsection"}> <Divider></Divider>{children} <Divider></Divider></MDBox>);
+            <MDBox ml={2} mr={2} mt={0}> <Divider></Divider>{children} <Divider></Divider></MDBox>);
 
         return (
-            <>{content}</>
+            <MDBox key={subsection.key + "-subsection"}>{content}</MDBox>
 
         );
     };
@@ -58,7 +58,8 @@ function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChan
             title={title}
             titleFontWeight="regular"
             rightMostText=""
-            description="">
+            description=""
+            key={sectionKey + "-collapsable"}>
             <FormGroup key={sectionKey + "-section"} sx={{ paddingLeft: '1rem' }}>
                 {section.hasSubsections ? (
                     section.subsections.map(renderSubsection)) : (section.items.map(renderChildNode))}

@@ -2,12 +2,15 @@ package com.simplypositive.pedmonitor.domain.service.impl;
 
 import static java.util.stream.StreamSupport.stream;
 
+import com.simplypositive.pedmonitor.AppConfigurationProperties;
+import com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.SustainabilityIndicatorOverview;
 import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculator;
 import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculatorRegistry;
 import com.simplypositive.pedmonitor.domain.service.SustainabilityIndicatorService;
 import com.simplypositive.pedmonitor.persistence.entity.RecordedValue;
+import com.simplypositive.pedmonitor.persistence.entity.ResourceStatus;
 import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
 import com.simplypositive.pedmonitor.persistence.entity.Task;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorValueRepository;
@@ -15,6 +18,10 @@ import com.simplypositive.pedmonitor.persistence.repository.SustainabilityIndica
 import com.simplypositive.pedmonitor.persistence.repository.TaskRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,23 +33,61 @@ public class SustainabilityIndicatorServiceImpl implements SustainabilityIndicat
   private final IndicatorValueRepository valueRepository;
   private final TaskRepository taskRepository;
 
+  private final AppConfigurationProperties props;
+
+  @Autowired
   public SustainabilityIndicatorServiceImpl(
       SustainabilityCalculatorRegistry registry,
       SustainabilityIndicatorRepository repository,
       IndicatorValueRepository valueRepository,
-      TaskRepository taskRepository) {
+      TaskRepository taskRepository,
+      AppConfigurationProperties props) {
     this.registry = registry;
     this.repository = repository;
     this.valueRepository = valueRepository;
     this.taskRepository = taskRepository;
+    this.props = props;
   }
 
   @Override
+  @Transactional
   public SustainabilityIndicator create(SustainabilityIndicator indicator) {
     return repository.save(indicator);
   }
 
   @Override
+  public List<SustainabilityIndicator> defineAll(Set<String> indicatorCodes, Integer pedId) {
+    if (pedId == null || pedId <= 0) {
+      throw new IllegalArgumentException("pedId - must be a valid value");
+    }
+
+    List<SustainabilityIndicator> indicators = new ArrayList<>();
+    for (String indicatorCode : indicatorCodes) {
+      IndicatorMeta indicatorMeta = props.getMetaData(indicatorCode);
+      if (indicatorMeta != null) {
+        SustainabilityIndicator indicator =
+            SustainabilityIndicator.builder()
+                .code(indicatorCode)
+                .parentIndicatorCode(indicatorMeta.getParent())
+                .unit(indicatorMeta.getUnit())
+                .category(indicatorMeta.getCategoryLabel())
+                .pedId(pedId)
+                .definitionStatus(ResourceStatus.INITIAL)
+                .build();
+        indicators.add(indicator);
+      }
+    }
+
+    if (indicators.isEmpty()) {
+      return indicators;
+
+    } else {
+      return this.createAll(indicators);
+    }
+  }
+
+  @Override
+  @Transactional
   public List<SustainabilityIndicator> createAll(List<SustainabilityIndicator> indicators) {
     List<SustainabilityIndicator> savedIndicators = new ArrayList();
     if (indicators != null && !indicators.isEmpty()) {
@@ -72,6 +117,7 @@ public class SustainabilityIndicatorServiceImpl implements SustainabilityIndicat
   }
 
   @Override
+  @Transactional
   public RecordedValue addData(int indicatorId, RecordedValue value)
       throws ResourceNotFoundException {
     findByIdElseThrow(indicatorId);
@@ -94,6 +140,7 @@ public class SustainabilityIndicatorServiceImpl implements SustainabilityIndicat
   }
 
   @Override
+  @Transactional
   public Task addTask(int indicatorId, Task task) throws ResourceNotFoundException {
     findByIdElseThrow(indicatorId);
     task.setSustainabilityIndicatorId(indicatorId);

@@ -16,10 +16,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @ControllerAdvice
+@CrossOrigin
 public class PedController implements PedApi {
 
   private final PedService pedService;
@@ -33,8 +35,7 @@ public class PedController implements PedApi {
 
   @Override
   public ResponseEntity<PedDefinition> create(PedDefinitionRequest request) {
-    pedDefinitionHandler.createPedDefinition(request);
-    return ok().build();
+    return ok(pedDefinitionHandler.createPedDefinition(request));
   }
 
   @Override
