@@ -1,16 +1,7 @@
-import { useState } from "react";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
-export default function SimpleBackdrop() {
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
+export default function SimpleBackdrop({ open, handleClose }) {
   return (
     <div>
       <Backdrop

@@ -10,6 +10,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 @Getter
 @Setter
@@ -56,7 +57,7 @@ public class PedDefinitionRequest {
   @NotNull
   // percent of final energy consumption provided by renewable energy generated on-site in baseline
   // year
-  private Double percentRenewableEnergyInBaseline;
+  private Double percentSelfSupplyRenewableEnergyInBaseline;
 
   @NotNull
   // total quantity of GHG emissions in baseline year
@@ -79,7 +80,8 @@ public class PedDefinitionRequest {
   public PositiveEnergyDistrict pedData() {
     PositiveEnergyDistrict ped =
         PositiveEnergyDistrict.builder()
-            .name(name)
+            .name(safeTrim(name))
+            .description(safeTrim(description))
             .baselineYear(baselineYear)
             .targetYear(targetYear)
             .coolingDegreeDays(coolingDegreeDays)
@@ -88,8 +90,8 @@ public class PedDefinitionRequest {
             .focusDistrictSize(focusDistrictSize)
             .focusDistrictPopulation(focusDistrictPopulation)
             .ghgEmissionsTotalInBaseline(ghgEmissionsTotalInBaseline)
+            .percentSelfSupplyRenewableEnergyInBaseline(percentSelfSupplyRenewableEnergyInBaseline)
             .build();
-    ped.setDescription(description);
     return ped;
   }
 
@@ -102,5 +104,12 @@ public class PedDefinitionRequest {
         .ghgEmissionFactorForHeathColdGeneratedSourceCode(
             ghgEmissionFactorForHeathColdGeneratedSourceCode)
         .build();
+  }
+
+  private String safeTrim(String value) {
+    if (StringUtils.hasText(value)) {
+      return StringUtils.truncate(value.trim(), 250);
+    }
+    return value;
   }
 }

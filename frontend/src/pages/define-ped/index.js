@@ -12,8 +12,8 @@ import MDSnackbar from "components/MDSnackbar";
 import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
 
-import { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import SimpleBackdrop from "fragments/Backdrop";
 
@@ -28,10 +28,10 @@ function DefinePed() {
     const [basicFormState, handleBasicInputChange] = useBasicState();
     const [selectedIndicators, setSelectedIndicators] = useState(new Set());
     const [selectedDataSources, setSelectedDataSources] = useState(new Set());
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
 
     const form = useRef();
+
+    const navigate = useNavigate();
 
     const handleIndicatorSelection = (event) => {
         const { name, checked } = event.target;
@@ -70,7 +70,7 @@ function DefinePed() {
 
     const createPed = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        handleOpenBackdrop(true);
 
         // Check if all fields are valid before submitting
         const allValid = Object.values(basicFormState).every(field => field.isValid);
@@ -93,20 +93,15 @@ function DefinePed() {
         };
 
         try {
-            console.log("Submitting:", submissionData);
             const result = await PedService.create(submissionData);
-            navigate('/peds'); // Redirect to success page
+            return navigate("/peds");
 
         } catch (error) {
-            console.error("Failed to create PED:", error);
             openValidationErrorSB("Failed to create the PED!");
 
         } finally {
-            setLoading(false);
+            handleCloseBackdrop(false);
         }
-
-        // do the call
-        console.log("Form submitted:", basicFormState);
     };
 
 
@@ -120,7 +115,7 @@ function DefinePed() {
             icon="warning"
             title="Error"
             content={validationErrorSB.message}
-            dateTime="2 seconds ago"
+            dateTime="1 second ago"
             open={validationErrorSB.open}
             onClose={closeValidationErrorSB}
             close={closeValidationErrorSB}
@@ -128,6 +123,14 @@ function DefinePed() {
         />
     );
 
+    const [backdropOpen, setBackdropOpen] = useState(false);
+    const handleOpenBackdrop = () => {
+      setBackdropOpen(true);
+    };
+    const handleCloseBackdrop = () => {
+      setBackdropOpen(false);
+    };
+  
     
     const commonInputProps = {
         variant: "standard",
@@ -148,10 +151,9 @@ function DefinePed() {
     return (
         <DashboardLayout>
             <DashboardNavbar />
-            
-            <SimpleBackdrop open={loading} />
 
             <MDBox pt={6} pb={3}>
+            <SimpleBackdrop open={backdropOpen} handleClose={handleCloseBackdrop}/>
                 <Grid container spacing={6}>
                     <Grid item xs={12}>
                         <Card>
@@ -181,7 +183,7 @@ function DefinePed() {
                                                     value={basicFormState.name.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.name.isValid}
-                                                    helperText={!basicFormState.name.isValid ? "Value required" : ""}
+                                                    helperText={!basicFormState.name.isValid ? "Value required. No more than 250 characters" : ""}
                                                     {...commonInputProps}
                                                 />
                                             </Grid>

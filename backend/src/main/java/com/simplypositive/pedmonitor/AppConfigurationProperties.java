@@ -1,6 +1,5 @@
 package com.simplypositive.pedmonitor;
 
-import jakarta.annotation.PostConstruct;
 import java.util.Map;
 import java.util.Optional;
 import lombok.Getter;

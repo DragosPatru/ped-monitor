@@ -173,7 +173,7 @@ app:
       unit: kWh/a
       title: "Agriculture, Forestry, Fisheries"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "FET3_1"
     FET3_1_2:
       unit: kWh/a
       title: "Other not allocated"

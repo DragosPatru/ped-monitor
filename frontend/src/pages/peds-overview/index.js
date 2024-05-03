@@ -21,7 +21,6 @@ import PedService from "services/PedService";
 function PedsOverview() {
 
   const [peds, setPeds] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [noDataFound, setNoDataFound] = useState(false);
   const [errorSB, setErrorSB] = useState(false);
 
@@ -33,13 +32,21 @@ function PedsOverview() {
       icon="warning"
       title="Error"
       content="Could not retrieve data from the server !"
-      dateTime="2 seconds ago"
+      dateTime="2 second(s) ago"
       open={errorSB}
       onClose={closeErrorSB}
       close={closeErrorSB}
       bgWhite
     />
   );
+
+  const [backdropOpen, setBackdropOpen] = useState(true);
+  const handleOpenBackdrop = () => {
+    setBackdropOpen(true);
+  };
+  const handleCloseBackdrop = () => {
+    setBackdropOpen(false);
+  };
 
   const alertContent = () => (
     <MDTypography variant="body2" color="white">
@@ -49,11 +56,10 @@ function PedsOverview() {
 
   useEffect(() => {
     const fetchPeds = async () => {
-      setLoading(true);
+      handleOpenBackdrop();
       try {
         const data = await PedService.getAll();
         if (data?.length === 0) {
-          console.log('array is empty');
           setNoDataFound(true);
 
         } else {
@@ -61,11 +67,10 @@ function PedsOverview() {
         }
 
       } catch (error) {
-        console.error("Failed to fetch PEDs:", error);
         openErrorSB();
 
       } finally {
-        setLoading(false);
+        handleCloseBackdrop();
       }
     };
 
@@ -76,20 +81,20 @@ function PedsOverview() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <SimpleBackdrop open={loading} />
+      <SimpleBackdrop open={backdropOpen} handleClose={handleCloseBackdrop}/>
       <MDBox py={3}>
         <Grid container spacing={3}>
           {peds.map((ped, index) => (
             <Grid item xs={12} md={6} lg={3}>
               <DefaultPedCard key={`ped-${index}`}
                 icon="account_balance"
-                title={ped.title} // Assuming 'ped' has a 'title'
+                title={ped.name}
                 description={ped.description}
                 action={{
                   type: "internal",
                   route: "/pages/profile/profile-overview",
                   color: "info",
-                  label: "view PED",
+                  label: "OPEN",
                 }}
               />
             </Grid>

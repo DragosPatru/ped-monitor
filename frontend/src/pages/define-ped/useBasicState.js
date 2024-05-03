@@ -29,12 +29,24 @@ const useBasicState = () => {
     // Generalized input change handler
     const handleInputChange = (e) => {
       const { name, value } = e.target;
-      let isValid = true; 
 
+      let isValid = true; 
       let isEmpty = value.trim() === '' ? true : false;
 
       if (name === 'name') {
-        isValid = !isEmpty;
+        isValid = !isEmpty && (value.length < 250);
+      }
+
+      if (name === 'description') {
+        isValid = isEmpty || (value.length < 250);
+      }
+
+      if (name === 'country') {
+        if (formState.country.value === '') { // nothing selected before
+          isValid = !isEmpty;
+        } else {
+          isValid = true;
+        }
       }
 
       if (name === 'baselineYear' || name === 'targetYear') {

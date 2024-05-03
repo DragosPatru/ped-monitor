@@ -1,7 +1,5 @@
 package com.simplypositive.pedmonitor.persistence.entity;
 
-import static org.hibernate.engine.jdbc.ClobProxy.generateProxy;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +8,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.sql.Clob;
 import java.time.Instant;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +29,7 @@ public class PositiveEnergyDistrict {
   @NotEmpty
   private String name;
 
-  private Clob description;
+  private String description;
 
   private Instant createdAt = Instant.now();
 
@@ -67,7 +64,7 @@ public class PositiveEnergyDistrict {
   @NotNull
   // percent of final energy consumption provided by renewable energy generated on-site in baseline
   // year
-  private Double percentRenewableEnergyInBaseline;
+  private Double percentSelfSupplyRenewableEnergyInBaseline;
 
   @NotNull
   // total quantity of GHG emissions in baseline year
@@ -76,7 +73,7 @@ public class PositiveEnergyDistrict {
   public PositiveEnergyDistrict(
       Integer id,
       String name,
-      Clob description,
+      String description,
       Instant createdAt,
       Double focusDistrictSize,
       Double buildUpAreaSize,
@@ -98,11 +95,7 @@ public class PositiveEnergyDistrict {
     this.coolingDegreeDays = coolingDegreeDays;
     this.baselineYear = baselineYear;
     this.targetYear = targetYear;
-    this.percentRenewableEnergyInBaseline = percentRenewableEnergyInBaseline;
+    this.percentSelfSupplyRenewableEnergyInBaseline = percentRenewableEnergyInBaseline;
     this.ghgEmissionsTotalInBaseline = ghgEmissionsTotalInBaseline;
-  }
-
-  public void setDescription(String description) {
-    this.description = generateProxy(description);
   }
 }
