@@ -23,17 +23,17 @@ app:
       unit: kWh/a
       title: "Total final energy consumption: buildings, equipment/facilities and industries"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "FET0"
     FET2:
       unit: kWh/a
       title: "Total final energy consumption: transport"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "FET0"
     FET3:
       unit: kWh/a
       title: "Total final energy consumption: other sectors"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "FET0"
     FET1_1:
       unit: kWh/a
       title: "Subtotal Municipal Final energy consumption"

@@ -198,6 +198,20 @@ function DefinePed() {
                                                 />
                                             </Grid>
 
+                                            <Grid item xs={12} md={12}>
+                                                <MDInput
+                                                    label="Description"
+                                                    name="description"
+                                                    value={basicFormState.description.value}
+                                                    onChange={handleBasicInputChange}
+                                                    error={!basicFormState.description.isValid}
+                                                    helperText={!basicFormState.description.isValid ? "No more than 250 characters" : ""}
+                                                    {...commonInputPropsNotRequired}
+                                                    multiline
+                                                    rows={3}
+                                                />
+                                            </Grid>
+
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
                                                     label="Baseline Year"
@@ -219,20 +233,6 @@ function DefinePed() {
                                                     error={!basicFormState.targetYear.isValid}
                                                     helperText={!basicFormState.targetYear.isValid ? "Value required. Greater than 'Baseline Year'" : ""}
                                                     {...commonInputProps}
-                                                />
-                                            </Grid>
-
-                                            <Grid item xs={12} md={12}>
-                                                <MDInput
-                                                    label="Description"
-                                                    name="description"
-                                                    value={basicFormState.description.value}
-                                                    onChange={handleBasicInputChange}
-                                                    error={!basicFormState.description.isValid}
-                                                    helperText={!basicFormState.description.isValid ? "No more than 250 characters" : ""}
-                                                    {...commonInputPropsNotRequired}
-                                                    multiline
-                                                    rows={3}
                                                 />
                                             </Grid>
 
@@ -261,6 +261,8 @@ function DefinePed() {
                                                     {...commonInputProps}
                                                 />
                                             </Grid>
+
+                                            <Grid item xs={0} md={12} sx={{ display: { xs: 'none', md: 'block' } }}></Grid>
 
                                             {/* Additional Fields */}
                                             {/* Total Area Size */}
