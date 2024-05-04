@@ -71,7 +71,7 @@ function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChan
 function DataSourceFactorsFET({ itemNamePrefix, onDataSourceChange }) {
     const renderChildNode = (item) => {
         return (
-            <Grid item xs={6} key={"ds-grid-" + item.key}>
+            <Grid item xs={12} md={6} key={"ds-grid-" + item.key}>
                 <FormControlLabel key={itemNamePrefix + item.key}
                     control={<Checkbox name={item.key} onChange={onDataSourceChange} />}
                     label={item.title}
