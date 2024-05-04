@@ -81,7 +81,7 @@ function PedsOverview() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <SimpleBackdrop open={backdropOpen} handleClose={handleCloseBackdrop}/>
+      <SimpleBackdrop open={backdropOpen} handleClose={handleCloseBackdrop} />
       <MDBox py={3}>
         <Grid container spacing={3}>
           {peds.map((ped, index) => (
@@ -92,7 +92,7 @@ function PedsOverview() {
                 description={ped.description}
                 action={{
                   type: "internal",
-                  route: "/pages/profile/profile-overview",
+                  route: "/peds/" + ped.id,
                   color: "info",
                   label: "OPEN",
                 }}

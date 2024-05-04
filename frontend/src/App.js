@@ -30,6 +30,9 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 import brandWhite from "assets/images/simplypositive.png";
 import brandDark from "assets/images/simplypositive.png";
 
+// dynamic route handlers
+import PedOverview from "pages/ped-overview";
+
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -106,6 +109,9 @@ export default function App() {
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/peds" />} />
+
+        {/* dynamic routes */}
+        <Route path="/peds/:pedId" element={<PedOverview/>} key="ped-overview" />
       </Routes>
     </ThemeProvider>
   );
