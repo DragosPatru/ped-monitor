@@ -12,18 +12,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FetDataSources {
+public class FetSourceFactors {
   private Map<String, Double> sourceFactors = new HashMap<>();
 
-  private FetDataSources(Map<String, Double> sourceFactors) {
+  private FetSourceFactors(Map<String, Double> sourceFactors) {
     this.sourceFactors = sourceFactors;
   }
 
-  public static FetDataSources ofSouceFactors(Map<String, Double> sourceFactors) {
+  public static FetSourceFactors of(Map<String, Double> sourceFactors) {
     if (sourceFactors == null) {
-      return new FetDataSources(emptyMap());
+      return new FetSourceFactors(emptyMap());
     }
-    return new FetDataSources(sourceFactors);
+    return new FetSourceFactors(sourceFactors);
   }
 
   public Optional<Double> factorBySourceCode(String dataSourceCode) {

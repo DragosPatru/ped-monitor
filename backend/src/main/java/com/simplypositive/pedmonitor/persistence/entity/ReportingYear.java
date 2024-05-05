@@ -23,12 +23,12 @@ public class ReportingYear {
 
   @NotNull private Integer assignedYear;
 
-  @Lob private Clob fetSourcesFactorsJson;
+  @Lob private Clob fetSourceFactorsJson;
   @Lob private Clob energySourceFactorsJson;
   @Lob private Clob kpisJson;
 
-  public void setFetSourcesFactorsJson(String fetSourcesFactorsJson) {
-    this.fetSourcesFactorsJson = generateProxy(fetSourcesFactorsJson);
+  public void setFetSourceFactorsJson(String fetSourceFactorsJson) {
+    this.fetSourceFactorsJson = generateProxy(fetSourceFactorsJson);
   }
 
   public void setEnergySourceFactorsJson(String energySourceFactorsJson) {
