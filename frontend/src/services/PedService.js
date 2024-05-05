@@ -15,9 +15,9 @@ class PedService {
     }
   };
 
-    getById = async (id) => {
+    getPedOverview = async (id) => {
         try {
-            const endpoint = PEDS_BASE_PATH + '/' + id;
+            const endpoint = PEDS_BASE_PATH + '/' + id + '/overview';
             return await HttpService.get(endpoint);
 
         } catch (error) {

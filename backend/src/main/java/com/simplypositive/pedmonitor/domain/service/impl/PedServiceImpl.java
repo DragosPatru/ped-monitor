@@ -51,8 +51,8 @@ public class PedServiceImpl implements PedService {
                 reportingYear.setKpisJson(objectMapper.writeValueAsString(report.getKpis()));
                 reportingYear.setEnergySourceFactorsJson(
                     objectMapper.writeValueAsString(report.getEnergySourceFactors()));
-                reportingYear.setFetSourcesFactorsJson(
-                    objectMapper.writeValueAsString(report.getFetDataSources()));
+                reportingYear.setFetSourceFactorsJson(
+                    objectMapper.writeValueAsString(report.getFetSourceFactors()));
 
                 reportingYearRepo.save(reportingYear);
               } catch (JsonProcessingException e) {

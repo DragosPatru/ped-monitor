@@ -49,8 +49,8 @@ public class PedDefinitionHandler {
   private List<AnnualReport> annualReportsSpec(PedDefinitionRequest request) {
     EnergySourceFactors energySourceFactors = request.energySourceFactors();
     List<KPI> kpis = determineKpis(request.getIndicators());
-    FetDataSources fetDataSources =
-        FetDataSources.ofSouceFactors(fetDataSourceFactors(request.getFetDataSources()));
+    FetSourceFactors fetSourceFactors =
+            FetSourceFactors.of(fetDataSourceFactors(request.getFetDataSources()));
 
     List<AnnualReport> reports = new ArrayList<>();
     for (int year = request.getBaselineYear(); year <= request.getTargetYear(); year++) {
@@ -58,7 +58,7 @@ public class PedDefinitionHandler {
           AnnualReport.builder()
               .year(year)
               .kpis(kpis)
-              .fetDataSources(fetDataSources)
+              .fetSourceFactors(fetSourceFactors)
               .energySourceFactors(energySourceFactors)
               .build());
     }
@@ -107,19 +107,19 @@ public class PedDefinitionHandler {
     PositiveEnergyDistrict ped =
         pedService.getById(pedId).orElseThrow(() -> new ResourceNotFoundException("PED", pedId));
     List<SustainabilityIndicator> indicators = indicatorService.getPedIndicators(pedId);
-    List<SustainabilityIndicatorOverview> indicatorOverviews =
-        indicators.stream()
-            .map(
-                indicator -> {
-                  try {
-                    return indicatorService.getProgress(indicator.getId());
-
-                  } catch (ResourceNotFoundException e) {
-                    throw new RuntimeException(e);
-                  }
-                })
-            .collect(Collectors.toList());
+//    List<SustainabilityIndicatorOverview> indicatorOverviews =
+//        indicators.stream()
+//            .map(
+//                indicator -> {
+//                  try {
+//                    return indicatorService.getProgress(indicator.getId());
+//
+//                  } catch (ResourceNotFoundException e) {
+//                    throw new RuntimeException(e);
+//                  }
+//                })
+//            .collect(Collectors.toList());
     // TODO
-    return new PedOverview(ped, null, indicatorOverviews);
+    return new PedOverview(ped, null, Collections.emptyList());
   }
 }

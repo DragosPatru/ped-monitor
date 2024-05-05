@@ -37,7 +37,6 @@ public interface PedApi {
 
   @GetMapping(
       value = "/{pedId}/overview",
-      consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
   ResponseEntity<PedOverview> getOverview(@PathVariable Integer pedId)
       throws ResourceNotFoundException;

@@ -11,15 +11,14 @@ import MDSnackbar from "components/MDSnackbar";
 
 import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
+import Dropdown from "fragments/Dropdown";
+import SimpleBackdrop from "fragments/Backdrop";
 
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import SimpleBackdrop from "fragments/Backdrop";
-
 import useBasicState from "./useBasicState";
 import IndicatorsForm from "./indicatorsForm"
-import Dropdown from "fragments/Dropdown";
 
 import { countriesEU } from "constants/eu-countries"
 import PedService from "services/PedService";
@@ -30,7 +29,6 @@ function DefinePed() {
     const [selectedDataSources, setSelectedDataSources] = useState(new Set());
 
     const form = useRef();
-
     const navigate = useNavigate();
 
     const handleIndicatorSelection = (event) => {
@@ -78,7 +76,6 @@ function DefinePed() {
             console.error("Validation failed.");
             openValidationErrorSB("Please make sure all the required values are filled and at least one indicator and data-source are selected !");
             return;
-        
         }
 
         const submissionData = {

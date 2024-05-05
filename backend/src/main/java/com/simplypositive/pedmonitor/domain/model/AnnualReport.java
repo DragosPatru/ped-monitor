@@ -13,6 +13,6 @@ public class AnnualReport {
   private Integer id;
   private Integer year;
   private EnergySourceFactors energySourceFactors;
-  private FetDataSources fetDataSources;
+  private FetSourceFactors fetSourceFactors;
   private List<KPI> kpis;
 }
