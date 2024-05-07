@@ -2,18 +2,18 @@ package com.simplypositive.pedmonitor.domain.service;
 
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
-import com.simplypositive.pedmonitor.domain.model.PedDefinition;
-import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
+import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import java.util.List;
 import java.util.Optional;
 
 public interface PedService {
 
-  PositiveEnergyDistrict create(PedDefinition definition);
+  PedEntity create(PedEntity definition);
 
-  PositiveEnergyDistrict updateName(Integer pedId, String newName) throws ResourceNotFoundException;
+  PedEntity updateFields(Integer pedId, String newName, String description)
+      throws ResourceNotFoundException;
 
-  List<PositiveEnergyDistrict> getAll(SearchCriteria criteria);
+  List<PedEntity> getAll(SearchCriteria criteria);
 
-  Optional<PositiveEnergyDistrict> getById(Integer pedId);
+  Optional<PedEntity> getById(Integer pedId);
 }

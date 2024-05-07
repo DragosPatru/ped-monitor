@@ -48,11 +48,10 @@ DetailsCard.defaultProps = {
   shadow: false,
 };
 
-// Typechecking props for the ProfileInfoCard
+// Typechecking props for the DetailsCard
 DetailsCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  info: PropTypes.objectOf(PropTypes.string).isRequired,
   shadow: PropTypes.bool,
 };
 

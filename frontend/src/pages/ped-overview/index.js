@@ -25,6 +25,8 @@ import EditModal from "./components/editModal";
 // service
 import PedService from "services/PedService";
 
+import {getCountryByKey} from "constants/eu-countries"
+
 function PedOverview() {
   const { pedId } = useParams();
   const [pedOverview, setPedOverview] = useState({});
@@ -35,8 +37,14 @@ function PedOverview() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const [editButtonVisible, setEditButtonVisible] = useState(true);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const closeEditModal = () => setEditModalOpen(false);
+  const closeEditModal = (needReload = false) => {
+    setEditModalOpen(false);
+    if (needReload === true) {
+      window.location.reload(false)
+    }
+  }
   const openEditModal = () => setEditModalOpen(true);
 
   const [backdropOpen, setBackdropOpen] = useState(false);
@@ -53,9 +61,11 @@ function PedOverview() {
     const fetchData = async () => {
       openBackdrop();
       try {
-        console.log("fetching data ...");
         const overview = await PedService.getPedOverview(pedId);
         setPedOverview(overview);
+        if (overview.ped.targetYear < (new Date().getFullYear())) {
+          setEditButtonVisible(false);
+        }
 
       } catch (error) {
         // Handle error
@@ -110,7 +120,7 @@ function PedOverview() {
                 <MDBox
                   mx={2}
                   mt={-3}
-                  py={3}
+                  py={2}
                   px={2}
                   variant="gradient"
                   bgColor="info"
@@ -126,28 +136,26 @@ function PedOverview() {
                     borderRadius="xl"
                     display="flex"
                     alignItems="center"
-                    p={1} // Adjusted padding
+                    pl={1}
                   >
                     <Icon fontSize="large" color="inherit">
                       account_balance
                     </Icon>
                     <MDTypography variant="h5" color="light" ml={1}> {/* Added marginLeft */}
-                      Resita
+                    {pedOverview.ped.name}
                     </MDTypography>
                   </MDBox>
 
-
+                  {editButtonVisible && (
                   <MDButton variant="text" color="light" size="large" onClick={openEditModal}>
                     <Icon>edit</Icon>&nbsp;edit
-                  </MDButton>
+                  </MDButton>)}
 
-                  <EditModal pedData={pedOverview.ped} isOpen={editModalOpen} onClose={closeEditModal}/>
+                  <EditModal pedOverview={pedOverview} isOpen={editModalOpen} onClose={closeEditModal}/>
 
                 </MDBox>
 
-
-
-                <MDBox mt={5} mb={3} p={2}>
+                <MDBox mt={3} mb={3} p={2}>
                   <Grid container spacing={1}>
                     <Grid item xs={12}>
                       <MDBox mb={2} lineHeight={1} pl={1}>
@@ -163,7 +171,7 @@ function PedOverview() {
                     <Grid item xs={12} md={6}>
                       <DetailsCard title="PED Basics" description="" shadow={true}>
                         <Detail label="Name" textValue={pedOverview.ped.name} />
-                        <Detail label="Country" textValue={pedOverview.ped.country} />
+                        <Detail label="Country" textValue={getCountryByKey(pedOverview.ped.countryCode).title} />
                         <Detail label="Baseline Year" textValue={pedOverview.ped.baselineYear} />
                         <Detail label="Target Year" textValue={pedOverview.ped.targetYear} />
                         <Detail label="Self Supply Renewable Energy In Baseline" textValue={pedOverview.ped.percentSelfSupplyRenewableEnergyInBaseline + "%"} />
@@ -174,12 +182,12 @@ function PedOverview() {
 
                     <Grid item xs={12} md={6}>
                       <DetailsCard title="Size and Population" description="" shadow={true}>
-                        <Detail label="Size of focus district" textValue="1234 (sq. meters)" />
-                        <Detail label="Population of focus district" textValue="8000000 people" />
-                        <Detail label="Build Up Area Size" textValue="1234 (sq. meters)" />
-                        <Detail label="AVG Household Income" textValue="400 EUR" />
-                        <Detail label="Heating Degree Days" textValue="120 days/year" />
-                        <Detail label="Cooling Degree Days" textValue="45 days/year" />
+                        <Detail label="Size of focus district" textValue= {pedOverview.ped.focusDistrictSize + " (sq. meters)"} />
+                        <Detail label="Population of focus district" textValue={pedOverview.ped.focusDistrictPopulation + " people"} />
+                        <Detail label="Build Up Area Size" textValue={pedOverview.ped.buildUpAreaSize + " (sq. meters)"} />
+                        <Detail label="AVG Household Income" textValue={pedOverview.ped.avgHouseholdIncome + " EUR"} />
+                        <Detail label="Heating Degree Days" textValue={pedOverview.ped.heatingDegreeDays +"  days/year"} />
+                        <Detail label="Cooling Degree Days" textValue={pedOverview.ped.coolingDegreeDays + " days/year"} />
                       </DetailsCard>
                     </Grid>
 
@@ -190,20 +198,20 @@ function PedOverview() {
 
                     <Grid item xs={12} md={8}>
                       <DetailsCard title="Frequently changed factors" description="Values for the current year. They can be updated every year between baseline and target." shadow={true}>
-                        <Detail label="Primary Energy Factor" textValue="1.5" />
+                        <Detail label="Primary Energy Factor" textValue={pedOverview.currentYearReport.energySourceFactors.primaryEnergyFactor + ""} />
 
                         <MDBox borderRadius="lg" mb={0} mt={1}>
-                          <MDTypography variant="subtitle2" color="dark" fontWeight="regular" mb={2}>
+                          <MDTypography variant="subtitle2" color="secondary" fontWeight="regular" mb={2}>
                             GHG emission(s)
                           </MDTypography>
                         </MDBox>
 
                         <MDBox pl={1}>
                           <Grid container>
-                            <Detail label="Factor for electricity" textValue="2.0 (t CO2-eq/MWh)" />
-                            <Detail label="Factor for electricity - source" textValue="Source A" />
-                            <Detail label="Factor for heat/cold generated in the district" textValue="3.0 (t CO2-eq/MWh)" />
-                            <Detail label="Factor for heat/cold generated in the district - source" textValue="Source B" />
+                            <Detail label="Factor for electricity" textValue={pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorElectricity + " (t CO2-eq/MWh)"} />
+                            <Detail label="Factor for electricity - source" textValue={pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorElectricitySourceCode} />
+                            <Detail label="Factor for heat/cold generated in the district" textValue={pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGenerated + " (t CO2-eq/MWh)"} />
+                            <Detail label="Factor for heat/cold generated in the district - source" textValue={pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSourceCode} />
                           </Grid>
                         </MDBox>
                       </DetailsCard>

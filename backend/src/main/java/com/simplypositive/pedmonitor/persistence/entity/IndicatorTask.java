@@ -14,14 +14,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "TASK")
-public class Task {
+@Entity(name = "INDICATOR_TASK")
+public class IndicatorTask {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  @NotNull private Integer sustainabilityIndicatorId;
+  @NotNull private Integer indicatorId;
 
   @NotBlank private String name;
   private ResourceStatus status = ResourceStatus.INITIAL;

@@ -21,6 +21,7 @@ import useBasicState from "./useBasicState";
 import IndicatorsForm from "./indicatorsForm"
 
 import { countriesEU } from "constants/eu-countries"
+import {commonInputProps, commonInputPropsNotRequired} from "constants/component-properties"
 import PedService from "services/PedService";
 
 function DefinePed() {
@@ -128,23 +129,6 @@ function DefinePed() {
       setBackdropOpen(false);
     };
   
-    
-    const commonInputProps = {
-        variant: "standard",
-        InputLabelProps: { shrink: true, style: { fontSize: "1.2rem" } },
-        inputProps: { style: { fontSize: "1.05rem" } },
-        fullWidth: true,
-        required: true,
-    };
-
-    const commonInputPropsNotRequired = {
-        variant: "standard",
-        InputLabelProps: { shrink: true, style: { fontSize: "1.2rem" } },
-        inputProps: { style: { fontSize: "1.05rem" } },
-        fullWidth: true,
-        required: false,
-    };
-
     return (
         <DashboardLayout>
             <DashboardNavbar />
