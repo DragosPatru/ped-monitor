@@ -36,7 +36,7 @@ Detail.defaultProps = {
 Detail.propTypes = {
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    textValue: PropTypes.string.isRequired,
+    textValue: PropTypes.any.isRequired,
     labelGrid: PropTypes.number.isRequired,
     textValueGrid: PropTypes.number.isRequired
 };

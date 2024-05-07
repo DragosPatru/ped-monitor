@@ -1,18 +1,14 @@
 package com.simplypositive.pedmonitor.application;
 
 import com.simplypositive.pedmonitor.api.model.PedDefinitionRequest;
-import com.simplypositive.pedmonitor.domain.exception.DataProcessingException;
+import com.simplypositive.pedmonitor.api.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.*;
-import com.simplypositive.pedmonitor.domain.service.DataSourceFactors;
-import com.simplypositive.pedmonitor.domain.service.KPIs;
-import com.simplypositive.pedmonitor.domain.service.PedService;
-import com.simplypositive.pedmonitor.domain.service.SustainabilityIndicatorService;
-import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
-import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
+import com.simplypositive.pedmonitor.domain.service.*;
+import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
+import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import jakarta.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,71 +16,41 @@ import org.springframework.stereotype.Component;
 public class PedDefinitionHandler {
 
   private final PedService pedService;
-  private final SustainabilityIndicatorService indicatorService;
+  private final IndicatorService indicatorService;
 
-  private final DataSourceFactors dataSourceFactors;
-
-  private final KPIs kips;
+  private final ReportService reportService;
 
   @Autowired
   public PedDefinitionHandler(
-      PedService pedService,
-      SustainabilityIndicatorService indicatorService,
-      DataSourceFactors dataSourceFactors,
-      KPIs kips) {
+      PedService pedService, IndicatorService indicatorService, ReportService reportService) {
     this.pedService = pedService;
     this.indicatorService = indicatorService;
-    this.dataSourceFactors = dataSourceFactors;
-    this.kips = kips;
+    this.reportService = reportService;
   }
 
   @Transactional
   public PedDefinition createPedDefinition(PedDefinitionRequest request) {
-    PositiveEnergyDistrict ped = request.pedData();
-    pedService.create(new PedDefinition(ped, annualReportsSpec(request)));
+    PedEntity ped = request.pedData();
+    ped = pedService.create(ped);
+    List<AnnualReport> reports =
+        reportService.defineReportsForPed(
+            ped,
+            AnnualReportSpec.builder()
+                .fetDataSources(request.getFetDataSources())
+                .energySourceFactors(request.energySourceFactors())
+                .indicators(request.getIndicators())
+                .build());
     indicatorService.defineAll(request.getIndicators(), ped.getId());
-    return PedDefinition.ofPed(ped);
+    return PedDefinition.ofPed(ped, reports);
   }
 
-  private List<AnnualReport> annualReportsSpec(PedDefinitionRequest request) {
-    EnergySourceFactors energySourceFactors = request.energySourceFactors();
-    List<KPI> kpis = determineKpis(request.getIndicators());
-    FetSourceFactors fetSourceFactors =
-            FetSourceFactors.of(fetDataSourceFactors(request.getFetDataSources()));
-
-    List<AnnualReport> reports = new ArrayList<>();
-    for (int year = request.getBaselineYear(); year <= request.getTargetYear(); year++) {
-      reports.add(
-          AnnualReport.builder()
-              .year(year)
-              .kpis(kpis)
-              .fetSourceFactors(fetSourceFactors)
-              .energySourceFactors(energySourceFactors)
-              .build());
-    }
-
-    return reports;
-  }
-
-  private List<KPI> determineKpis(Set<String> indicators) {
-    Set<String> values = new HashSet();
-    for (String indicator : indicators) {
-      values.addAll(this.kips.kpisForIndicator(indicator));
-    }
-
-    return values.stream().map(v -> new KPI(0.0, v)).toList();
-  }
-
-  private Map<String, Double> fetDataSourceFactors(Set<String> fetDataSources) {
-    Map<String, Double> values = new HashMap<>();
-    for (String ds : fetDataSources) {
-      Double factor =
-          dataSourceFactors
-              .getLastFactorForSource(ds)
-              .orElseThrow(() -> new DataProcessingException(ds + " - unknown data source code"));
-      values.put(ds, factor);
-    }
-    return values;
+  @Transactional
+  public PedEntity updatePedDefinition(Integer pedId, PedUpdateRequest request)
+      throws ResourceNotFoundException {
+    PedEntity ped = pedService.updateFields(pedId, request.getName(), request.getDescription());
+    reportService.updateEnergySourceFactors(
+        ped, request.getReferenceYear(), request.energySourceFactors());
+    return ped;
   }
 
   //  public PedDefinition create(PedDefinition pedDefinition) {
@@ -104,22 +70,23 @@ public class PedDefinitionHandler {
   //  }
 
   public PedOverview getOverview(Integer pedId) throws ResourceNotFoundException {
-    PositiveEnergyDistrict ped =
+    PedEntity ped =
         pedService.getById(pedId).orElseThrow(() -> new ResourceNotFoundException("PED", pedId));
-    List<SustainabilityIndicator> indicators = indicatorService.getPedIndicators(pedId);
-//    List<SustainabilityIndicatorOverview> indicatorOverviews =
-//        indicators.stream()
-//            .map(
-//                indicator -> {
-//                  try {
-//                    return indicatorService.getProgress(indicator.getId());
-//
-//                  } catch (ResourceNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                  }
-//                })
-//            .collect(Collectors.toList());
+    List<IndicatorEntity> indicators = indicatorService.getPedIndicators(pedId);
+    //    List<SustainabilityIndicatorOverview> indicatorOverviews =
+    //        indicators.stream()
+    //            .map(
+    //                indicator -> {
+    //                  try {
+    //                    return indicatorService.getProgress(indicator.getId());
+    //
+    //                  } catch (ResourceNotFoundException e) {
+    //                    throw new RuntimeException(e);
+    //                  }
+    //                })
+    //            .collect(Collectors.toList());
     // TODO
-    return new PedOverview(ped, null, Collections.emptyList());
+    AnnualReport annualReport = reportService.currentYearReport(ped).orElse(null);
+    return new PedOverview(ped, annualReport, Collections.emptyList());
   }
 }

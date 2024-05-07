@@ -1,7 +1,9 @@
 package com.simplypositive.pedmonitor.api.model;
 
+import static com.simplypositive.pedmonitor.utils.StringUtils.safeTrim;
+
 import com.simplypositive.pedmonitor.domain.model.EnergySourceFactors;
-import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
+import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +12,6 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.util.StringUtils;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class PedDefinitionRequest {
   @NotEmpty
   private String name;
 
-  @NotEmpty private String countryCode;
+  @NotEmpty private String country;
 
   @Size(max = 250)
   private String description;
@@ -37,6 +38,10 @@ public class PedDefinitionRequest {
   @Min(1)
   @NotNull
   private Long focusDistrictPopulation;
+
+  @Min(1)
+  @NotNull
+  private Double avgHouseholdIncome;
 
   @Min(1)
   private Integer heatingDegreeDays;
@@ -77,11 +82,12 @@ public class PedDefinitionRequest {
 
   @NotEmpty private Set<String> fetDataSources;
 
-  public PositiveEnergyDistrict pedData() {
-    PositiveEnergyDistrict ped =
-        PositiveEnergyDistrict.builder()
+  public PedEntity pedData() {
+    PedEntity ped =
+        PedEntity.builder()
             .name(safeTrim(name))
             .description(safeTrim(description))
+            .countryCode(safeTrim(country))
             .baselineYear(baselineYear)
             .targetYear(targetYear)
             .coolingDegreeDays(coolingDegreeDays)
@@ -89,6 +95,7 @@ public class PedDefinitionRequest {
             .buildUpAreaSize(buildUpAreaSize)
             .focusDistrictSize(focusDistrictSize)
             .focusDistrictPopulation(focusDistrictPopulation)
+            .avgHouseholdIncome(avgHouseholdIncome)
             .ghgEmissionsTotalInBaseline(ghgEmissionsTotalInBaseline)
             .percentSelfSupplyRenewableEnergyInBaseline(percentSelfSupplyRenewableEnergyInBaseline)
             .build();
@@ -99,17 +106,10 @@ public class PedDefinitionRequest {
     return EnergySourceFactors.builder()
         .primaryEnergyFactor(primaryEnergyFactor)
         .ghgEmissionFactorElectricity(ghgEmissionFactorElectricity)
-        .ghgEmissionFactorElectricitySourceCode(ghgEmissionFactorElectricitySourceCode)
+        .ghgEmissionFactorElectricitySourceCode(safeTrim(ghgEmissionFactorElectricitySourceCode))
         .ghgEmissionFactorForHeathColdGenerated(ghgEmissionFactorForHeathColdGenerated)
         .ghgEmissionFactorForHeathColdGeneratedSourceCode(
-            ghgEmissionFactorForHeathColdGeneratedSourceCode)
+            safeTrim(ghgEmissionFactorForHeathColdGeneratedSourceCode))
         .build();
-  }
-
-  private String safeTrim(String value) {
-    if (StringUtils.hasText(value)) {
-      return StringUtils.truncate(value.trim(), 250);
-    }
-    return value;
   }
 }

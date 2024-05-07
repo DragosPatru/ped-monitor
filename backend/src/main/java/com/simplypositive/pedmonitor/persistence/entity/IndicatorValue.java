@@ -15,8 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "RECORDED_VALUE")
-public class RecordedValue {
+@Entity(name = "INDICATOR_VALUE")
+public class IndicatorValue {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,7 +27,7 @@ public class RecordedValue {
   /** the source of data */
   @NotBlank private String dataSourceCode;
 
-  @NotNull private Integer sustainabilityIndicatorId;
+  @NotNull private Integer indicatorId;
 
   private Instant creationTime = Instant.now();
   private Integer creationYear = LocalDate.now().getYear();

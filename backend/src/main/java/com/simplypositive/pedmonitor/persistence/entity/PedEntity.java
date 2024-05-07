@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity(name = "POSITIVE_ENERGY_DISTRICT")
 @Builder
-public class PositiveEnergyDistrict {
+public class PedEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,6 +28,10 @@ public class PositiveEnergyDistrict {
   @Size(max = 150)
   @NotEmpty
   private String name;
+
+  @NotEmpty
+  @Size(max = 150)
+  private String countryCode;
 
   private String description;
 
@@ -44,6 +48,10 @@ public class PositiveEnergyDistrict {
   @Min(1)
   @NotNull
   private Long focusDistrictPopulation;
+
+  @Min(1)
+  @NotNull
+  private Double avgHouseholdIncome;
 
   @Min(1)
   private Integer heatingDegreeDays;
@@ -70,32 +78,36 @@ public class PositiveEnergyDistrict {
   // total quantity of GHG emissions in baseline year
   private Double ghgEmissionsTotalInBaseline;
 
-  public PositiveEnergyDistrict(
+  public PedEntity(
       Integer id,
       String name,
+      String countryCode,
       String description,
       Instant createdAt,
       Double focusDistrictSize,
       Double buildUpAreaSize,
       Long focusDistrictPopulation,
+      Double avgHouseholdIncome,
       Integer heatingDegreeDays,
       Integer coolingDegreeDays,
       Integer baselineYear,
       Integer targetYear,
-      Double percentRenewableEnergyInBaseline,
+      Double percentSelfSupplyRenewableEnergyInBaseline,
       Double ghgEmissionsTotalInBaseline) {
     this.id = id;
     this.name = name;
+    this.countryCode = countryCode;
     this.description = description;
     this.createdAt = createdAt;
     this.focusDistrictSize = focusDistrictSize;
     this.buildUpAreaSize = buildUpAreaSize;
     this.focusDistrictPopulation = focusDistrictPopulation;
+    this.avgHouseholdIncome = avgHouseholdIncome;
     this.heatingDegreeDays = heatingDegreeDays;
     this.coolingDegreeDays = coolingDegreeDays;
     this.baselineYear = baselineYear;
     this.targetYear = targetYear;
-    this.percentSelfSupplyRenewableEnergyInBaseline = percentRenewableEnergyInBaseline;
+    this.percentSelfSupplyRenewableEnergyInBaseline = percentSelfSupplyRenewableEnergyInBaseline;
     this.ghgEmissionsTotalInBaseline = ghgEmissionsTotalInBaseline;
   }
 }

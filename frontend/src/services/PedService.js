@@ -15,6 +15,16 @@ class PedService {
     }
   };
 
+  update = async (id, updateData) => {
+    try {
+        const endpoint = PEDS_BASE_PATH + '/' + id;
+        return await HttpService.put(endpoint, updateData);
+    } catch (error) {
+        console.error("Error updating PED", error);
+        throw error;
+    }
+  };
+
     getPedOverview = async (id) => {
         try {
             const endpoint = PEDS_BASE_PATH + '/' + id + '/overview';

@@ -1,6 +1,6 @@
 package com.simplypositive.pedmonitor.domain.model;
 
-import com.simplypositive.pedmonitor.persistence.entity.SustainabilityIndicator;
+import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +13,5 @@ import lombok.Setter;
 public class SustainabilityIndicatorOverview {
 
   private Double progress;
-  private SustainabilityIndicator indicator;
+  private IndicatorEntity indicator;
 }

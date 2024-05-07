@@ -8,7 +8,7 @@ import com.simplypositive.pedmonitor.api.model.SearchResult;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.PedDefinition;
 import com.simplypositive.pedmonitor.domain.model.PedOverview;
-import com.simplypositive.pedmonitor.persistence.entity.PositiveEnergyDistrict;
+import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ public interface PedApi {
       value = "/{pedId}",
       consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<PositiveEnergyDistrict> update(
+  ResponseEntity<PedEntity> update(
       @PathVariable Integer pedId, @RequestBody PedUpdateRequest updateRequest)
       throws ResourceNotFoundException;
 
@@ -33,11 +33,9 @@ public interface PedApi {
       value = "/search",
       consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<SearchResult<PositiveEnergyDistrict>> search();
+  ResponseEntity<SearchResult<PedEntity>> search();
 
-  @GetMapping(
-      value = "/{pedId}/overview",
-      produces = APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/{pedId}/overview", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<PedOverview> getOverview(@PathVariable Integer pedId)
       throws ResourceNotFoundException;
 }

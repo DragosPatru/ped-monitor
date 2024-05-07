@@ -12,7 +12,7 @@ import lombok.*;
 @Entity(name = "SUSTAINABILITY_INDICATOR")
 @AllArgsConstructor
 @Builder
-public class SustainabilityIndicator {
+public class IndicatorEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
