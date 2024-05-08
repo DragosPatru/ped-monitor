@@ -57,7 +57,6 @@ public class PedController implements PedApi {
   @Override
   public ResponseEntity<PedOverview> getOverview(Integer pedId) throws ResourceNotFoundException {
     PedOverview overview = pedDefinitionHandler.getOverview(pedId);
-    System.out.println(overview);
     return ok(overview);
   }
 }

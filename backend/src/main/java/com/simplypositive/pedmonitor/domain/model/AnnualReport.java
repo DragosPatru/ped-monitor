@@ -11,8 +11,10 @@ import lombok.*;
 public class AnnualReport {
 
   private Integer id;
+  private Integer pedId;
   private Integer year;
   private EnergySourceFactors energySourceFactors;
   private FetSourceFactors fetSourceFactors;
   private List<KPI> kpis;
+  private boolean isCompleted;
 }
