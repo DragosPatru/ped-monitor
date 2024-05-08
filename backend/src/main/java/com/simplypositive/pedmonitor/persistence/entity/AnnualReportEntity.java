@@ -30,6 +30,8 @@ public class AnnualReportEntity {
   @Lob private Clob energySourceFactorsJson;
   @Lob private Clob kpisJson;
 
+  private ResourceStatus status = ResourceStatus.IN_PROGRESS;
+
   public void setFetSourceFactorsJson(String fetSourceFactorsJson) {
     this.fetSourceFactorsJson = generateProxy(fetSourceFactorsJson);
   }

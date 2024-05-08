@@ -5,7 +5,6 @@ import com.simplypositive.pedmonitor.api.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.*;
 import com.simplypositive.pedmonitor.domain.service.*;
-import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import jakarta.transaction.Transactional;
 import java.util.*;
@@ -72,7 +71,17 @@ public class PedDefinitionHandler {
   public PedOverview getOverview(Integer pedId) throws ResourceNotFoundException {
     PedEntity ped =
         pedService.getById(pedId).orElseThrow(() -> new ResourceNotFoundException("PED", pedId));
-    List<IndicatorEntity> indicators = indicatorService.getPedIndicators(pedId);
+
+    double densityOfFocusDistrict = ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize();
+    double builtUpDensity = ped.getBuildUpAreaSize() / ped.getFocusDistrictSize();
+
+    Map<String, IndicatorOverview> indicatorsOverview = new HashMap<>();
+    indicatorService
+        .getPedIndicatorsOverview(pedId)
+        .forEach(
+            i -> {
+              indicatorsOverview.put(i.getIndicator().getCode(), i);
+            });
     //    List<SustainabilityIndicatorOverview> indicatorOverviews =
     //        indicators.stream()
     //            .map(
@@ -86,7 +95,14 @@ public class PedDefinitionHandler {
     //                })
     //            .collect(Collectors.toList());
     // TODO
-    AnnualReport annualReport = reportService.currentYearReport(ped).orElse(null);
-    return new PedOverview(ped, annualReport, Collections.emptyList());
+    AnnualReport annualReport = reportService.lastYearReport(ped).orElse(null);
+    reportService.getKpis(ped);
+    return PedOverview.builder()
+        .builtUpDensity(builtUpDensity)
+        .densityOfFocusDistrict(densityOfFocusDistrict)
+        .ped(ped)
+        .lastYearReport(annualReport)
+        .indicatorsOverview(indicatorsOverview)
+        .build();
   }
 }

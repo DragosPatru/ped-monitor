@@ -18,6 +18,7 @@ import MDInput from "components/MDInput";
 
 import PedService from "services/PedService";
 import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties"
+import { ConnectingAirportsOutlined } from "@mui/icons-material";
 
 function EditModal({ pedOverview, isOpen, onClose }) {
   const [basicFormState, handleBasicInputChange] = useEditablePedState(pedOverview);
@@ -207,7 +208,6 @@ function EditModal({ pedOverview, isOpen, onClose }) {
                     helperText={!basicFormState.ghgEmissionFactorForHeathColdGenerated.isValid ? "Value required" : ""}
                     {...commonInputProps}
                   />
-
                 </Grid>
                 <Grid item xs={12} mt={1}>
                   <MDInput
@@ -254,12 +254,12 @@ const useEditablePedState = (pedOverview) => {
   const [formState, setFormState] = useState({
     name: { value: pedOverview.ped.name, isValid: true },
     description: { value: pedOverview.ped.description, isValid: true },
-    referenceYear: { value: pedOverview.currentYearReport.year, isValid: true },
-    primaryEnergyFactor: { value: pedOverview.currentYearReport.energySourceFactors.primaryEnergyFactor, isValid: true },
-    ghgEmissionFactorElectricity: { value: pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorElectricity, isValid: true },
-    ghgEmissionFactorElectricitySourceCode: { value: pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorElectricitySourceCode, isValid: true },
-    ghgEmissionFactorForHeathColdGenerated: { value: pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGenerated, isValid: true },
-    ghgEmissionFactorForHeathColdGeneratedSourceCode: { value: pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSourceCode, isValid: true }
+    referenceYear: { value: pedOverview.lastYearReport.year, isValid: true },
+    primaryEnergyFactor: { value: pedOverview.lastYearReport.energySourceFactors.primaryEnergyFactor, isValid: true },
+    ghgEmissionFactorElectricity: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricity, isValid: true },
+    ghgEmissionFactorElectricitySourceCode: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricitySourceCode, isValid: true },
+    ghgEmissionFactorForHeathColdGenerated: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGenerated, isValid: true },
+    ghgEmissionFactorForHeathColdGeneratedSourceCode: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSourceCode, isValid: true }
   });
 
   // Generalized input change handler

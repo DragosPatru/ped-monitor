@@ -5,7 +5,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 import com.simplypositive.pedmonitor.AppConfigurationProperties;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
-import com.simplypositive.pedmonitor.domain.model.SustainabilityIndicatorOverview;
+import com.simplypositive.pedmonitor.domain.model.IndicatorOverview;
 import com.simplypositive.pedmonitor.domain.service.IndicatorService;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorValue;
@@ -30,7 +30,7 @@ public class SustainabilityIndicatorController implements SustainabilityIndicato
   }
 
   @Override
-  public ResponseEntity<SustainabilityIndicatorOverview> getProgress(int indicatorId)
+  public ResponseEntity<IndicatorOverview> getProgress(int indicatorId)
       throws ResourceNotFoundException {
     return ok(service.getProgress(indicatorId));
   }

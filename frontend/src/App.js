@@ -32,6 +32,7 @@ import brandDark from "assets/images/simplypositive.png";
 
 // dynamic route handlers
 import PedOverview from "pages/ped-overview";
+import IndicatorOverview from "pages/indicator-overview"
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -112,6 +113,7 @@ export default function App() {
 
         {/* dynamic routes */}
         <Route path="/peds/:pedId" element={<PedOverview/>} key="ped-overview" />
+        <Route path="/sustainability-indicator/:indicatorId" element={<IndicatorOverview/>} key="ped-overview" />
       </Routes>
     </ThemeProvider>
   );

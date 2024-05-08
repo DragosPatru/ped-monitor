@@ -28,6 +28,8 @@ public class IndicatorEntity {
 
   private Integer targetYear;
 
+  private double totalValue = 0.0;
+
   @NotBlank private String category;
 
   @NotBlank private String parentIndicatorCode;

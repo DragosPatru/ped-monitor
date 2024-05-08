@@ -13,19 +13,22 @@ import MDBox from "components/MDBox";
 import MDSnackbar from "components/MDSnackbar";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+
 // fragments
 import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
 import SimpleBackdrop from "fragments/Backdrop";
+import ComplexStatisticsCard from "fragments/Cards/StatisticsCards/ComplexStatisticsCard";
 
 import DetailsCard from "./components/detailsCard";
 import Detail from "./components/detail";
 import EditModal from "./components/editModal";
+import Indicator from "./components/indicator";
 
 // service
 import PedService from "services/PedService";
 
-import {getCountryByKey} from "constants/eu-countries"
+import { getCountryByKey } from "constants/eu-countries"
 
 function PedOverview() {
   const { pedId } = useParams();
@@ -142,16 +145,16 @@ function PedOverview() {
                       account_balance
                     </Icon>
                     <MDTypography variant="h5" color="light" ml={1}> {/* Added marginLeft */}
-                    {pedOverview.ped.name}
+                      {pedOverview.ped.name}
                     </MDTypography>
                   </MDBox>
 
                   {editButtonVisible && (
-                  <MDButton variant="text" color="light" size="large" onClick={openEditModal}>
-                    <Icon>edit</Icon>&nbsp;edit
-                  </MDButton>)}
+                    <MDButton variant="text" color="light" size="large" onClick={openEditModal}>
+                      <Icon>edit</Icon>&nbsp;edit
+                    </MDButton>)}
 
-                  <EditModal pedOverview={pedOverview} isOpen={editModalOpen} onClose={closeEditModal}/>
+                  <EditModal pedOverview={pedOverview} isOpen={editModalOpen} onClose={closeEditModal} />
 
                 </MDBox>
 
@@ -181,12 +184,48 @@ function PedOverview() {
 
 
                     <Grid item xs={12} md={6}>
-                      <DetailsCard title="Size and Population" description="" shadow={true}>
-                        <Detail label="Size of focus district" textValue= {pedOverview.ped.focusDistrictSize + " (sq. meters)"} />
+                      <Grid container spacing={1} mt={1}>
+                        <Grid item xs={10} md={5}>
+                          <MDBox mb={1.5}>
+                            <ComplexStatisticsCard
+                              icon="leaderboard"
+                              title="Density of Focus District"
+                              count={pedOverview.densityOfFocusDistrict + "/ m²"}
+                              percentage={{
+                                color: "success",
+                                amount: "",
+                                label: "no. of citizens / m² of total area",
+                              }}
+                            />
+                          </MDBox>
+                        </Grid>
+
+                        <Grid item xs={10} md={5}>
+                          <MDBox mb={1.5}>
+                            <ComplexStatisticsCard
+                              color="success"
+                              icon="store"
+                              title="Built-up density"
+                              count={pedOverview.builtUpDensity + ""}
+                              percentage={{
+                                color: "success",
+                                amount: "",
+                                label: "m² of built-up area / m² of total area",
+                              }}
+                            />
+                          </MDBox>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+
+                    <Grid item xs={12} md={6}>
+                      <DetailsCard title="Geospatial and Socioeconomics" description="" shadow={true}>
+                        <Detail label="Size of focus district" textValue={pedOverview.ped.focusDistrictSize + " (sq. meters)"} />
                         <Detail label="Population of focus district" textValue={pedOverview.ped.focusDistrictPopulation + " people"} />
                         <Detail label="Build Up Area Size" textValue={pedOverview.ped.buildUpAreaSize + " (sq. meters)"} />
                         <Detail label="AVG Household Income" textValue={pedOverview.ped.avgHouseholdIncome + " EUR"} />
-                        <Detail label="Heating Degree Days" textValue={pedOverview.ped.heatingDegreeDays +"  days/year"} />
+                        <Detail label="Heating Degree Days" textValue={pedOverview.ped.heatingDegreeDays + "  days/year"} />
                         <Detail label="Cooling Degree Days" textValue={pedOverview.ped.coolingDegreeDays + " days/year"} />
                       </DetailsCard>
                     </Grid>
@@ -196,9 +235,9 @@ function PedOverview() {
                   </Grid> */}
 
 
-                    <Grid item xs={12} md={8}>
-                      <DetailsCard title="Frequently changed factors" description="Values for the current year. They can be updated every year between baseline and target." shadow={true}>
-                        <Detail label="Primary Energy Factor" textValue={pedOverview.currentYearReport.energySourceFactors.primaryEnergyFactor + ""} />
+                    <Grid item xs={12} md={6}>
+                      <DetailsCard title="Frequently changed factors" description={"Values for the year '" + pedOverview.lastYearReport.year + "'. They can be updated every year between baseline and target."} shadow={true}>
+                        <Detail label="Primary Energy Factor" textValue={pedOverview.lastYearReport.energySourceFactors.primaryEnergyFactor + ""} />
 
                         <MDBox borderRadius="lg" mb={0} mt={1}>
                           <MDTypography variant="subtitle2" color="secondary" fontWeight="regular" mb={2}>
@@ -208,14 +247,49 @@ function PedOverview() {
 
                         <MDBox pl={1}>
                           <Grid container>
-                            <Detail label="Factor for electricity" textValue={pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorElectricity + " (t CO2-eq/MWh)"} />
-                            <Detail label="Factor for electricity - source" textValue={pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorElectricitySourceCode} />
-                            <Detail label="Factor for heat/cold generated in the district" textValue={pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGenerated + " (t CO2-eq/MWh)"} />
-                            <Detail label="Factor for heat/cold generated in the district - source" textValue={pedOverview.currentYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSourceCode} />
+                            <Detail label="Factor for electricity" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricity + " (t CO2-eq/MWh)"} />
+                            <Detail label="Factor for electricity - source" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricitySourceCode} />
+                            <Detail label="Factor for heat/cold generated in the district" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGenerated + " (t CO2-eq/MWh)"} />
+                            <Detail label="Factor for heat/cold generated in the district - source" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSourceCode} />
                           </Grid>
                         </MDBox>
                       </DetailsCard>
                     </Grid>
+
+                    <Grid item xs={12}>
+                      <DetailsCard title="PED Indicators" description={"Demo description for this section"} shadow={true}>
+                        <MDBox
+                          component="ul"
+                          display="flex"
+                          flexDirection="column"
+                          p={0}
+                          m={0}
+                          sx={{ listStyle: "none" }}
+                          width="50%"
+                        >
+                          <Indicator
+                            color="info"
+                            icon="arrow_forward"
+                            name="Creative Tim"
+                            description="26 March 2020, at 08:30 AM"
+                            value="+ $ 2,500"
+                            route={"/sustainability-indicator/1"}
+                          />
+                          <Indicator
+                            color="error"
+                            icon="arrow_forward"
+                            name="Webflow"
+                            description="26 March 2020, at 05:00 AM"
+                            value="Not Configured"
+                            route={"/sustainability-indicator/1"}
+                          />
+                        </MDBox>
+                      </DetailsCard>
+                    </Grid>
+
+
+
+
 
                   </Grid>
                 </MDBox>

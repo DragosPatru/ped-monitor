@@ -5,7 +5,7 @@ import static java.util.stream.StreamSupport.stream;
 import com.simplypositive.pedmonitor.AppConfigurationProperties;
 import com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
-import com.simplypositive.pedmonitor.domain.model.SustainabilityIndicatorOverview;
+import com.simplypositive.pedmonitor.domain.model.IndicatorOverview;
 import com.simplypositive.pedmonitor.domain.service.IndicatorService;
 import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculator;
 import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculatorRegistry;
@@ -102,8 +102,14 @@ public class IndicatorServiceImpl implements IndicatorService {
   }
 
   @Override
-  public SustainabilityIndicatorOverview getProgress(int indicatorId)
-      throws ResourceNotFoundException {
+  public List<IndicatorOverview> getPedIndicatorsOverview(int pedId) {
+    return repository.findAllByPedId(pedId).stream()
+        .map(i -> IndicatorOverview.builder().indicator(i).progress(0.0).build())
+        .toList();
+  }
+
+  @Override
+  public IndicatorOverview getProgress(int indicatorId) throws ResourceNotFoundException {
     IndicatorEntity indicator = findByIdElseThrow(indicatorId);
     SustainabilityCalculator calculator =
         registry
@@ -112,29 +118,35 @@ public class IndicatorServiceImpl implements IndicatorService {
                 () -> new ResourceNotFoundException("Sustainability calculator not defined"));
 
     double progress = calculator.compute();
-    return new SustainabilityIndicatorOverview(progress, indicator);
+    return new IndicatorOverview(progress, indicator);
   }
 
   @Override
   @Transactional
   public IndicatorValue addData(int indicatorId, IndicatorValue value)
       throws ResourceNotFoundException {
-    findByIdElseThrow(indicatorId);
+    IndicatorEntity indicator = findByIdElseThrow(indicatorId);
+    indicator.setTotalValue(indicator.getTotalValue() + value.getAmount());
+    repository.save(indicator);
     value.setIndicatorId(indicatorId);
     return valueRepository.save(value);
   }
 
+  @Transactional
   public List<IndicatorValue> addData(int indicatorId, List<IndicatorValue> values)
       throws ResourceNotFoundException {
-    findByIdElseThrow(indicatorId);
+    IndicatorEntity indicator = findByIdElseThrow(indicatorId);
     List<IndicatorValue> savedValues = new ArrayList();
     if (values != null && !values.isEmpty()) {
       values.forEach(
           value -> {
             value.setIndicatorId(indicatorId);
+            indicator.setTotalValue(indicator.getTotalValue() + value.getAmount());
           });
       stream(valueRepository.saveAll(values).spliterator(), false).forEach(i -> savedValues.add(i));
     }
+
+    repository.save(indicator);
     return savedValues;
   }
 

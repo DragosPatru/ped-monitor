@@ -1,7 +1,7 @@
 package com.simplypositive.pedmonitor.domain.service;
 
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
-import com.simplypositive.pedmonitor.domain.model.SustainabilityIndicatorOverview;
+import com.simplypositive.pedmonitor.domain.model.IndicatorOverview;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorValue;
@@ -18,7 +18,9 @@ public interface IndicatorService {
 
   List<IndicatorEntity> getPedIndicators(int pedId);
 
-  SustainabilityIndicatorOverview getProgress(int indicatorId) throws ResourceNotFoundException;
+  List<IndicatorOverview> getPedIndicatorsOverview(int pedId);
+
+  IndicatorOverview getProgress(int indicatorId) throws ResourceNotFoundException;
 
   IndicatorValue addData(int indicatorId, IndicatorValue values) throws ResourceNotFoundException;
 
