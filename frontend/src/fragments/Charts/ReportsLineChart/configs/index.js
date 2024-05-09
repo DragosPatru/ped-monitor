@@ -36,9 +36,6 @@ function configs(labels, datasets) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: {
-        duration: 0 // disable Y axis animation
-      },
       plugins: {
         legend: {
           display: false,
@@ -47,10 +44,6 @@ function configs(labels, datasets) {
       interaction: {
         intersect: false,
         mode: "index",
-      },
-      zoom: {
-        enabled: false,
-        mode: ''
       },
       scales: {
         y: {

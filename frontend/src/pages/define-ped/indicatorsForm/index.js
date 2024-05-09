@@ -7,7 +7,7 @@ import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Grid from "@mui/material/Grid";
 
-import energyRelatedIndicators from './data';
+import energyRelatedIndicators from 'constants/indicators-sections';
 import indicatorsMap from 'constants/indicators-map';
 import dataSourceFactorsFET from 'constants/data-source-factors-fet';
 

@@ -20,11 +20,13 @@ import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
 import SimpleBackdrop from "fragments/Backdrop";
 
 // service
-import PedService from "services/PedService";
+import IndicatorService from "services/IndicatorService";
+import indicatorsMap from 'constants/indicators-map';
 
 function IndicatorOverview() {
   const { indicatorId } = useParams();
   const [indicatorOverview, setIndicatorOverview] = useState({});
+  const [title, setTitle] = useState("");
 
   const [errorSB, setErrorSB] = useState(false);
 
@@ -46,12 +48,13 @@ function IndicatorOverview() {
     const fetchData = async () => {
       openBackdrop();
       try {
-        //const overview = await PedService.getPedOverview(pedId);
-        //setPedOverview(overview);
+        const overview = await IndicatorService.getOverview(indicatorId);
+        setIndicatorOverview(overview);
+        setTitle(indicatorsMap.get(overview.indicator.code).title);
 
       } catch (error) {
         // Handle error
-        console.error('Error fetching PED data:', error);
+        console.error('Error fetching Indicator data:', error);
         setError(true);
         openErrorSB();
 
@@ -61,7 +64,7 @@ function IndicatorOverview() {
       }
     };
 
-    //fetchData();
+    fetchData();
 
     return () => {
       // Cleanup function if needed
@@ -124,7 +127,7 @@ function IndicatorOverview() {
                       account_balance
                     </Icon>
                     <MDTypography variant="h5" color="light" ml={1}> {/* Added marginLeft */}
-                      {indicatorId}
+                      {title}
                     </MDTypography>
                   </MDBox>
                 </MDBox>

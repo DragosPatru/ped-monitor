@@ -11,4 +11,5 @@ public class AnnualValue {
 
   private Integer year;
   private Double value;
+  // it may contain UNIT
 }

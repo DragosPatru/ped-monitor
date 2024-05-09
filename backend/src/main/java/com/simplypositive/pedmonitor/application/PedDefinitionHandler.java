@@ -1,7 +1,8 @@
 package com.simplypositive.pedmonitor.application;
 
-import com.simplypositive.pedmonitor.api.model.PedDefinitionRequest;
-import com.simplypositive.pedmonitor.api.model.PedUpdateRequest;
+import com.simplypositive.pedmonitor.application.model.PedDefinitionRequest;
+import com.simplypositive.pedmonitor.application.model.PedOverview;
+import com.simplypositive.pedmonitor.application.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.*;
 import com.simplypositive.pedmonitor.domain.service.*;
@@ -75,9 +76,9 @@ public class PedDefinitionHandler {
     double densityOfFocusDistrict = ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize();
     double builtUpDensity = ped.getBuildUpAreaSize() / ped.getFocusDistrictSize();
 
-    Map<String, IndicatorOverview> indicatorsOverview = new HashMap<>();
+    Map<String, IndicatorStats> indicatorsOverview = new HashMap<>();
     indicatorService
-        .getPedIndicatorsOverview(pedId)
+        .getPedIndicatorsStats(pedId)
         .forEach(
             i -> {
               indicatorsOverview.put(i.getIndicator().getCode(), i);
@@ -95,6 +96,10 @@ public class PedDefinitionHandler {
     //                })
     //            .collect(Collectors.toList());
     // TODO
+
+    Map<String, List<AnnualValue>> kpis = new HashMap<>();
+    kpis.put("FET0", List.of(new AnnualValue(2024, 10.11), new AnnualValue(2025, 20.11)));
+
     AnnualReport annualReport = reportService.lastYearReport(ped).orElse(null);
     reportService.getKpis(ped);
     return PedOverview.builder()
@@ -102,7 +107,8 @@ public class PedDefinitionHandler {
         .densityOfFocusDistrict(densityOfFocusDistrict)
         .ped(ped)
         .lastYearReport(annualReport)
-        .indicatorsOverview(indicatorsOverview)
+        .indicatorsStats(indicatorsOverview)
+        .kpis(kpis)
         .build();
   }
 }

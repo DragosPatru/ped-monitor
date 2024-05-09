@@ -23,7 +23,7 @@ import ComplexStatisticsCard from "fragments/Cards/StatisticsCards/ComplexStatis
 import DetailsCard from "./components/detailsCard";
 import Detail from "./components/detail";
 import EditModal from "./components/editModal";
-import Indicator from "./components/indicator";
+import IndicatorsStats from "./components/indicatorsStats";
 
 // service
 import PedService from "services/PedService";
@@ -257,34 +257,7 @@ function PedOverview() {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <DetailsCard title="PED Indicators" description={"Demo description for this section"} shadow={true}>
-                        <MDBox
-                          component="ul"
-                          display="flex"
-                          flexDirection="column"
-                          p={0}
-                          m={0}
-                          sx={{ listStyle: "none" }}
-                          width="50%"
-                        >
-                          <Indicator
-                            color="info"
-                            icon="arrow_forward"
-                            name="Creative Tim"
-                            description="26 March 2020, at 08:30 AM"
-                            value="+ $ 2,500"
-                            route={"/sustainability-indicator/1"}
-                          />
-                          <Indicator
-                            color="error"
-                            icon="arrow_forward"
-                            name="Webflow"
-                            description="26 March 2020, at 05:00 AM"
-                            value="Not Configured"
-                            route={"/sustainability-indicator/1"}
-                          />
-                        </MDBox>
-                      </DetailsCard>
+                      <IndicatorsStats kpis={pedOverview.kpis} indicatorsStats={pedOverview.indicatorsStats}/>
                     </Grid>
 
 

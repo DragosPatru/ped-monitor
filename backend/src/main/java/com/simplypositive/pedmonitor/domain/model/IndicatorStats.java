@@ -6,13 +6,16 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class IndicatorOverview {
+public class IndicatorStats {
 
-  private Double progress;
+  private Double progress = 0.0;
   private IndicatorEntity indicator;
+
+  @Builder(builderMethodName = "with")
+  public IndicatorStats(Double progress, IndicatorEntity indicator) {
+    this.progress = progress;
+    this.indicator = indicator;
+  }
 
   public boolean isConfigured() {
     return indicator != null && indicator.getDefinitionStatus() != ResourceStatus.INITIAL;

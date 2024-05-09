@@ -20,7 +20,7 @@ function DetailsCard({ title, description, children, shadow }) {
           {title}
         </MDTypography>
       </MDBox>
-      <MDBox p={2}>
+      <MDBox p={2} sx={{ width: "100%" }}>
         {hasDescription ? (
           <>
           <MDBox mb={2} lineHeight={1}>

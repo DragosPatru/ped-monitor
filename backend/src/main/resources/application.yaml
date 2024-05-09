@@ -208,27 +208,28 @@ app:
       unit: kWh/a
       title: "Local electricity production: wind"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "RES0"
     RES2:
       unit: kWh/a
       title: "Local electricity production: hydroelectric"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "RES0"
     RES3:
       unit: kWh/a
       title: "Local electricity production: photovoltaics"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "RES0"
     RES4:
       unit: kWh/a
       title: "Local electricity production: geothermal"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "RES0"
     RES5:
       unit: kWh/a
       title: "Local electricity production: other"
       categoryLabel: Energy
-      parent: "NONE"
+      parent: "RES0"
+
     SS:
       unit: "%"
       title: "Degree of energetic self-supply by RES"
@@ -238,4 +239,19 @@ app:
       unit: tCO2eq/a
       title: "Total amount of Greenhouse Gas Emissions"
       categoryLabel: Environment
+      parent: "NONE"
+    OVERALL_RES:
+      unit: "%"
+      title: "PED / PEN achievement rate for renewable energy"
+      categoryLabel: OVERALL_RES
+      parent: "NONE"
+    OVERALL_GHG:
+      unit: "%"
+      title: "PED / PEN achievement rate for GHg emissions"
+      categoryLabel: OVERALL_GHG
+      parent: "NONE"
+    OVERALL_GHG_RES:
+      unit: "%"
+      title: "PED / PEN achievement rate "
+      categoryLabel: OVERALL_GHG_RES
       parent: "NONE"
