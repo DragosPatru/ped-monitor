@@ -5,9 +5,8 @@ import static java.util.stream.StreamSupport.stream;
 import com.simplypositive.pedmonitor.AppConfigurationProperties;
 import com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
-import com.simplypositive.pedmonitor.domain.model.IndicatorOverview;
+import com.simplypositive.pedmonitor.domain.model.IndicatorStats;
 import com.simplypositive.pedmonitor.domain.service.IndicatorService;
-import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculator;
 import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculatorRegistry;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
@@ -17,6 +16,7 @@ import com.simplypositive.pedmonitor.persistence.repository.IndicatorRepository;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorTaskRepository;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorValueRepository;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -51,6 +51,18 @@ public class IndicatorServiceImpl implements IndicatorService {
   @Override
   @Transactional
   public IndicatorEntity create(IndicatorEntity indicator) {
+    return repository.save(indicator);
+  }
+
+  @Override
+  public IndicatorEntity configure(int indicatorId, Double targetValue, Integer targetYear)
+      throws ResourceNotFoundException {
+    if (targetValue == null || targetValue < 0 && targetValue > LocalDate.now().getYear()) {
+      throw new IllegalArgumentException("invalid data to configure an indicator");
+    }
+    IndicatorEntity indicator = getById(indicatorId);
+    indicator.setTargetValue(targetValue);
+    indicator.setTargetYear(targetYear);
     return repository.save(indicator);
   }
 
@@ -102,23 +114,24 @@ public class IndicatorServiceImpl implements IndicatorService {
   }
 
   @Override
-  public List<IndicatorOverview> getPedIndicatorsOverview(int pedId) {
+  public List<IndicatorStats> getPedIndicatorsStats(int pedId) {
     return repository.findAllByPedId(pedId).stream()
-        .map(i -> IndicatorOverview.builder().indicator(i).progress(0.0).build())
+        .map(i -> IndicatorStats.with().indicator(i).progress(0.0).build())
         .toList();
   }
 
   @Override
-  public IndicatorOverview getProgress(int indicatorId) throws ResourceNotFoundException {
+  public IndicatorStats getStats(int indicatorId) throws ResourceNotFoundException {
     IndicatorEntity indicator = findByIdElseThrow(indicatorId);
-    SustainabilityCalculator calculator =
-        registry
-            .getCalculator(indicator.getCode())
-            .orElseThrow(
-                () -> new ResourceNotFoundException("Sustainability calculator not defined"));
+    //    SustainabilityCalculator calculator =
+    //        registry
+    //            .getCalculator(indicator.getCode())
+    //            .orElseThrow(
+    //                () -> new ResourceNotFoundException("Sustainability calculator not defined"));
 
-    double progress = calculator.compute();
-    return new IndicatorOverview(progress, indicator);
+    // TODO
+    double progress = 0.0;
+    return new IndicatorStats(progress, indicator);
   }
 
   @Override
@@ -157,6 +170,11 @@ public class IndicatorServiceImpl implements IndicatorService {
     findByIdElseThrow(indicatorId);
     task.setIndicatorId(indicatorId);
     return taskRepository.save(task);
+  }
+
+  @Override
+  public IndicatorEntity getById(int indicatorId) throws ResourceNotFoundException {
+    return findByIdElseThrow(indicatorId);
   }
 
   @Override

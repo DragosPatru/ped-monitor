@@ -2,14 +2,14 @@ package com.simplypositive.pedmonitor.api;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-import com.simplypositive.pedmonitor.api.model.PedDefinitionRequest;
-import com.simplypositive.pedmonitor.api.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.api.model.SearchResult;
 import com.simplypositive.pedmonitor.application.PedDefinitionHandler;
+import com.simplypositive.pedmonitor.application.model.PedDefinitionRequest;
+import com.simplypositive.pedmonitor.application.model.PedOverview;
+import com.simplypositive.pedmonitor.application.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.PedDefinition;
-import com.simplypositive.pedmonitor.domain.model.PedOverview;
 import com.simplypositive.pedmonitor.domain.service.PedService;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import java.util.List;

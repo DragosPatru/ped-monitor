@@ -1,4 +1,4 @@
-package com.simplypositive.pedmonitor.api.model;
+package com.simplypositive.pedmonitor.application.model;
 
 import static com.simplypositive.pedmonitor.utils.StringUtils.safeTrim;
 
