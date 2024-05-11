@@ -14,14 +14,21 @@ public class IndicatorOverview extends IndicatorStats {
   private List<IndicatorTask> tasks;
   private List<IndicatorValue> values;
 
+  private Integer minTargetYear;
+  private Integer maxTargetYear;
+
   @Builder
   public IndicatorOverview(
       Double progress,
       IndicatorEntity indicator,
       List<IndicatorTask> tasks,
-      List<IndicatorValue> values) {
+      List<IndicatorValue> values,
+      Integer minTargetYear,
+      Integer maxTargetYear) {
     super(progress, indicator);
     this.tasks = tasks;
     this.values = values;
+    this.minTargetYear = minTargetYear;
+    this.maxTargetYear = maxTargetYear;
   }
 }

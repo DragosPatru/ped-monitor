@@ -10,7 +10,6 @@ import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import com.simplypositive.pedmonitor.persistence.repository.PedRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -57,8 +56,10 @@ public class PedServiceImpl implements PedService {
   }
 
   @Override
-  public Optional<PedEntity> getById(Integer pedId) {
-    return pedRepo.findById(pedId);
+  public PedEntity getById(Integer pedId) throws ResourceNotFoundException {
+    return pedRepo
+        .findById(pedId)
+        .orElseThrow(() -> new ResourceNotFoundException("PED not found", pedId));
   }
 
   private Sort.Order toOrder(Sorting sorting) {

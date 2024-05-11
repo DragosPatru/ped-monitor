@@ -9,6 +9,7 @@ import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorValue;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,30 +17,45 @@ import org.springframework.web.bind.annotation.*;
 public interface SustainabilityIndicatorApi {
 
   @GetMapping(value = "/{indicatorId}/overview", produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<IndicatorOverview> getOverview(@PathVariable int indicatorId)
+  ResponseEntity<IndicatorOverview> getOverview(@PathVariable @NotNull Integer indicatorId)
       throws ResourceNotFoundException;
 
-  @PostMapping(value = "/{indicatorId}", produces = APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/{indicatorId}", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<IndicatorEntity> update(
-      @PathVariable int indicatorId, @Valid IndicatorUpdateRequest request)
+      @PathVariable @NotNull Integer indicatorId,
+      @RequestBody @Valid IndicatorUpdateRequest request)
       throws ResourceNotFoundException;
 
-  @PutMapping(
-      value = "/{indicatorId}/data",
+  @PostMapping(
+      value = "/{indicatorId}/values",
       consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<?> addData(@PathVariable int indicatorId, @RequestBody IndicatorValue value)
+  ResponseEntity<?> addData(
+      @PathVariable @NotNull Integer indicatorId, @RequestBody @Valid IndicatorValue value)
       throws ResourceNotFoundException;
 
-  @PutMapping(
-      value = "/{indicatorId}/task",
+  @GetMapping(value = "/{indicatorId}/values", produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<?> getData(@PathVariable @NotNull Integer indicatorId)
+      throws ResourceNotFoundException;
+
+  @PostMapping(
+      value = "/{indicatorId}/tasks",
       consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<?> addTask(int indicatorId, IndicatorTask task) throws ResourceNotFoundException;
-
-  @GetMapping(value = "/{indicatorId}/data", produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<?> getData(@PathVariable int indicatorId) throws ResourceNotFoundException;
+  ResponseEntity<?> addTask(
+      @PathVariable @NotNull Integer indicatorId, @RequestBody @Valid IndicatorTask task)
+      throws ResourceNotFoundException;
 
   @GetMapping(value = "/{indicatorId}/tasks", produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<?> getTasks(int indicatorId, IndicatorTask task) throws ResourceNotFoundException;
+  ResponseEntity<?> getTasks(@PathVariable @NotNull Integer indicatorId)
+      throws ResourceNotFoundException;
+
+  @DeleteMapping(value = "/tasks/{taskId}", produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<?> deleteTask(@PathVariable @NotNull Integer taskId)
+      throws ResourceNotFoundException;
+
+  @PutMapping(value = "/tasks/{taskId}", produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<?> updateTask(
+      @PathVariable @NotNull Integer taskId, @RequestBody @Valid IndicatorTask update)
+      throws ResourceNotFoundException;
 }

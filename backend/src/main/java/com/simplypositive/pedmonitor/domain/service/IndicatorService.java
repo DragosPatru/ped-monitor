@@ -12,7 +12,7 @@ public interface IndicatorService {
 
   IndicatorEntity create(IndicatorEntity indicator);
 
-  IndicatorEntity configure(int indicatorId, Double targetValue, Integer targetYear)
+  IndicatorEntity configure(Integer indicatorId, Double targetValue, Integer targetYear)
       throws ResourceNotFoundException;
 
   List<IndicatorEntity> defineAll(Set<String> indicatorCodes, Integer pedId);
@@ -23,15 +23,20 @@ public interface IndicatorService {
 
   List<IndicatorStats> getPedIndicatorsStats(int pedId);
 
-  IndicatorStats getStats(int indicatorId) throws ResourceNotFoundException;
+  IndicatorStats getStats(Integer indicatorId) throws ResourceNotFoundException;
 
-  IndicatorValue addData(int indicatorId, IndicatorValue value) throws ResourceNotFoundException;
+  IndicatorValue addData(Integer indicatorId, IndicatorValue value)
+      throws ResourceNotFoundException;
 
-  IndicatorTask addTask(int indicatorId, IndicatorTask task) throws ResourceNotFoundException;
+  IndicatorTask addTask(Integer indicatorId, IndicatorTask task) throws ResourceNotFoundException;
 
-  IndicatorEntity getById(int indicatorId) throws ResourceNotFoundException;
+  IndicatorEntity getById(Integer indicatorId) throws ResourceNotFoundException;
 
-  List<IndicatorValue> getData(int indicatorId) throws ResourceNotFoundException;
+  List<IndicatorValue> getData(Integer indicatorId);
 
-  List<IndicatorTask> getTasks(int indicatorId) throws ResourceNotFoundException;
+  List<IndicatorTask> getTasks(Integer indicatorId);
+
+  IndicatorTask deleteTask(Integer taskId) throws ResourceNotFoundException;
+
+  IndicatorTask updateTask(IndicatorTask task) throws ResourceNotFoundException;
 }

@@ -7,7 +7,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 
 // DropdownProps might include any props you want to pass to customize your dropdown, 
 // such as the button label or the menu items.
-const Dropdown = ({ name, label, items, icon, onMenuItemClick, valid = true }) => {
+const Dropdown = ({ name, label, items, icon, onMenuItemClick, valid = true, needValidation = true }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [isValid, setIsValid] = useState(valid);
@@ -18,10 +18,12 @@ const Dropdown = ({ name, label, items, icon, onMenuItemClick, valid = true }) =
   };
 
   const handleClose = (item) => {
-    if (!item.title) {
-      setIsValid(false);
-    } else {
-      setIsValid(true);
+    if (needValidation === true) {
+      if (!item.title) {
+        setIsValid(false);
+      } else {
+        setIsValid(true);
+      }
     }
     setAnchorEl(null);
   };

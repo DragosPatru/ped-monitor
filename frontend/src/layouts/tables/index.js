@@ -60,9 +60,10 @@ function Tables() {
                 <DataTable
                   table={{ columns, rows }}
                   isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
+                  entriesPerPage={true}
+                  showTotalEntries={true}
                   noEndBorder
+                  canSearch
                 />
               </MDBox>
             </Card>

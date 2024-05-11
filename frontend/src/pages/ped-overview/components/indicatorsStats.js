@@ -77,7 +77,6 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
     };
 
     // daca sectiunea are KPIs atunci ar trebui prezentati
-
     return (
         <CollapsableRow
             title={title}
