@@ -39,39 +39,51 @@ public class SustainabilityIndicatorController implements SustainabilityIndicato
   }
 
   @Override
-  public ResponseEntity<IndicatorOverview> getOverview(int indicatorId)
+  public ResponseEntity<IndicatorOverview> getOverview(Integer indicatorId)
       throws ResourceNotFoundException {
     return ok(indicatorHandler.getOverview(indicatorId));
   }
 
   @Override
-  public ResponseEntity<IndicatorEntity> update(int indicatorId, IndicatorUpdateRequest request)
+  public ResponseEntity<IndicatorEntity> update(Integer indicatorId, IndicatorUpdateRequest request)
       throws ResourceNotFoundException {
     return ok(indicatorHandler.update(indicatorId, request));
   }
 
   @Override
-  public ResponseEntity<?> addData(int indicatorId, IndicatorValue value)
+  public ResponseEntity<?> addData(Integer indicatorId, IndicatorValue value)
       throws ResourceNotFoundException {
     return ok(service.addData(indicatorId, value));
   }
 
   @Override
-  public ResponseEntity<?> addTask(int indicatorId, IndicatorTask task)
+  public ResponseEntity<?> addTask(Integer indicatorId, IndicatorTask task)
       throws ResourceNotFoundException {
     return ok(service.addTask(indicatorId, task));
   }
 
   @Override
-  public ResponseEntity<?> getData(int indicatorId) throws ResourceNotFoundException {
+  public ResponseEntity<?> getData(Integer indicatorId) throws ResourceNotFoundException {
     List<IndicatorValue> values = service.getData(indicatorId);
     return values.isEmpty() ? noContent().build() : ok(values);
   }
 
   @Override
-  public ResponseEntity<?> getTasks(int indicatorId, IndicatorTask task)
-      throws ResourceNotFoundException {
+  public ResponseEntity<?> getTasks(Integer indicatorId) throws ResourceNotFoundException {
     List<IndicatorTask> tasks = service.getTasks(indicatorId);
     return tasks.isEmpty() ? noContent().build() : ok(tasks);
+  }
+
+  @Override
+  public ResponseEntity<?> deleteTask(Integer taskId) throws ResourceNotFoundException {
+    service.deleteTask(taskId);
+    return ok().build();
+  }
+
+  @Override
+  public ResponseEntity<?> updateTask(Integer taskId, IndicatorTask update)
+      throws ResourceNotFoundException {
+    update.setId(taskId);
+    return ok(indicatorHandler.updateTask(update));
   }
 }

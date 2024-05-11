@@ -4,7 +4,6 @@ import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import java.util.List;
-import java.util.Optional;
 
 public interface PedService {
 
@@ -15,5 +14,5 @@ public interface PedService {
 
   List<PedEntity> getAll(SearchCriteria criteria);
 
-  Optional<PedEntity> getById(Integer pedId);
+  PedEntity getById(Integer pedId) throws ResourceNotFoundException;
 }

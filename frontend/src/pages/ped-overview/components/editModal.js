@@ -18,7 +18,6 @@ import MDInput from "components/MDInput";
 
 import PedService from "services/PedService";
 import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties"
-import { ConnectingAirportsOutlined } from "@mui/icons-material";
 
 function EditModal({ pedOverview, isOpen, onClose }) {
   const [basicFormState, handleBasicInputChange] = useEditablePedState(pedOverview);
@@ -54,7 +53,7 @@ function EditModal({ pedOverview, isOpen, onClose }) {
 
     } catch (error) {
       openErrorAlert();
-    
+
     }
   }
 
@@ -224,13 +223,13 @@ function EditModal({ pedOverview, isOpen, onClose }) {
               </Grid>
 
               <Grid item xs={12} mt={1}>
-            {renderTextAlert}
-            </Grid>
+                {renderTextAlert}
+              </Grid>
             </Grid>
 
           </MDBox>
           <Divider sx={{ my: 0 }} />
-          
+
           <MDBox display="flex" justifyContent="space-between" p={3}>
             <MDButton variant="gradient" color="dark" onClick={closeMe}>
               close

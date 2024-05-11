@@ -34,32 +34,17 @@ function PedOverview() {
   const { pedId } = useParams();
   const [pedOverview, setPedOverview] = useState({});
 
-  const [errorSB, setErrorSB] = useState(false);
-
-  // avoid UI errors in case of backend issues
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
+  // Edit Modal
   const [editButtonVisible, setEditButtonVisible] = useState(true);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const openEditModal = () => setEditModalOpen(true);
   const closeEditModal = (needReload = false) => {
     setEditModalOpen(false);
     if (needReload === true) {
       window.location.reload(false)
     }
   }
-  const openEditModal = () => setEditModalOpen(true);
-
-  const [backdropOpen, setBackdropOpen] = useState(false);
-  const openBackdrop = () => {
-    setLoading(true);
-    setError(false);
-    setBackdropOpen(true);
-  };
-  const closeBackdrop = () => {
-    setBackdropOpen(false);
-  };
-
+  
   useEffect(() => {
     const fetchData = async () => {
       openBackdrop();
@@ -89,6 +74,23 @@ function PedOverview() {
     };
   }, [pedId]);
 
+  //
+  // Errors and loading state
+  //
+  const [errorSB, setErrorSB] = useState(false);
+  // avoid UI errors in case of backend issues
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const [backdropOpen, setBackdropOpen] = useState(false);
+  const openBackdrop = () => {
+    setLoading(true);
+    setError(false);
+    setBackdropOpen(true);
+  };
+  const closeBackdrop = () => {
+    setBackdropOpen(false);
+  };
 
   const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);

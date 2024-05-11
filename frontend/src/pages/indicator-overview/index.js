@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-
 import { useParams } from 'react-router-dom';
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 
@@ -19,30 +17,32 @@ import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
 import SimpleBackdrop from "fragments/Backdrop";
 
+import IndicatorConfigModal from "./components/indicatorConfigModal";
+import TimelineOverview from "./components/timelineOverview";
+
 // service
 import IndicatorService from "services/IndicatorService";
 import indicatorsMap from 'constants/indicators-map';
+import TasksTable from "./components/tasksTable";
+
 
 function IndicatorOverview() {
   const { indicatorId } = useParams();
   const [indicatorOverview, setIndicatorOverview] = useState({});
   const [title, setTitle] = useState("");
 
-  const [errorSB, setErrorSB] = useState(false);
+  const [timelineDates, setTimelineDates] = useState({ creationDate: null, endDate: null });
 
-  // avoid UI errors in case of backend issues
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const [backdropOpen, setBackdropOpen] = useState(false);
-  const openBackdrop = () => {
-    setLoading(true);
-    setError(false);
-    setBackdropOpen(true);
-  };
-  const closeBackdrop = () => {
-    setBackdropOpen(false);
-  };
+  // Edit Modal
+  const [editButtonVisible, setEditButtonVisible] = useState(true);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const openEditModal = () => setEditModalOpen(true);
+  const closeEditModal = (needReload = false) => {
+    setEditModalOpen(false);
+    if (needReload === true) {
+      window.location.reload(false)
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,8 +52,18 @@ function IndicatorOverview() {
         setIndicatorOverview(overview);
         setTitle(indicatorsMap.get(overview.indicator.code).title);
 
+        if (overview.configured === true) {
+          setEditButtonVisible(false);
+          setTimelineDates({
+            creationDate: overview.indicator.createdAt, endDate: overview.indicator.endOfTargetYear
+          });
+
+        } else {
+          openNotConfiguredWarningSB();
+        }
+
+
       } catch (error) {
-        // Handle error
         console.error('Error fetching Indicator data:', error);
         setError(true);
         openErrorSB();
@@ -72,20 +82,59 @@ function IndicatorOverview() {
   }, [indicatorId]);
 
 
-  const openErrorSB = () => setErrorSB(true);
-  const closeErrorSB = () => setErrorSB(false);
+  //
+  // Errors & Loading State
+  //
+  const [alertSB, setAlertSB] = useState({ open: false, message: "", color: "error", title: "Error" });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const [backdropOpen, setBackdropOpen] = useState(false);
+  const openBackdrop = () => {
+    setLoading(true);
+    setError(false);
+    setBackdropOpen(true);
+  };
+  const closeBackdrop = () => {
+    setBackdropOpen(false);
+  };
+
+  const openErrorSB = () => setAlertSB({ open: true, message: "Could not retrieve data from the server !", color: "error", title: "Error" });
+  const openNotConfiguredWarningSB = () => setAlertSB({ open: true, message: "Indicator is not configured. Please configure it!", color: "warning", title: "Warning" });
+  const closeAlertSB = () => setAlertSB({ open: false, message: "", color: "error", title: "" });
   const renderErrorSB = (
     <MDSnackbar
-      color="error"
+      color={alertSB.color}
       icon="warning"
-      title="Error"
-      content="Could not retrieve data from the server !"
-      dateTime="2 second(s) ago"
-      open={errorSB}
-      onClose={closeErrorSB}
-      close={closeErrorSB}
+      title={alertSB.title}
+      content={alertSB.message}
+      dateTime="1 second(s) ago"
+      open={alertSB.open}
+      onClose={closeAlertSB}
+      close={closeAlertSB}
       bgWhite
     />
+  );
+
+  const header = (
+    <MDBox mx={2} mt={-3} py={2} px={2} variant="gradient"
+      bgColor="info" borderRadius="lg" coloredShadow="info"
+      display="flex" justifyContent="space-between" alignItems="center">
+      <MDBox variant="contained" color="light" borderRadius="xl" display="flex"
+        alignItems="center" pl={1}>
+        <Icon fontSize="large" color="inherit">
+          account_balance
+        </Icon>
+        <MDTypography variant="h5" color="light" ml={1}> {/* Added marginLeft */}
+          {title}
+        </MDTypography>
+      </MDBox>
+
+      {editButtonVisible && (
+        <MDButton variant="text" color="light" size="large" onClick={openEditModal}>
+          <Icon>settings</Icon>&nbsp;configure
+        </MDButton>)}
+    </MDBox>
   );
 
   return (
@@ -102,42 +151,27 @@ function IndicatorOverview() {
                 boxShadow: 0
               }}>
 
-                <MDBox
-                  mx={2}
-                  mt={-3}
-                  py={2}
-                  px={2}
-                  variant="gradient"
-                  bgColor="info"
-                  borderRadius="lg"
-                  coloredShadow="info"
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <MDBox
-                    variant="contained"
-                    color="light"
-                    borderRadius="xl"
-                    display="flex"
-                    alignItems="center"
-                    pl={1}
-                  >
-                    <Icon fontSize="large" color="inherit">
-                      account_balance
-                    </Icon>
-                    <MDTypography variant="h5" color="light" ml={1}> {/* Added marginLeft */}
-                      {title}
-                    </MDTypography>
-                  </MDBox>
-                </MDBox>
+                {header}
 
+                
+                <IndicatorConfigModal indicatorId={indicatorId} minTargetYear={indicatorOverview.minTargetYear}
+                  maxTargetYear={indicatorOverview.maxTargetYear} isOpen={editModalOpen} onClose={closeEditModal} />
+              
+              {!editButtonVisible &&(
                 <MDBox mt={3} mb={3} p={2}>
                   <Grid container spacing={1}>
 
+                    <Grid item xs={12}>
+                      <TimelineOverview startDate={timelineDates.creationDate} endDate={timelineDates.endDate} />
+                    </Grid>
 
+                    <Grid item xs={12} mt={6}>
+                      <TasksTable indicatorId={indicatorId} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></TasksTable>
+
+                    </Grid>
                   </Grid>
                 </MDBox>
+                )}
 
               </Card>
             </Grid>
@@ -153,5 +187,6 @@ function IndicatorOverview() {
 
   );
 }
+
 
 export default IndicatorOverview;

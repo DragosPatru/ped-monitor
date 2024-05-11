@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IndicatorTaskRepository extends CrudRepository<IndicatorTask, Integer> {
 
-  List<IndicatorTask> findAllByIndicatorId(int indicatorId);
+  List<IndicatorTask> findAllByIndicatorIdOrderByCreatedAtDesc(Integer indicatorId);
 }

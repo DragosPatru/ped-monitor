@@ -1,5 +1,7 @@
 package com.simplypositive.pedmonitor.domain.service.impl;
 
+import static com.simplypositive.pedmonitor.persistence.entity.ResourceStatus.DONE;
+import static com.simplypositive.pedmonitor.persistence.entity.ResourceStatus.OPEN;
 import static java.util.stream.StreamSupport.stream;
 
 import com.simplypositive.pedmonitor.AppConfigurationProperties;
@@ -16,7 +18,7 @@ import com.simplypositive.pedmonitor.persistence.repository.IndicatorRepository;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorTaskRepository;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorValueRepository;
 import jakarta.transaction.Transactional;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -55,14 +57,15 @@ public class IndicatorServiceImpl implements IndicatorService {
   }
 
   @Override
-  public IndicatorEntity configure(int indicatorId, Double targetValue, Integer targetYear)
+  public IndicatorEntity configure(Integer indicatorId, Double targetValue, Integer targetYear)
       throws ResourceNotFoundException {
-    if (targetValue == null || targetValue < 0 && targetValue > LocalDate.now().getYear()) {
+    if (targetValue == null || targetValue < 0 || targetYear == null || targetYear <= 2000) {
       throw new IllegalArgumentException("invalid data to configure an indicator");
     }
     IndicatorEntity indicator = getById(indicatorId);
     indicator.setTargetValue(targetValue);
     indicator.setTargetYear(targetYear);
+    indicator.setDefinitionStatus(DONE);
     return repository.save(indicator);
   }
 
@@ -84,6 +87,7 @@ public class IndicatorServiceImpl implements IndicatorService {
                 .category(indicatorMeta.getCategoryLabel())
                 .pedId(pedId)
                 .definitionStatus(ResourceStatus.INITIAL)
+                .createdAt(Instant.now())
                 .build();
         indicators.add(indicator);
       }
@@ -121,7 +125,7 @@ public class IndicatorServiceImpl implements IndicatorService {
   }
 
   @Override
-  public IndicatorStats getStats(int indicatorId) throws ResourceNotFoundException {
+  public IndicatorStats getStats(Integer indicatorId) throws ResourceNotFoundException {
     IndicatorEntity indicator = findByIdElseThrow(indicatorId);
     //    SustainabilityCalculator calculator =
     //        registry
@@ -136,7 +140,7 @@ public class IndicatorServiceImpl implements IndicatorService {
 
   @Override
   @Transactional
-  public IndicatorValue addData(int indicatorId, IndicatorValue value)
+  public IndicatorValue addData(Integer indicatorId, IndicatorValue value)
       throws ResourceNotFoundException {
     IndicatorEntity indicator = findByIdElseThrow(indicatorId);
     indicator.setTotalValue(indicator.getTotalValue() + value.getAmount());
@@ -146,7 +150,7 @@ public class IndicatorServiceImpl implements IndicatorService {
   }
 
   @Transactional
-  public List<IndicatorValue> addData(int indicatorId, List<IndicatorValue> values)
+  public List<IndicatorValue> addData(Integer indicatorId, List<IndicatorValue> values)
       throws ResourceNotFoundException {
     IndicatorEntity indicator = findByIdElseThrow(indicatorId);
     List<IndicatorValue> savedValues = new ArrayList();
@@ -165,29 +169,55 @@ public class IndicatorServiceImpl implements IndicatorService {
 
   @Override
   @Transactional
-  public IndicatorTask addTask(int indicatorId, IndicatorTask task)
+  public IndicatorTask addTask(Integer indicatorId, IndicatorTask task)
       throws ResourceNotFoundException {
     findByIdElseThrow(indicatorId);
     task.setIndicatorId(indicatorId);
+    task.setStatus(OPEN);
     return taskRepository.save(task);
   }
 
   @Override
-  public IndicatorEntity getById(int indicatorId) throws ResourceNotFoundException {
+  public IndicatorEntity getById(Integer indicatorId) throws ResourceNotFoundException {
     return findByIdElseThrow(indicatorId);
   }
 
   @Override
-  public List<IndicatorValue> getData(int indicatorId) throws ResourceNotFoundException {
+  public List<IndicatorValue> getData(Integer indicatorId) {
     return valueRepository.findAllByIndicatorId(indicatorId);
   }
 
   @Override
-  public List<IndicatorTask> getTasks(int indicatorId) throws ResourceNotFoundException {
-    return taskRepository.findAllByIndicatorId(indicatorId);
+  public List<IndicatorTask> getTasks(Integer indicatorId) {
+    return taskRepository.findAllByIndicatorIdOrderByCreatedAtDesc(indicatorId);
   }
 
-  private IndicatorEntity findByIdElseThrow(int indicatorId) throws ResourceNotFoundException {
+  @Override
+  @Transactional
+  public IndicatorTask deleteTask(Integer taskId) throws ResourceNotFoundException {
+    IndicatorTask task =
+        taskRepository
+            .findById(taskId)
+            .orElseThrow(() -> new ResourceNotFoundException("Task", taskId));
+    taskRepository.deleteById(taskId);
+    return task;
+  }
+
+  @Override
+  @Transactional
+  public IndicatorTask updateTask(IndicatorTask task) throws ResourceNotFoundException {
+    IndicatorTask taskEntity =
+        taskRepository
+            .findById(task.getId())
+            .orElseThrow(() -> new ResourceNotFoundException("Task", task.getId()));
+    if (!taskEntity.isEditable()) {
+      throw new UnsupportedOperationException("Task is not editable");
+    }
+    task.setId(taskEntity.getId());
+    return taskRepository.save(task);
+  }
+
+  private IndicatorEntity findByIdElseThrow(Integer indicatorId) throws ResourceNotFoundException {
     return repository
         .findById(indicatorId)
         .orElseThrow(() -> new ResourceNotFoundException("SustainabilityIndicator", indicatorId));

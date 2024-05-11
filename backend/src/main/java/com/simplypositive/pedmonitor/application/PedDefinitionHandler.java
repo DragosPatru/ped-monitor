@@ -70,8 +70,7 @@ public class PedDefinitionHandler {
   //  }
 
   public PedOverview getOverview(Integer pedId) throws ResourceNotFoundException {
-    PedEntity ped =
-        pedService.getById(pedId).orElseThrow(() -> new ResourceNotFoundException("PED", pedId));
+    PedEntity ped = pedService.getById(pedId);
 
     double densityOfFocusDistrict = ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize();
     double builtUpDensity = ped.getBuildUpAreaSize() / ped.getFocusDistrictSize();
