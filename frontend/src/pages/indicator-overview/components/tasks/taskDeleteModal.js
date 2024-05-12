@@ -75,9 +75,9 @@ function TaskDeleteModal({ task, isOpen, onClose }) {
           <MDBox pl={6} pr={6} pt={2} pb={2}>
             <Grid container>
               <Grid item xs={12} >
-              <MDBox p={2} textAlign="center">
-                <MDTypography variant="h5">{"Are you sure you want to delete '" + task?.name + "' ?"} </MDTypography>
-              </MDBox>
+                <MDBox p={2} textAlign="center">
+                  <MDTypography variant="h5">{"Are you sure you want to delete '" + task?.name + "' ?"} </MDTypography>
+                </MDBox>
               </Grid>
               <Grid item xs={12} mt={1}>
                 {renderTextAlert}

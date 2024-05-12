@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ControllerAdvice
 @CrossOrigin
-public class SustainabilityIndicatorController implements SustainabilityIndicatorApi {
+public class IndicatorController implements IndicatorApi {
 
   private final IndicatorHandler indicatorHandler;
   private final IndicatorService service;
   private final AppConfigurationProperties configProps;
 
   @Autowired
-  public SustainabilityIndicatorController(
+  public IndicatorController(
       IndicatorHandler indicatorHandler,
       IndicatorService service,
       AppConfigurationProperties configProps) {
@@ -66,6 +66,12 @@ public class SustainabilityIndicatorController implements SustainabilityIndicato
   public ResponseEntity<?> getData(Integer indicatorId) throws ResourceNotFoundException {
     List<IndicatorValue> values = service.getData(indicatorId);
     return values.isEmpty() ? noContent().build() : ok(values);
+  }
+
+  @Override
+  public ResponseEntity<?> deleteData(Integer valueId) throws ResourceNotFoundException {
+    service.deleteData(valueId);
+    return ok().build();
   }
 
   @Override

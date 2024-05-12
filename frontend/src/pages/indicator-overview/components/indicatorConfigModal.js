@@ -102,7 +102,7 @@ function IndicatorConfigModal({ indicatorId, minTargetYear, maxTargetYear, isOpe
                   value={basicFormState.targetYear.value}
                   onChange={handleBasicInputChange}
                   error={!basicFormState.targetYear.isValid}
-                  helperText={!basicFormState.targetYear.isValid ? "Value must between '" +  minTargetYear + "' and '" + maxTargetYear + "'" : ""}
+                  helperText={!basicFormState.targetYear.isValid ? "Value must between '" + minTargetYear + "' and '" + maxTargetYear + "'" : ""}
                   {...commonInputProps}
                 />
               </Grid>
@@ -114,7 +114,7 @@ function IndicatorConfigModal({ indicatorId, minTargetYear, maxTargetYear, isOpe
                   value={basicFormState.targetValue.value}
                   onChange={handleBasicInputChange}
                   error={!basicFormState.targetValue.isValid}
-                  helperText={!basicFormState.targetValue.isValid ? "Value must be greater than '0'": ""}
+                  helperText={!basicFormState.targetValue.isValid ? "Value must be greater than '0'" : ""}
                   {...commonInputProps}
                 />
               </Grid>
@@ -149,7 +149,7 @@ const useEditableState = (minYear, maxYear) => {
   const [formState, setFormState] = useState({
     targetValue: { value: '', isValid: false },
     targetYear: { value: '', isValid: false },
-   });
+  });
 
   // Generalized input change handler
   const handleInputChange = (e) => {
@@ -163,7 +163,7 @@ const useEditableState = (minYear, maxYear) => {
     }
 
     if (name === 'targetValue') {
-      isValid =  !isNaN(value) && (Number(value)) >= 0;
+      isValid = !isNaN(value) && (Number(value)) >= 0;
     }
 
     setFormState(prevState => ({

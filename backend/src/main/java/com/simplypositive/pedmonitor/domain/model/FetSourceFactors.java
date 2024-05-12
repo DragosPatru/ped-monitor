@@ -1,8 +1,10 @@
 package com.simplypositive.pedmonitor.domain.model;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.Getter;
@@ -28,5 +30,12 @@ public class FetSourceFactors {
 
   public Optional<Double> factorBySourceCode(String dataSourceCode) {
     return Optional.ofNullable(sourceFactors.get(dataSourceCode));
+  }
+
+  public List<String> getDataSources() {
+    if (sourceFactors.isEmpty()) {
+      return emptyList();
+    }
+    return sourceFactors.keySet().stream().sorted().toList();
   }
 }

@@ -77,6 +77,30 @@ class IndicatorService {
         }
       };
 
+      deleteValue = async (valueId) => {
+        try {
+            const endpoint = BASE_PATH + "/values/" + valueId;
+            const response = await HttpService.delete(endpoint);
+            return response;
+
+        } catch (error) {
+            console.error("Error deleting value", error);
+            throw error;
+        }
+      };
+
+      createValue = async (indicatorId, value) => {
+        try {
+            const endpoint = BASE_PATH + "/" + indicatorId + '/values';
+            const response = await HttpService.post(endpoint, value);
+            return response;
+
+        } catch (error) {
+            console.error("Error creating value", error);
+            throw error;
+        }
+      };
+
       update = async (id, updateData) => {
         try {
             const endpoint = BASE_PATH + '/' + id;

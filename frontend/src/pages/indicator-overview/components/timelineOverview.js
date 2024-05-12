@@ -12,43 +12,43 @@ import TimelineItem from "fragments/Timeline/TimelineItem";
 
 function TimelineOverview({ startDate, endDate }) {
   const daysLeft = diffInDays(startDate, endDate);
-  
+
   return (
     <Card sx={{ height: "100%" }}>
       <Grid container>
-      <MDBox pt={3} px={3}>    
-        <MDTypography variant="h6" fontWeight="medium">
-          Timeline overview
-        </MDTypography>
-        <MDBox mt={0} mb={2}>
-          <MDTypography variant="button" color="text" fontWeight="regular">
-            <MDTypography display="inline" variant="body2" verticalAlign="middle">
-              <Icon sx={{ color: ({ palette: { success } }) => success.main }}>access_time</Icon>
-            </MDTypography>
-            &nbsp;
-            <MDTypography variant="button" color="text" fontWeight="medium">
-              {daysLeft}
-            </MDTypography>{" "}
-            days left
+        <MDBox pt={3} px={3}>
+          <MDTypography variant="h6" fontWeight="medium">
+            Timeline overview
           </MDTypography>
+          <MDBox mt={0} mb={2}>
+            <MDTypography variant="button" color="text" fontWeight="regular">
+              <MDTypography display="inline" variant="body2" verticalAlign="middle">
+                <Icon sx={{ color: ({ palette: { success } }) => success.main }}>access_time</Icon>
+              </MDTypography>
+              &nbsp;
+              <MDTypography variant="button" color="text" fontWeight="medium">
+                {daysLeft}
+              </MDTypography>{" "}
+              days left
+            </MDTypography>
+          </MDBox>
+
         </MDBox>
-        
-      </MDBox>
-      <MDBox p={2}>
-        <TimelineItem
-          color="success"
-          icon="notifications"
-          title="Creation Date"
-          dateTime={formatDate(startDate)}
-        />
-        <TimelineItem
-          color="error"
-          icon="notifications"
-          title="Target Date"
-          dateTime={formatDate(endDate)}
-          lastItem
-        />
-      </MDBox>
+        <MDBox p={2}>
+          <TimelineItem
+            color="success"
+            icon="notifications"
+            title="Creation Date"
+            dateTime={formatDate(startDate)}
+          />
+          <TimelineItem
+            color="error"
+            icon="notifications"
+            title="Target Date"
+            dateTime={formatDate(endDate)}
+            lastItem
+          />
+        </MDBox>
       </Grid>
     </Card>
   );
@@ -57,7 +57,7 @@ function TimelineOverview({ startDate, endDate }) {
 function diffInDays(startDate, endDate) {
   const start = new Date(startDate);
   const end = new Date(endDate);
-  
+
   // Calculate the difference in milliseconds
   const difference = end - start;
   return Math.floor(difference / (1000 * 60 * 60 * 24));

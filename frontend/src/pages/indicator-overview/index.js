@@ -23,12 +23,13 @@ import TimelineOverview from "./components/timelineOverview";
 // service
 import IndicatorService from "services/IndicatorService";
 import indicatorsMap from 'constants/indicators-map';
-import TasksTable from "./components/tasksTable";
+import TasksTable from "./components/tasks/tasksTable";
+import ValuesTable from "./components/values/valuesTable";
 
 
 function IndicatorOverview() {
   const { indicatorId } = useParams();
-  const [indicatorOverview, setIndicatorOverview] = useState({});
+  const [indicatorOverview, setIndicatorOverview] = useState({dataSourceCodes:[]});
   const [title, setTitle] = useState("");
 
   const [timelineDates, setTimelineDates] = useState({ creationDate: null, endDate: null });
@@ -153,24 +154,27 @@ function IndicatorOverview() {
 
                 {header}
 
-                
                 <IndicatorConfigModal indicatorId={indicatorId} minTargetYear={indicatorOverview.minTargetYear}
                   maxTargetYear={indicatorOverview.maxTargetYear} isOpen={editModalOpen} onClose={closeEditModal} />
-              
-              {!editButtonVisible &&(
-                <MDBox mt={3} mb={3} p={2}>
-                  <Grid container spacing={1}>
 
-                    <Grid item xs={12}>
-                      <TimelineOverview startDate={timelineDates.creationDate} endDate={timelineDates.endDate} />
+                {!editButtonVisible && (
+                  <MDBox mt={3} mb={3} p={2}>
+                    <Grid container spacing={1}>
+
+                      <Grid item xs={12}>
+                        <TimelineOverview startDate={timelineDates.creationDate} endDate={timelineDates.endDate} />
+                      </Grid>
+
+                      <Grid item xs={12} mt={4}>
+                        <ValuesTable indicatorId={indicatorId} dataSourceCodes={indicatorOverview.dataSourceCodes} allowDataChanges={indicatorOverview.allowDataChanges} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></ValuesTable>
+                      </Grid>
+
+                      <Grid item xs={12} mt={4}>
+                        <TasksTable indicatorId={indicatorId} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></TasksTable>
+                      </Grid>
+
                     </Grid>
-
-                    <Grid item xs={12} mt={6}>
-                      <TasksTable indicatorId={indicatorId} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></TasksTable>
-
-                    </Grid>
-                  </Grid>
-                </MDBox>
+                  </MDBox>
                 )}
 
               </Card>

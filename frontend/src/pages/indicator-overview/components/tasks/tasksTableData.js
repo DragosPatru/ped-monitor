@@ -27,9 +27,11 @@ export const tasksTableRows = (tasks) => {
 
 export const tasksTableColumns = [
     { Header: "name", accessor: "name", width: "45%", align: "left" },
-    { Header: "status", accessor: "status", align: "center", Cell: ({ cell: { value } }) => (
-        <Status value={value}></Status>
-    ) },
+    {
+        Header: "status", accessor: "status", align: "center", Cell: ({ cell: { value } }) => (
+            <Status value={value}></Status>
+        )
+    },
     { Header: "created", accessor: "created", align: "left" },
     { Header: "deadline", accessor: "deadline", align: "left" },
     { Header: "Planned Budget (EUR)", accessor: "plannedBudget", align: "left" },
@@ -38,9 +40,11 @@ export const tasksTableColumns = [
             <Progress value={value}></Progress>
         )
     },
-    { Header: "action", accessor: "action", align: "center",  Cell: ({ cell: { value } }) => (
-        <Action task={value}></Action>
-    )},
+    {
+        Header: "action", accessor: "action", align: "center", Cell: ({ cell: { value } }) => (
+            <Action task={value}></Action>
+        )
+    },
 ];
 
 
@@ -94,35 +98,35 @@ const Action = ({ task }) => {
 
     const renderMenu = (
         <Menu
-          id="simple-menu"
-          anchorEl={menu}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={Boolean(menu)}
-          onClose={closeMenu}
+            id="simple-menu"
+            anchorEl={menu}
+            anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+            }}
+            transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+            }}
+            open={Boolean(menu)}
+            onClose={closeMenu}
         >
-          {/* <MenuItem onClick={closeMenu}>Record Expense</MenuItem>
+            {/* <MenuItem onClick={closeMenu}>Record Expense</MenuItem>
           <MenuItem onClick={closeMenu}>Update Saved Energy</MenuItem> */}
-          <MenuItem onClick={handleEditClick}>Edit</MenuItem>
-          <MenuItem onClick={handleRemoveClick}>Remove</MenuItem>
+            <MenuItem onClick={handleEditClick}>Edit</MenuItem>
+            <MenuItem onClick={handleRemoveClick}>Remove</MenuItem>
         </Menu>
-      );
+    );
 
     return (
         <>
-        <MDBox color="text" px={2} opacity={opacity}>
-      <Icon sx={{ cursor: "pointer", fontWeight: "bold"}} fontSize="small" onClick={openMenu} >
-        more_vert
-      </Icon>
-    </MDBox>
-    
-    {renderMenu}
-    </>
+            <MDBox color="text" px={2} opacity={opacity}>
+                <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu} >
+                    more_vert
+                </Icon>
+            </MDBox>
+
+            {renderMenu}
+        </>
     )
 };
