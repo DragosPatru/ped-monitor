@@ -1,14 +1,12 @@
 package com.simplypositive.pedmonitor.persistence.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +30,11 @@ public class IndicatorValue {
 
   @NotNull private Integer indicatorId;
 
-  private Instant creationTime = Instant.now();
+  private Instant createdAt = Instant.now();
   private Integer creationYear = LocalDate.now().getYear();
+
+  @Transient
+  public LocalDate getCreationDate() {
+    return LocalDate.ofInstant(createdAt, ZoneOffset.UTC);
+  }
 }

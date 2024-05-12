@@ -5,8 +5,9 @@ import com.simplypositive.pedmonitor.application.model.IndicatorUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.service.IndicatorService;
 import com.simplypositive.pedmonitor.domain.service.PedService;
+import com.simplypositive.pedmonitor.domain.service.ReportService;
 import com.simplypositive.pedmonitor.persistence.entity.*;
-import java.util.List;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +17,14 @@ public class IndicatorHandler {
   private final IndicatorService indicatorService;
   private final PedService pedService;
 
+  private final ReportService reportService;
+
   @Autowired
-  public IndicatorHandler(IndicatorService indicatorService, PedService pedService) {
+  public IndicatorHandler(
+      IndicatorService indicatorService, PedService pedService, ReportService reportService) {
     this.indicatorService = indicatorService;
     this.pedService = pedService;
+    this.reportService = reportService;
   }
 
   public IndicatorOverview getOverview(Integer indicatorId) throws ResourceNotFoundException {
@@ -27,15 +32,10 @@ public class IndicatorHandler {
     IndicatorEntity indicator = indicatorService.getById(indicatorId);
     PedEntity ped = pedService.getById(indicator.getPedId());
 
-    if (indicator.getDefinitionStatus() != ResourceStatus.INITIAL) {
-      List<IndicatorTask> tasks = indicatorService.getTasks(indicatorId);
-      List<IndicatorValue> values = indicatorService.getData(indicatorId);
-      builder.tasks(tasks).values(values);
-    }
-
     builder
         .minTargetYear(ped.getBaselineYear())
         .maxTargetYear(ped.getTargetYear())
+        .dataSourceCodes(reportService.getDataSourceCodes(ped, LocalDate.now().getYear()))
         .indicator(indicator);
     return builder.build();
   }

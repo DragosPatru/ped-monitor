@@ -21,7 +21,7 @@ import TaskDeleteModal from "./taskDeleteModal";
 import IndicatorService from "services/IndicatorService";
 
 // Data
-import {tasksTableRows, tasksTableColumns} from "./tasksTableData";
+import { tasksTableRows, tasksTableColumns } from "./tasksTableData";
 
 function TasksTable({ indicatorId, onError, onAsyncOp, onAsyncOpEnd }) {
   const [taskToProcess, setTaskToProcess] = useState(null);
@@ -49,7 +49,7 @@ function TasksTable({ indicatorId, onError, onAsyncOp, onAsyncOpEnd }) {
       onRemove: () => openDeleteModal(task),
       onEdit: () => openEditModal(task),
     }))) : [];
- 
+
     // Table data
     const rows = tasksTableRows(decoratedTasks);
     setTableRows(rows);
@@ -96,44 +96,44 @@ function TasksTable({ indicatorId, onError, onAsyncOp, onAsyncOpEnd }) {
   };
 
   return (
-            <Card>
-              <MDBox
-                  pt={3} px={3}
-                  variant="contained"
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-              <MDBox
-                variant="contained"
-                // bgColor="dark"
-                borderRadius="lg"
-                // coloredShadow="info"
-              >
-                <MDTypography variant="h6" color="dark">
-                  Tasks
-                </MDTypography>
+    <Card>
+      <MDBox
+        pt={3} px={3}
+        variant="contained"
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <MDBox
+          variant="contained"
+          // bgColor="dark"
+          borderRadius="lg"
+        // coloredShadow="info"
+        >
+          <MDTypography variant="h6" color="dark">
+            Tasks
+          </MDTypography>
 
-              </MDBox>
-                <MDButton variant="contained" color="dark" size="medium" onClick={openCreateModal}>
-                    <Icon>add</Icon>&nbsp;ADD NEW TASK
-                </MDButton>
+        </MDBox>
+        <MDButton variant="contained" color="dark" size="medium" onClick={openCreateModal}>
+          <Icon>add</Icon>&nbsp;ADD NEW TASK
+        </MDButton>
 
-                <TaskDefinitionModal indicatorId={indicatorId} isOpen={createModalOpen} onClose={closeCreateModal} />
-                <TaskEditModal task={taskToProcess} isOpen={editModalOpen} onClose={closeEditModal}/>
-                <TaskDeleteModal task={taskToProcess} isOpen={deleteModalOpen} onClose={closeDeleteModal}/>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={{ columns: tableColumns, rows: tableRows }}
-                  isSorted={false}
-                  entriesPerPage={true}
-                  showTotalEntries={true}
-                  noEndBorder
-                  //canSearch
-                />
-              </MDBox>
-            </Card>
+        <TaskDefinitionModal indicatorId={indicatorId} isOpen={createModalOpen} onClose={closeCreateModal} />
+        <TaskEditModal task={taskToProcess} isOpen={editModalOpen} onClose={closeEditModal} />
+        <TaskDeleteModal task={taskToProcess} isOpen={deleteModalOpen} onClose={closeDeleteModal} />
+      </MDBox>
+      <MDBox pt={3}>
+        <DataTable
+          table={{ columns: tableColumns, rows: tableRows }}
+          isSorted={false}
+          entriesPerPage={true}
+          showTotalEntries={true}
+          noEndBorder
+        //canSearch
+        />
+      </MDBox>
+    </Card>
   );
 }
 

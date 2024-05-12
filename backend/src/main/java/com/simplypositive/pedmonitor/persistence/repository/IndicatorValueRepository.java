@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface IndicatorValueRepository extends CrudRepository<IndicatorValue, Integer> {
 
   List<IndicatorValue> findAllByIndicatorId(int indicatorId);
+
+  List<IndicatorValue> findAllByIndicatorIdOrderByCreatedAtDesc(int indicatorId);
 }

@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/indicators")
-public interface SustainabilityIndicatorApi {
+public interface IndicatorApi {
 
   @GetMapping(value = "/{indicatorId}/overview", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<IndicatorOverview> getOverview(@PathVariable @NotNull Integer indicatorId)
@@ -36,6 +36,10 @@ public interface SustainabilityIndicatorApi {
 
   @GetMapping(value = "/{indicatorId}/values", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<?> getData(@PathVariable @NotNull Integer indicatorId)
+      throws ResourceNotFoundException;
+
+  @DeleteMapping(value = "/values/{valueId}", produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<?> deleteData(@PathVariable @NotNull Integer valueId)
       throws ResourceNotFoundException;
 
   @PostMapping(

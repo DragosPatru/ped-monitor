@@ -5,6 +5,7 @@ import com.simplypositive.pedmonitor.domain.model.IndicatorStats;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorValue;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +28,9 @@ public interface IndicatorService {
 
   IndicatorValue addData(Integer indicatorId, IndicatorValue value)
       throws ResourceNotFoundException;
+
+  @Transactional
+  IndicatorValue deleteData(Integer valueId) throws ResourceNotFoundException;
 
   IndicatorTask addTask(Integer indicatorId, IndicatorTask task) throws ResourceNotFoundException;
 

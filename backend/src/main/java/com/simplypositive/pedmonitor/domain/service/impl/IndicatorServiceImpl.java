@@ -149,6 +149,17 @@ public class IndicatorServiceImpl implements IndicatorService {
     return valueRepository.save(value);
   }
 
+  @Override
+  @Transactional
+  public IndicatorValue deleteData(Integer valueId) throws ResourceNotFoundException {
+    IndicatorValue value =
+        valueRepository
+            .findById(valueId)
+            .orElseThrow(() -> new ResourceNotFoundException("Value", valueId));
+    valueRepository.deleteById(valueId);
+    return value;
+  }
+
   @Transactional
   public List<IndicatorValue> addData(Integer indicatorId, List<IndicatorValue> values)
       throws ResourceNotFoundException {
@@ -184,7 +195,7 @@ public class IndicatorServiceImpl implements IndicatorService {
 
   @Override
   public List<IndicatorValue> getData(Integer indicatorId) {
-    return valueRepository.findAllByIndicatorId(indicatorId);
+    return valueRepository.findAllByIndicatorIdOrderByCreatedAtDesc(indicatorId);
   }
 
   @Override

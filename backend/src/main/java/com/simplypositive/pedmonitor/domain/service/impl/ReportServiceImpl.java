@@ -18,7 +18,6 @@ import com.simplypositive.pedmonitor.persistence.entity.AnnualReportEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import com.simplypositive.pedmonitor.persistence.repository.AnnualReportRepository;
-import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.random.RandomGenerator;
@@ -96,10 +95,25 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
-  @Transactional
   public Optional<AnnualReport> lastYearReport(PedEntity ped) {
     int lastYear = Integer.min(LocalDate.now().getYear(), ped.getTargetYear());
     return firstReport(ped.getId(), lastYear);
+  }
+
+  @Override
+  public List<String> getDataSourceCodes(PedEntity ped, Integer year) {
+    int lastYear = Integer.min(year, ped.getTargetYear());
+    List<String> result = new ArrayList<>();
+    Optional<AnnualReport> report = firstReport(ped.getId(), lastYear);
+    if (report.isPresent()) {
+      var sourceFactors = report.get().getFetSourceFactors();
+      var energySourceFactors = report.get().getEnergySourceFactors();
+      result.addAll(sourceFactors.getDataSources());
+      result.add(energySourceFactors.getGhgEmissionFactorElectricitySourceCode());
+      result.add(energySourceFactors.getGhgEmissionFactorForHeathColdGeneratedSourceCode());
+      result = result.stream().sorted().toList();
+    }
+    return result;
   }
 
   @Override
