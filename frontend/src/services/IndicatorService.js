@@ -14,9 +14,9 @@ class IndicatorService {
             console.error("Error fetching indicator overview", error);
             throw error;
         }
-      };
+    };
 
-      getTasks = async (indicatorId) => {
+    getTasks = async (indicatorId) => {
         try {
             const endpoint = BASE_PATH + "/" + indicatorId + '/tasks';
             const response = await HttpService.get(endpoint);
@@ -26,9 +26,9 @@ class IndicatorService {
             console.error("Error fetching indicator tasks", error);
             throw error;
         }
-      };
+    };
 
-      deleteTask = async (taskId) => {
+    deleteTask = async (taskId) => {
         try {
             const endpoint = BASE_PATH + "/tasks/" + taskId;
             const response = await HttpService.delete(endpoint);
@@ -38,9 +38,9 @@ class IndicatorService {
             console.error("Error fetching indicator tasks", error);
             throw error;
         }
-      };
+    };
 
-      updateTask = async (task) => {
+    updateTask = async (task) => {
         try {
             const endpoint = BASE_PATH + "/tasks/" + task.id;
             const response = await HttpService.put(endpoint, task);
@@ -50,9 +50,9 @@ class IndicatorService {
             console.error("Error updating task", error);
             throw error;
         }
-      };
+    };
 
-      createTask = async (indicatorId, task) => {
+    createTask = async (indicatorId, task) => {
         try {
             const endpoint = BASE_PATH + "/" + indicatorId + '/tasks';
             const response = await HttpService.post(endpoint, task);
@@ -62,10 +62,10 @@ class IndicatorService {
             console.error("Error creating task", error);
             throw error;
         }
-      };
+    };
 
 
-      getValues= async (id) => {
+    getValues = async (id) => {
         try {
             const endpoint = BASE_PATH + "/" + id + '/values';
             const response = await HttpService.get(endpoint);
@@ -75,9 +75,9 @@ class IndicatorService {
             console.error("Error fetching indicator values", error);
             throw error;
         }
-      };
+    };
 
-      deleteValue = async (valueId) => {
+    deleteValue = async (valueId) => {
         try {
             const endpoint = BASE_PATH + "/values/" + valueId;
             const response = await HttpService.delete(endpoint);
@@ -87,9 +87,9 @@ class IndicatorService {
             console.error("Error deleting value", error);
             throw error;
         }
-      };
+    };
 
-      createValue = async (indicatorId, value) => {
+    createValue = async (indicatorId, value) => {
         try {
             const endpoint = BASE_PATH + "/" + indicatorId + '/values';
             const response = await HttpService.post(endpoint, value);
@@ -99,9 +99,9 @@ class IndicatorService {
             console.error("Error creating value", error);
             throw error;
         }
-      };
+    };
 
-      update = async (id, updateData) => {
+    update = async (id, updateData) => {
         try {
             const endpoint = BASE_PATH + '/' + id;
             return await HttpService.put(endpoint, updateData);
@@ -109,7 +109,7 @@ class IndicatorService {
             console.error("Error updating indicator", error);
             throw error;
         }
-      };
+    };
 }
 
 export default new IndicatorService();

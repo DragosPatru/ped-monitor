@@ -8,6 +8,7 @@ import com.simplypositive.pedmonitor.domain.model.*;
 import com.simplypositive.pedmonitor.domain.service.*;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -72,8 +73,12 @@ public class PedDefinitionHandler {
   public PedOverview getOverview(Integer pedId) throws ResourceNotFoundException {
     PedEntity ped = pedService.getById(pedId);
 
-    double densityOfFocusDistrict = ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize();
-    double builtUpDensity = ped.getBuildUpAreaSize() / ped.getFocusDistrictSize();
+    BigDecimal densityOfFocusDistrict =
+        BigDecimal.valueOf(ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize())
+            .setScale(4, BigDecimal.ROUND_HALF_UP);
+    BigDecimal builtUpDensity =
+        BigDecimal.valueOf(ped.getBuildUpAreaSize() / ped.getFocusDistrictSize())
+            .setScale(4, BigDecimal.ROUND_HALF_UP);
 
     Map<String, IndicatorStats> indicatorsOverview = new HashMap<>();
     indicatorService
@@ -109,5 +114,15 @@ public class PedDefinitionHandler {
         .indicatorsStats(indicatorsOverview)
         .kpis(kpis)
         .build();
+  }
+
+  @Transactional
+  public void deletePed(Integer pedId) throws ResourceNotFoundException {
+    if (pedId == null) {
+      throw new ResourceNotFoundException("PED");
+    }
+    reportService.deleteAllForPed(pedId);
+    indicatorService.deleteAllForPed(pedId);
+    pedService.delete(pedId);
   }
 }

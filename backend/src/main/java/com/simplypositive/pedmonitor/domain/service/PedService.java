@@ -15,4 +15,6 @@ public interface PedService {
   List<PedEntity> getAll(SearchCriteria criteria);
 
   PedEntity getById(Integer pedId) throws ResourceNotFoundException;
+
+  void delete(Integer pedId);
 }

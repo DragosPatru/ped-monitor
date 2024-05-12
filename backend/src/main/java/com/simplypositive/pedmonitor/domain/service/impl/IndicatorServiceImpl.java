@@ -228,6 +228,18 @@ public class IndicatorServiceImpl implements IndicatorService {
     return taskRepository.save(task);
   }
 
+  @Override
+  @Transactional
+  public void deleteAllForPed(Integer pedId) {
+    List<IndicatorEntity> pedIndicators = getPedIndicators(pedId);
+    if (!pedIndicators.isEmpty()) {
+      List<Integer> ids = pedIndicators.stream().map(i -> i.getId()).toList();
+      taskRepository.deleteAllByIndicatorIdIn(ids);
+      valueRepository.deleteAllByIndicatorIdIn(ids);
+      repository.deleteAll(pedIndicators);
+    }
+  }
+
   private IndicatorEntity findByIdElseThrow(Integer indicatorId) throws ResourceNotFoundException {
     return repository
         .findById(indicatorId)

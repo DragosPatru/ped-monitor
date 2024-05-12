@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/peds")
 public interface PedApi {
 
-  //  @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-  //  ResponseEntity<PedDefinition> create(@RequestBody PedDefinition pedDefinition);
-
   @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   ResponseEntity<PedDefinition> create(@RequestBody PedDefinitionRequest pedDefinitionRequest);
 
@@ -38,4 +35,7 @@ public interface PedApi {
   @GetMapping(value = "/{pedId}/overview", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<PedOverview> getOverview(@PathVariable Integer pedId)
       throws ResourceNotFoundException;
+
+  @DeleteMapping(value = "/{pedId}", produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<?> deletePed(@PathVariable Integer pedId) throws ResourceNotFoundException;
 }

@@ -18,6 +18,7 @@ import com.simplypositive.pedmonitor.persistence.entity.AnnualReportEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import com.simplypositive.pedmonitor.persistence.repository.AnnualReportRepository;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.random.RandomGenerator;
@@ -142,6 +143,12 @@ public class ReportServiceImpl implements ReportService {
     return kpisByYear;
   }
 
+  @Override
+  @Transactional
+  public void deleteAllForPed(Integer pedId) {
+    annualReportRepo.deleteAllByPedId(pedId);
+  }
+
   private void addKpisMock(AnnualReport annualReport, Map<String, List<AnnualValue>> result) {
     annualReport
         .getKpis()
@@ -232,18 +239,20 @@ public class ReportServiceImpl implements ReportService {
 
   private AnnualReport fromEntity(AnnualReportEntity entity) {
     try {
+      var fetSourceFactors =
+          objectMapper.readValue(entity.fetSourceFactorsJson(), FetSourceFactors.class);
+      var energySourceFactors =
+          objectMapper.readValue(entity.energySourceFactorsJson(), EnergySourceFactors.class);
+      var kpis = objectMapper.readValue(entity.kpisJson(), new TypeReference<List<KPI>>() {});
       AnnualReport report =
           AnnualReport.builder()
               .id(entity.getId())
               .pedId(entity.getPedId())
               .year(entity.getAssignedYear())
-              .fetSourceFactors(
-                  objectMapper.readValue(entity.fetSourceFactorsJson(), FetSourceFactors.class))
-              .energySourceFactors(
-                  objectMapper.readValue(
-                      entity.energySourceFactorsJson(), EnergySourceFactors.class))
+              .fetSourceFactors(fetSourceFactors)
+              .energySourceFactors(energySourceFactors)
               .isCompleted(DONE == entity.getStatus())
-              .kpis(objectMapper.readValue(entity.kpisJson(), new TypeReference<List<KPI>>() {}))
+              .kpis(kpis)
               .build();
       return report;
     } catch (Exception e) {

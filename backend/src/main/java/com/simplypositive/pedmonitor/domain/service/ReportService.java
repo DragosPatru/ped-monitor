@@ -19,4 +19,6 @@ public interface ReportService {
   List<String> getDataSourceCodes(PedEntity ped, Integer year);
 
   Map<String, List<AnnualValue>> getKpis(PedEntity ped);
+
+  void deleteAllForPed(Integer pedId);
 }

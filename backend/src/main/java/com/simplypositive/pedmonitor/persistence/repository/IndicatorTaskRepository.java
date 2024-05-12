@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface IndicatorTaskRepository extends CrudRepository<IndicatorTask, Integer> {
 
   List<IndicatorTask> findAllByIndicatorIdOrderByCreatedAtDesc(Integer indicatorId);
+
+  void deleteAllByIndicatorIdIn(List<Integer> indicatorIds);
 }

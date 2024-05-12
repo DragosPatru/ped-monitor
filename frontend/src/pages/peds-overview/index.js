@@ -17,11 +17,14 @@ import SimpleBackdrop from "fragments/Backdrop";
 
 // service
 import PedService from "services/PedService";
+import DeleteModal from "./deleteModal";
 
 function PedsOverview() {
 
   const [peds, setPeds] = useState([]);
   const [noDataFound, setNoDataFound] = useState(false);
+  const [valueToProcess, setValueToProcess] = useState(null);
+
   const [errorSB, setErrorSB] = useState(false);
 
   const openErrorSB = () => setErrorSB(true);
@@ -54,29 +57,43 @@ function PedsOverview() {
     </MDTypography>
   );
 
+  // Delete Modal
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const openDeleteModal = (value) => {
+    setValueToProcess(value);
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = (needReload = false) => {
+    setDeleteModalOpen(false);
+    setValueToProcess(null);
+    if (needReload === true) {
+      window.location.reload(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchPeds = async () => {
-      handleOpenBackdrop();
-      try {
-        const data = await PedService.getAll();
-        if (data?.length === 0) {
-          setNoDataFound(true);
-
-        } else {
-          setPeds(data);
-        }
-
-      } catch (error) {
-        openErrorSB();
-
-      } finally {
-        handleCloseBackdrop();
-      }
-    };
-
     fetchPeds();
-  }, []);
+  }, [noDataFound]);
 
+  const fetchPeds = async () => {
+    handleOpenBackdrop();
+    try {
+      const data = await PedService.getAll();
+      if (data?.length === 0) {
+        setNoDataFound(true);
+
+      } else {
+        setPeds(data);
+      }
+
+    } catch (error) {
+      openErrorSB();
+
+    } finally {
+      handleCloseBackdrop();
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -84,9 +101,9 @@ function PedsOverview() {
       <SimpleBackdrop open={backdropOpen} handleClose={handleCloseBackdrop} />
       <MDBox py={3}>
         <Grid container spacing={3}>
-          {peds.map((ped, index) => (
-            <Grid item xs={12} md={6} lg={3} key={index}>
-              <DefaultPedCard key={`ped-${index}`}
+          {peds.map((ped) => (
+            <Grid item xs={12} md={6} lg={3} key={ped.id}>
+              <DefaultPedCard
                 icon="account_balance"
                 title={ped.name}
                 description={ped.description}
@@ -96,10 +113,12 @@ function PedsOverview() {
                   color: "info",
                   label: "OPEN",
                 }}
+                deleteAction={() => openDeleteModal(ped)}
               />
             </Grid>
           ))}
 
+          <DeleteModal ped={valueToProcess} isOpen={deleteModalOpen} onClose={closeDeleteModal} />
 
           <Grid item xs={12} lg={8}>
             {noDataFound ? (
