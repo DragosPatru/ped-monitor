@@ -41,7 +41,7 @@ function IndicatorOverview() {
   const closeEditModal = (needReload = false) => {
     setEditModalOpen(false);
     if (needReload === true) {
-      window.location.reload(false)
+      window.location.reload(false);
     }
   }
 

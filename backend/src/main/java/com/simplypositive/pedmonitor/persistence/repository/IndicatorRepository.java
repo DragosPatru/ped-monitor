@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface IndicatorRepository extends CrudRepository<IndicatorEntity, Integer> {
 
   List<IndicatorEntity> findAllByPedId(int pedId);
+
+  void deleteAllByPedId(Integer pedId);
 }

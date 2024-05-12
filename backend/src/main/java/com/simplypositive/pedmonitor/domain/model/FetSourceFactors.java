@@ -3,10 +3,7 @@ package com.simplypositive.pedmonitor.domain.model;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +33,8 @@ public class FetSourceFactors {
     if (sourceFactors.isEmpty()) {
       return emptyList();
     }
-    return sourceFactors.keySet().stream().sorted().toList();
+    List<String> sortedKeys = new ArrayList<>(sourceFactors.keySet());
+    Collections.sort(sortedKeys);
+    return sortedKeys;
   }
 }

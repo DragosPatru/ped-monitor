@@ -14,7 +14,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
-function DefaultPedCard({ color, icon, title, description, action }) {
+function DefaultPedCard({ color, icon, title, description, action, deleteAction }) {
 	return (
 		<Card>
 			<MDBox display="flex" pt={1} px={2}>
@@ -55,11 +55,18 @@ function DefaultPedCard({ color, icon, title, description, action }) {
 						component={Link}
 						to={action.route}
 						variant="outlined"
-						size="small"
 						color={action.color}
+						size="small"
 					>
-						{action.label}
+						<Icon>open_in_new</Icon>&nbsp;{action.label}
 					</MDButton>
+					
+					{deleteAction && (
+					<MDBox>
+						<MDButton variant="outlined" color="error" onClick={deleteAction} size="small" >
+							<Icon>delete_outline_rounded</Icon>&nbsp;delete
+						</MDButton>
+					</MDBox>)}
 				</MDBox>
 
 			</MDBox>

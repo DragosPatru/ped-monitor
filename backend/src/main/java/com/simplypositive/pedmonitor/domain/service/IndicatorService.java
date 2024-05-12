@@ -43,4 +43,6 @@ public interface IndicatorService {
   IndicatorTask deleteTask(Integer taskId) throws ResourceNotFoundException;
 
   IndicatorTask updateTask(IndicatorTask task) throws ResourceNotFoundException;
+
+  void deleteAllForPed(Integer pedId);
 }

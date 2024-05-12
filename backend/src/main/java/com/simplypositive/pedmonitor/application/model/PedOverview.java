@@ -4,6 +4,7 @@ import com.simplypositive.pedmonitor.domain.model.AnnualReport;
 import com.simplypositive.pedmonitor.domain.model.AnnualValue;
 import com.simplypositive.pedmonitor.domain.model.IndicatorStats;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import lombok.*;
@@ -15,8 +16,8 @@ import lombok.*;
 @Builder
 public class PedOverview {
 
-  private double densityOfFocusDistrict;
-  private double builtUpDensity;
+  private BigDecimal densityOfFocusDistrict;
+  private BigDecimal builtUpDensity;
   private PedEntity ped;
   private AnnualReport lastYearReport;
   private Map<String, IndicatorStats> indicatorsStats;

@@ -59,4 +59,10 @@ public class PedController implements PedApi {
     PedOverview overview = pedDefinitionHandler.getOverview(pedId);
     return ok(overview);
   }
+
+  @Override
+  public ResponseEntity<?> deletePed(Integer pedId) throws ResourceNotFoundException {
+    pedDefinitionHandler.deletePed(pedId);
+    return ok().build();
+  }
 }

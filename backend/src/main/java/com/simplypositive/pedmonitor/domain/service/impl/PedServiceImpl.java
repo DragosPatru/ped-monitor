@@ -62,6 +62,12 @@ public class PedServiceImpl implements PedService {
         .orElseThrow(() -> new ResourceNotFoundException("PED not found", pedId));
   }
 
+  @Override
+  @Transactional
+  public void delete(Integer pedId) {
+    pedRepo.deleteById(pedId);
+  }
+
   private Sort.Order toOrder(Sorting sorting) {
     return Sort.Order.by(sorting.getField())
         .with(Sort.Direction.valueOf(sorting.getDirection().getValue()));

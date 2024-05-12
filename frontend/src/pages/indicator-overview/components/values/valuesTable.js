@@ -67,8 +67,8 @@ function ValuesTable({ indicatorId, allowDataChanges, dataSourceCodes, onError, 
 
   // Delete Modal
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const openDeleteModal = (task) => {
-    setValueToProcess(task);
+  const openDeleteModal = (value) => {
+    setValueToProcess(value);
     setDeleteModalOpen(true);
   };
 
