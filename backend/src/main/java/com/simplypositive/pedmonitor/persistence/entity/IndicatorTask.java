@@ -1,5 +1,7 @@
 package com.simplypositive.pedmonitor.persistence.entity;
 
+import static com.simplypositive.pedmonitor.utils.Numbers.fromDouble;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -69,7 +71,7 @@ public class IndicatorTask {
     } else {
       value = plannedBudget > 0 ? 100 : 0;
     }
-    return BigDecimal.valueOf(value).setScale(2, BigDecimal.ROUND_HALF_UP);
+    return fromDouble(value);
   }
 
   public void setExpense(double expense) {

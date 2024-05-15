@@ -4,6 +4,7 @@ import static java.time.Instant.now;
 
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.api.model.Sorting;
+import com.simplypositive.pedmonitor.application.model.PedUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.service.PedService;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
@@ -36,12 +37,18 @@ public class PedServiceImpl implements PedService {
   }
 
   @Override
-  public PedEntity updateFields(Integer pedId, String newName, String description)
+  public PedEntity updateFields(Integer pedId, PedUpdateRequest.PedExtras fields)
       throws ResourceNotFoundException {
     PedEntity ped =
         pedRepo.findById(pedId).orElseThrow(() -> new ResourceNotFoundException("PED", pedId));
-    ped.setName(newName);
-    ped.setDescription(description);
+    ped.setName(fields.getName());
+    ped.setDescription(fields.getDescription());
+
+    ped.setPeopleReached(fields.getPeopleReached());
+    ped.setInternalSuccessRate(fields.getInternalSuccessRate());
+    ped.setMoneySpent(fields.getMoneySpent());
+    ped.setReturnOfInvestment(ped.getReturnOfInvestment());
+
     return pedRepo.save(ped);
   }
 

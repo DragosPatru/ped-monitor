@@ -1,5 +1,8 @@
 package com.simplypositive.pedmonitor.application;
 
+import static com.simplypositive.pedmonitor.utils.Numbers.fromDouble;
+import static java.lang.Double.valueOf;
+
 import com.simplypositive.pedmonitor.application.model.PedDefinitionRequest;
 import com.simplypositive.pedmonitor.application.model.PedOverview;
 import com.simplypositive.pedmonitor.application.model.PedUpdateRequest;
@@ -48,37 +51,25 @@ public class PedDefinitionHandler {
   @Transactional
   public PedEntity updatePedDefinition(Integer pedId, PedUpdateRequest request)
       throws ResourceNotFoundException {
-    PedEntity ped = pedService.updateFields(pedId, request.getName(), request.getDescription());
+    PedEntity ped = pedService.updateFields(pedId, request.pedExtras());
     reportService.updateEnergySourceFactors(
         ped, request.getReferenceYear(), request.energySourceFactors());
     return ped;
   }
 
-  //  public PedDefinition create(PedDefinition pedDefinition) {
-  //    PositiveEnergyDistrict ped = pedService.create(pedDefinition.getPed());
-  //
-  //    pedDefinition
-  //        .getIndicators()
-  //        .forEach(
-  //            indicator -> {
-  //              indicator.setPedId(ped.getId());
-  //            });
-  //
-  //    List<SustainabilityIndicator> indicators =
-  //        indicatorService.createAll(pedDefinition.getIndicators());
-  //
-  //    return new PedDefinition(ped, indicators);
-  //  }
-
   public PedOverview getOverview(Integer pedId) throws ResourceNotFoundException {
     PedEntity ped = pedService.getById(pedId);
 
     BigDecimal densityOfFocusDistrict =
-        BigDecimal.valueOf(ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize())
-            .setScale(4, BigDecimal.ROUND_HALF_UP);
-    BigDecimal builtUpDensity =
-        BigDecimal.valueOf(ped.getBuildUpAreaSize() / ped.getFocusDistrictSize())
-            .setScale(4, BigDecimal.ROUND_HALF_UP);
+        fromDouble(ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize());
+    BigDecimal builtUpDensity = fromDouble(ped.getBuildUpAreaSize() / ped.getFocusDistrictSize());
+
+    BigDecimal rateOfPeopleReached = null;
+    if (ped.getPeopleReached() != null) {
+      var val =
+          (valueOf((ped.getPeopleReached())) / valueOf(ped.getFocusDistrictPopulation())) * 100;
+      rateOfPeopleReached = fromDouble(valueOf(val));
+    }
 
     Map<String, IndicatorStats> indicatorsOverview = new HashMap<>();
     indicatorService
@@ -109,6 +100,7 @@ public class PedDefinitionHandler {
     return PedOverview.builder()
         .builtUpDensity(builtUpDensity)
         .densityOfFocusDistrict(densityOfFocusDistrict)
+        .rateOfPeopleReached(rateOfPeopleReached)
         .ped(ped)
         .lastYearReport(annualReport)
         .indicatorsStats(indicatorsOverview)

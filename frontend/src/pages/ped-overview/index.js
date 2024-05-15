@@ -202,6 +202,23 @@ function PedOverview() {
                           </MDBox>
                         </Grid>
 
+                        {pedOverview.rateOfPeopleReached && (
+                        <Grid item xs={10} md={5}>
+                          <MDBox mb={1.5}>
+                            <ComplexStatisticsCard
+                              color="dark"
+                              icon="person_outline"
+                              title="Rate of people reached"
+                              count={pedOverview.rateOfPeopleReached + " %"}
+                              percentage={{
+                                color: "success",
+                                amount: "",
+                                label: "Percentage of population impacted",
+                              }}
+                            />
+                          </MDBox>
+                        </Grid>)}
+
                         <Grid item xs={10} md={5}>
                           <MDBox mb={1.5}>
                             <ComplexStatisticsCard
@@ -229,6 +246,22 @@ function PedOverview() {
                         <Detail label="AVG Household Income" textValue={pedOverview.ped.avgHouseholdIncome + " EUR"} />
                         <Detail label="Heating Degree Days" textValue={pedOverview.ped.heatingDegreeDays + "  days/year"} />
                         <Detail label="Cooling Degree Days" textValue={pedOverview.ped.coolingDegreeDays + " days/year"} />
+                      
+                        {pedOverview.ped.peopleReached && (
+                        <Detail label="People Reached" textValue={pedOverview.ped.peopleReached + ""} />
+                        )}
+
+                        {pedOverview.ped.moneySpent && (
+                        <Detail label="Money Spent" textValue={pedOverview.ped.moneySpent + " EUR"} />
+                        )}
+
+                        {pedOverview.ped.internalSuccessRate && (
+                        <Detail label="Internal Success Rate" textValue={pedOverview.ped.internalSuccessRate + " %"} />
+                        )}
+
+                        {pedOverview.ped.returnOfInvestment && (
+                        <Detail label="Return of Investment" textValue={pedOverview.ped.returnOfInvestment + " years"} />
+                        )}
                       </DetailsCard>
                     </Grid>
 
