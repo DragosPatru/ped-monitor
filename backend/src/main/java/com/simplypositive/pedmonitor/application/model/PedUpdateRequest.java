@@ -5,6 +5,7 @@ import static com.simplypositive.pedmonitor.utils.StringUtils.safeTrim;
 import com.simplypositive.pedmonitor.domain.model.EnergySourceFactors;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,11 @@ public class PedUpdateRequest {
   @NotEmpty private String name;
 
   private String description;
+
+  private Long peopleReached;
+  private Double internalSuccessRate;
+  private Double moneySpent;
+  private Double returnOfInvestment;
 
   // the year for which the factors and data-sources need to be updated
   @NotNull private Integer referenceYear;
@@ -40,5 +46,44 @@ public class PedUpdateRequest {
         .ghgEmissionFactorForHeathColdGeneratedSourceCode(
             safeTrim(ghgEmissionFactorForHeathColdGeneratedSourceCode))
         .build();
+  }
+
+  public PedExtras pedExtras() {
+    return PedExtras.builder()
+        .name(name)
+        .description(description)
+        .peopleReached(peopleReached)
+        .internalSuccessRate(internalSuccessRate)
+        .moneySpent(moneySpent)
+        .returnOfInvestment(returnOfInvestment)
+        .build();
+  }
+
+  @Getter
+  @Setter
+  @NoArgsConstructor
+  @Builder
+  public static class PedExtras {
+    private String name;
+    private String description;
+    private Long peopleReached;
+    private Double internalSuccessRate;
+    private Double moneySpent;
+    private Double returnOfInvestment;
+
+    public PedExtras(
+        String name,
+        String description,
+        Long peopleReached,
+        Double internalSuccessRate,
+        Double moneySpent,
+        Double returnOfInvestment) {
+      this.name = name;
+      this.description = description;
+      this.peopleReached = peopleReached;
+      this.internalSuccessRate = internalSuccessRate;
+      this.moneySpent = moneySpent;
+      this.returnOfInvestment = returnOfInvestment;
+    }
   }
 }

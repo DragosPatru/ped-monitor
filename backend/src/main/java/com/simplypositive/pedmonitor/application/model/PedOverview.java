@@ -18,6 +18,7 @@ public class PedOverview {
 
   private BigDecimal densityOfFocusDistrict;
   private BigDecimal builtUpDensity;
+  private BigDecimal rateOfPeopleReached;
   private PedEntity ped;
   private AnnualReport lastYearReport;
   private Map<String, IndicatorStats> indicatorsStats;

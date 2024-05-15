@@ -166,7 +166,7 @@ function TaskEditModal({ task, isOpen, onClose }) {
 
                             <Grid item xs={12} md={5.8} mt={2}>
                                 <MDInput
-                                    label="Record expense"
+                                    label="Record expense (EUR)"
                                     name="expense"
                                     type="number"
                                     value={basicFormState.expense.value}

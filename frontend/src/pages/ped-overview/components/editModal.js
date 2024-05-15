@@ -123,6 +123,66 @@ function EditModal({ pedOverview, isOpen, onClose }) {
                 />
               </Grid>
 
+              <Grid item xs={12} md={5.8} mt={1}>
+                <MDInput
+                  label="People reached (no.)"
+                  name="peopleReached"
+                  type="number"
+                  value={basicFormState.peopleReached.value}
+                  onChange={handleBasicInputChange}
+                  error={!basicFormState.peopleReached.isValid}
+                  helperText={!basicFormState.peopleReached.isValid ? "Value must be between 0 and " + pedOverview.ped.focusDistrictPopulation : ""}
+                  {...commonInputPropsNotRequired}
+                />
+              </Grid>
+
+              <Grid item xs={false} lg={0.4}>
+                <></>
+              </Grid>
+
+              <Grid item xs={12} md={5.8} mt={1}>
+                <MDInput
+                  label="Total Money Spent (EUR)"
+                  name="moneySpent"
+                  type="number"
+                  value={basicFormState.moneySpent.value}
+                  onChange={handleBasicInputChange}
+                  error={!basicFormState.moneySpent.isValid}
+                  helperText={!basicFormState.moneySpent.isValid ? "Value must greater than 0" : ""}
+                  {...commonInputPropsNotRequired}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={5.8} mt={1}>
+                <MDInput
+                  label="Return Of Investment (years)"
+                  name="returnOfInvestment"
+                  type="number"
+                  value={basicFormState.returnOfInvestment.value}
+                  onChange={handleBasicInputChange}
+                  error={!basicFormState.returnOfInvestment.isValid}
+                  helperText={!basicFormState.returnOfInvestment.isValid ? "Value must greater than 0" : ""}
+                  {...commonInputPropsNotRequired}
+                />
+              </Grid>
+
+              <Grid item xs={false} lg={0.4}>
+                <></>
+              </Grid>
+
+              <Grid item xs={12} md={5.8} mt={1}>
+                <MDInput
+                  label="Internal success rate (%)"
+                  name="internalSuccessRate"
+                  type="number"
+                  value={basicFormState.internalSuccessRate.value}
+                  onChange={handleBasicInputChange}
+                  error={!basicFormState.internalSuccessRate.isValid}
+                  helperText={!basicFormState.internalSuccessRate.isValid ? "Value must greater than 0" : ""}
+                  {...commonInputPropsNotRequired}
+                />
+              </Grid>
+
               <Grid item xs={12} >
                 <MDBox borderRadius="lg" mb={0} mt={2}>
                   <MDTypography variant="subtitle2" color="dark" fontWeight="bold" mb={2}>
@@ -253,6 +313,11 @@ const useEditablePedState = (pedOverview) => {
   const [formState, setFormState] = useState({
     name: { value: pedOverview.ped.name, isValid: true },
     description: { value: pedOverview.ped.description, isValid: true },
+    peopleReached: { value: pedOverview.ped.peopleReached, isValid: true },
+    internalSuccessRate: { value: pedOverview.ped.internalSuccessRate, isValid: true },
+    moneySpent: { value: pedOverview.ped.moneySpent, isValid: true },
+    returnOfInvestment: { value: pedOverview.ped.returnOfInvestment, isValid: true },
+
     referenceYear: { value: pedOverview.lastYearReport.year, isValid: true },
     primaryEnergyFactor: { value: pedOverview.lastYearReport.energySourceFactors.primaryEnergyFactor, isValid: true },
     ghgEmissionFactorElectricity: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricity, isValid: true },
@@ -275,6 +340,22 @@ const useEditablePedState = (pedOverview) => {
     if (name === 'description') {
       isValid = isEmpty || (value.length < 250);
     }
+
+    if (name === 'returnOfInvestment' || name === 'moneySpent'
+      || name === 'internalSuccessRate') {
+      if (!isEmpty) {
+        isValid = !isNaN(value) && (Number(value)) > 0;
+      }
+    }
+
+    if (name === 'peopleReached') {
+      if (!isEmpty) {
+        const isNumber = !isNaN(value);
+        isValid = isNumber && ((Number(value)) > 0) &&
+          ((Number(value)) <= Number(pedOverview.ped.focusDistrictPopulation));
+      }
+    }
+
 
     setFormState(prevState => ({
       ...prevState,

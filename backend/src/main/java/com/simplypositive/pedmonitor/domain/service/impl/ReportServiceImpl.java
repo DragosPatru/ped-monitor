@@ -144,6 +144,11 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
+  public Map<String, List<AnnualValue>> calculateKpis(List<IndicatorEntity> indicators) {
+    return null;
+  }
+
+  @Override
   @Transactional
   public void deleteAllForPed(Integer pedId) {
     annualReportRepo.deleteAllByPedId(pedId);

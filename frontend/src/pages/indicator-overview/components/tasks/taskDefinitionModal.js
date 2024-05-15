@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -26,7 +26,14 @@ const energyUnits = [
 ]
 
 function TaskDefinitionModal({ indicatorId, isOpen, onClose }) {
-    const [basicFormState, handleBasicInputChange] = useEditableState(indicatorId);
+    const [basicFormState, handleBasicInputChange, resetFormState] = useEditableState(indicatorId);
+
+    useEffect(() => {
+        if (isOpen) {
+            resetFormState();
+        }
+    }, [isOpen]);
+
 
     const closeMe = (triggerReload = false) => {
         closeMessageAlert();
@@ -210,7 +217,7 @@ TaskDefinitionModal.defaultProps = {
 };
 
 const useEditableState = (indicatorId) => {
-    const [formState, setFormState] = useState({
+    const initialState = {
         indicatorId: { value: indicatorId, isValid: true },
         name: { value: '', isValid: false },
         deadline: { value: '', isValid: false },
@@ -219,7 +226,9 @@ const useEditableState = (indicatorId) => {
         energySavedUnit: { value: '', isValid: true },
         expectedEnergySaved: { value: '', isValid: true },
         actualEnergySaved: { value: '', isValid: true }
-    });
+    };
+    
+    const [formState, setFormState] = useState(initialState);
 
     // Generalized input change handler
     const handleInputChange = (e) => {
@@ -262,7 +271,11 @@ const useEditableState = (indicatorId) => {
         }));
     };
 
-    return [formState, handleInputChange];
+    const resetFormState = () => {
+        setFormState(initialState);
+    };
+
+    return [formState, handleInputChange, resetFormState];
 };
 
 export default TaskDefinitionModal;

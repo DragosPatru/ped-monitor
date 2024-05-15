@@ -78,6 +78,12 @@ public class PedEntity {
   // total quantity of GHG emissions in baseline year
   private Double ghgEmissionsTotalInBaseline;
 
+  // Acceptance
+  private Long peopleReached;
+  private Double internalSuccessRate;
+  private Double moneySpent;
+  private Double returnOfInvestment;
+
   public PedEntity(
       Integer id,
       String name,
@@ -93,7 +99,11 @@ public class PedEntity {
       Integer baselineYear,
       Integer targetYear,
       Double percentSelfSupplyRenewableEnergyInBaseline,
-      Double ghgEmissionsTotalInBaseline) {
+      Double ghgEmissionsTotalInBaseline,
+      Long peopleReached,
+      Double internalSuccessRate,
+      Double moneySpent,
+      Double returnOfInvestment) {
     this.id = id;
     this.name = name;
     this.countryCode = countryCode;
@@ -109,5 +119,9 @@ public class PedEntity {
     this.targetYear = targetYear;
     this.percentSelfSupplyRenewableEnergyInBaseline = percentSelfSupplyRenewableEnergyInBaseline;
     this.ghgEmissionsTotalInBaseline = ghgEmissionsTotalInBaseline;
+    this.peopleReached = peopleReached;
+    this.internalSuccessRate = internalSuccessRate;
+    this.moneySpent = moneySpent;
+    this.returnOfInvestment = returnOfInvestment;
   }
 }

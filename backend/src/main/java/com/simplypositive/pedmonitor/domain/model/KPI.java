@@ -11,4 +11,8 @@ public class KPI {
 
   private double value = 0.0;
   private String code;
+
+  // isIndicator
+  // indicatorId
+  // si atunci am doar KPIs nu mai am indicator stats
 }
