@@ -114,14 +114,14 @@ export default function IndicatorsStats({ kpis, indicatorsStats }) {
                     rightMostText=""
                     description="">
 
-                    <Grid item xs={12} md={6} lg={4} pt={2}>
+                    {/* <Grid item xs={12} md={6} lg={4} pt={2}>
                         <MDBox mb={0}>
                             <KpiChart
                                 code="FET0"
                                 values={kpis["FET0"]}
                             />
                         </MDBox>
-                    </Grid>
+                    </Grid> */}
 
                     <MDBox ml={4} mr={4}>
                         {energyRelatedIndicators.sectionsFET.map((item, index) => (

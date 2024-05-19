@@ -1,6 +1,8 @@
 package com.simplypositive.pedmonitor.domain.service.impl;
 
+import static com.simplypositive.pedmonitor.domain.service.KPIs.*;
 import static com.simplypositive.pedmonitor.persistence.entity.ResourceStatus.DONE;
+import static com.simplypositive.pedmonitor.utils.Numbers.withScale;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
@@ -10,10 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simplypositive.pedmonitor.domain.exception.DataProcessingException;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.*;
-import com.simplypositive.pedmonitor.domain.service.DataSourceFactors;
-import com.simplypositive.pedmonitor.domain.service.IndicatorService;
-import com.simplypositive.pedmonitor.domain.service.KPIs;
-import com.simplypositive.pedmonitor.domain.service.ReportService;
+import com.simplypositive.pedmonitor.domain.service.*;
 import com.simplypositive.pedmonitor.persistence.entity.AnnualReportEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
@@ -21,16 +20,19 @@ import com.simplypositive.pedmonitor.persistence.repository.AnnualReportReposito
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.random.RandomGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ReportServiceImpl implements ReportService {
   private final AnnualReportRepository annualReportRepo;
   private final DataSourceFactors dataSourceFactors;
   private final KPIs kips;
   private final IndicatorService indicatorService;
+  private final FETSustainabilityCalculator fetCalculator;
+  private final RESSustainabilityCalculator resCalculator;
   private final ObjectMapper objectMapper;
 
   @Autowired
@@ -39,12 +41,16 @@ public class ReportServiceImpl implements ReportService {
       ObjectMapper objectMapper,
       DataSourceFactors dataSourceFactors,
       KPIs kips,
-      IndicatorService indicatorService) {
+      IndicatorService indicatorService,
+      FETSustainabilityCalculator fetCalculator,
+      RESSustainabilityCalculator resCalculator) {
     this.annualReportRepo = annualReportRepo;
     this.objectMapper = objectMapper;
     this.dataSourceFactors = dataSourceFactors;
     this.kips = kips;
     this.indicatorService = indicatorService;
+    this.fetCalculator = fetCalculator;
+    this.resCalculator = resCalculator;
   }
 
   @Override
@@ -118,29 +124,27 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
-  public Map<String, List<AnnualValue>> getKpis(PedEntity ped) {
+  public PedStats getKpis(PedEntity ped) {
     Map<String, List<AnnualValue>> kpisByYear = new HashMap<>();
-    List<IndicatorEntity> indicators = new ArrayList<>();
-
+    List<IndicatorEntity> indicators = indicatorService.getPedIndicators(ped.getId());
     int maxYear = Integer.max(LocalDate.now().getYear(), ped.getTargetYear());
     for (Integer year = ped.getBaselineYear(); year <= maxYear; year++) {
       firstReport(ped.getId(), year)
           .ifPresent(
               report -> {
-                addKpisMock(report, kpisByYear);
-                //        if (report.isCompleted()) {
-                //          addKpis(report, kpisByYear);
-                //
-                //        } else {
-                //          if (indicators.isEmpty()) {
-                //
-                // indicators.addAll(indicatorService.getPedIndicators(report.getPedId()));
-                //          }
-                //          computeKpis(report, indicators, kpisByYear);
-                //        }
+                if (report.isCompleted()) {
+                  addKpis(report, kpisByYear);
+
+                } else {
+                  computeKpis(report, indicators, kpisByYear);
+                }
               });
     }
-    return kpisByYear;
+
+    PedStats stats = PedStats.builder().kpisByYear(kpisByYear).build();
+    computeOverallStats(ped, stats);
+
+    return stats;
   }
 
   @Override
@@ -152,20 +156,6 @@ public class ReportServiceImpl implements ReportService {
   @Transactional
   public void deleteAllForPed(Integer pedId) {
     annualReportRepo.deleteAllByPedId(pedId);
-  }
-
-  private void addKpisMock(AnnualReport annualReport, Map<String, List<AnnualValue>> result) {
-    annualReport
-        .getKpis()
-        .forEach(
-            kpi -> {
-              List<AnnualValue> values = result.getOrDefault(kpi.getCode(), new ArrayList<>());
-              AnnualValue value =
-                  new AnnualValue(
-                      annualReport.getYear(), RandomGenerator.getDefault().nextDouble(10, 100));
-              values.add(value);
-              result.put(kpi.getCode(), values);
-            });
   }
 
   private void addKpis(AnnualReport annualReport, Map<String, List<AnnualValue>> result) {
@@ -180,16 +170,93 @@ public class ReportServiceImpl implements ReportService {
             });
   }
 
-  // TODO
   private void computeKpis(
       AnnualReport annualReport,
       List<IndicatorEntity> indicators,
       Map<String, List<AnnualValue>> result) {
-    List<KPI> kpis = annualReport.getKpis();
+
+    Map<String, AnnualValue> fetValues = computeFET(annualReport, indicators);
+    Map<String, AnnualValue> resValues = computeRES(annualReport, indicators);
+    Map<String, AnnualValue> selfEnergySupply =
+        selfEnergySupplyRate(annualReport, fetValues, resValues);
+
+    if (selfEnergySupply != null) {
+      mergeResults(selfEnergySupply, result);
+    }
+    mergeResults(fetValues, result);
+    mergeResults(resValues, result);
   }
 
-  private AnnualValue computeValue(Integer pedId, KPI kpi, Integer year) { // TODO : dummy for now
-    return new AnnualValue(year, RandomGenerator.getDefault().nextDouble(10, 100));
+  private Map<String, AnnualValue> computeFET(
+      AnnualReport annualReport, List<IndicatorEntity> indicators) {
+    return fetCalculator.compute(annualReport, indicators);
+  }
+
+  private Map<String, AnnualValue> computeRES(
+      AnnualReport annualReport, List<IndicatorEntity> indicators) {
+    return resCalculator.compute(annualReport, indicators);
+  }
+
+  private void computeOverallStats(PedEntity ped, PedStats stats) {
+    Map<String, AnnualValue> overallKPIs = new HashMap<>();
+
+    var overallRes = stats.kpiByCode(SS).isPresent();
+    var overallGhg = stats.kpiByCode(OVERALL_GHG).isPresent();
+
+    if (overallRes) {
+      List<AnnualValue> ssValues = stats.kpiByCode(SS).get();
+      AnnualValue maxValue = Collections.max(ssValues, Comparator.comparing(AnnualValue::getValue));
+      var result = withScale(Math.min(maxValue.getValue(), 100), 1);
+      stats.setOverallRes(result);
+    }
+
+    if (overallGhg) {
+      List<AnnualValue> values = stats.kpiByCode(GHG).get();
+      AnnualValue minValue = Collections.min(values, Comparator.comparing(AnnualValue::getValue));
+      var result = Math.max(minValue.getValue(), 0);
+      if (result > 0) {
+        result = (1 - result / ped.getGhgEmissionsTotalInBaseline()) * 100;
+
+      } else {
+        result = 100;
+      }
+
+      stats.setOverallGhg(withScale(result, 1));
+    }
+
+    if (stats.getOverallRes() != null && stats.getOverallGhg() != null) {
+      stats.setOverallResGhg(
+          withScale(
+              (stats.getOverallRes().doubleValue() + stats.getOverallGhg().doubleValue()) / 2, 2));
+    }
+  }
+
+  private Map<String, AnnualValue> selfEnergySupplyRate(
+      AnnualReport annualReport,
+      Map<String, AnnualValue> fetValues,
+      Map<String, AnnualValue> resValues) {
+    Map<String, AnnualValue> overallKPIs = new HashMap<>();
+    var overallSs = annualReport.kpiByCode(SS).isPresent();
+    if (overallSs) {
+      AnnualValue resValue = fetValues.get("RES0");
+      AnnualValue fetValue = resValues.get("FET0");
+      if (resValue != null && fetValue != null) {
+        var value = resValue.getValue() / fetValue.getValue() * 100;
+        overallKPIs.put(SS, new AnnualValue(annualReport.getYear(), value));
+        return overallKPIs;
+      }
+    }
+
+    return null;
+  }
+
+  private void mergeResults(
+      Map<String, AnnualValue> partialResult, Map<String, List<AnnualValue>> result) {
+    for (var key : partialResult.keySet()) {
+      List<AnnualValue> values = result.getOrDefault(key, new ArrayList<>());
+      values.add(partialResult.get(key));
+      result.put(key, values);
+    }
   }
 
   private List<AnnualReport> annualReportsSpecs(PedEntity ped, AnnualReportSpec request) {
@@ -215,7 +282,8 @@ public class ReportServiceImpl implements ReportService {
   private List<KPI> determineKpis(Set<String> indicators) {
     Set<String> values = new HashSet();
     for (String indicator : indicators) {
-      values.addAll(this.kips.kpisForIndicator(indicator));
+      values.addAll(kips.kpisForIndicator(indicator));
+      values.addAll(kips.overallKPIs(values));
     }
 
     return values.stream().map(v -> new KPI(0.0, v)).toList();

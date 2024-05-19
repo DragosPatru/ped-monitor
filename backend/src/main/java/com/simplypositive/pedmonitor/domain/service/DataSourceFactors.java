@@ -17,6 +17,9 @@ import org.springframework.util.ResourceUtils;
 @Service
 public class DataSourceFactors {
 
+  public static final String ELECTRICITY_CODE = "electricity";
+  public static final String LOCALLY_PRODUCED_HEAT_COLD_CODE = "locally_produced_heat_cold";
+
   private Wrapper dataSourceFactors;
 
   private final ObjectMapper objectMapper;

@@ -1,6 +1,10 @@
 package com.simplypositive.pedmonitor.domain.model;
 
+import static java.util.Optional.empty;
+
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import lombok.*;
 
 @Getter
@@ -17,4 +21,11 @@ public class AnnualReport {
   private FetSourceFactors fetSourceFactors;
   private List<KPI> kpis;
   private boolean isCompleted;
+
+  public Optional<KPI> kpiByCode(String code) {
+    if (kpis == null) {
+      return empty();
+    }
+    return kpis.stream().filter(kpi -> Objects.equals(code, kpi.getCode())).findFirst();
+  }
 }

@@ -1,6 +1,6 @@
 package com.simplypositive.pedmonitor.persistence.entity;
 
-import static com.simplypositive.pedmonitor.utils.Numbers.fromDouble;
+import static com.simplypositive.pedmonitor.utils.Numbers.withDefaultScale;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -71,7 +71,7 @@ public class IndicatorTask {
     } else {
       value = plannedBudget > 0 ? 100 : 0;
     }
-    return fromDouble(value);
+    return withDefaultScale(value);
   }
 
   public void setExpense(double expense) {

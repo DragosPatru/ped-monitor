@@ -199,6 +199,14 @@ public class IndicatorServiceImpl implements IndicatorService {
   }
 
   @Override
+  public List<IndicatorValue> getData(Integer indicatorId, Integer year) {
+    if (year == null || year <= 0) {
+      throw new IllegalArgumentException("year - must be greater than 0");
+    }
+    return valueRepository.findAllByIndicatorIdAndCreationYear(indicatorId, year);
+  }
+
+  @Override
   public List<IndicatorTask> getTasks(Integer indicatorId) {
     return taskRepository.findAllByIndicatorIdOrderByCreatedAtDesc(indicatorId);
   }
