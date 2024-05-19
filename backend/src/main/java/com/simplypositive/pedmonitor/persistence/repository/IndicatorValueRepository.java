@@ -10,6 +10,8 @@ public interface IndicatorValueRepository extends CrudRepository<IndicatorValue,
 
   List<IndicatorValue> findAllByIndicatorId(int indicatorId);
 
+  List<IndicatorValue> findAllByIndicatorIdAndCreationYear(int indicatorId, int creationYear);
+
   List<IndicatorValue> findAllByIndicatorIdOrderByCreatedAtDesc(int indicatorId);
 
   void deleteAllByIndicatorIdIn(List<Integer> indicatorIds);

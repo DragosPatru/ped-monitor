@@ -38,6 +38,8 @@ public interface IndicatorService {
 
   List<IndicatorValue> getData(Integer indicatorId);
 
+  List<IndicatorValue> getData(Integer indicatorId, Integer year);
+
   List<IndicatorTask> getTasks(Integer indicatorId);
 
   IndicatorTask deleteTask(Integer taskId) throws ResourceNotFoundException;

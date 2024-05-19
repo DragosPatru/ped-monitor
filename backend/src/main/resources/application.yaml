@@ -18,26 +18,40 @@ app:
       unit: kWh/a
       title: "Total district final energy consumption"
       categoryLabel: Energy
+      kpi: true
+      overallKPIS: "PET0"
+      greenHouseGasEmissionKPI: "FET0_GHG_"
       parent: "NONE"
     FET1:
       unit: kWh/a
       title: "Total final energy consumption: buildings, equipment/facilities and industries"
       categoryLabel: Energy
+      kpi: true
+      overallKPIS: "PET1"
+      greenHouseGasEmissionKPI: "FET1_GHG_"
       parent: "FET0"
     FET2:
       unit: kWh/a
       title: "Total final energy consumption: transport"
       categoryLabel: Energy
+      kpi: true
+      overallKPIS: "PET2"
+      greenHouseGasEmissionKPI: "FET2_GHG_"
       parent: "FET0"
     FET3:
       unit: kWh/a
       title: "Total final energy consumption: other sectors"
       categoryLabel: Energy
+      overallKPIS: "PET3"
+      greenHouseGasEmissionKPI: "FET3_GHG_"
+      kpi: true
       parent: "FET0"
     FET1_1:
       unit: kWh/a
       title: "Subtotal Municipal Final energy consumption"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET1_1_GHG_"
       parent: "FET1"
     FET1_1_1:
       unit: kWh/a
@@ -58,6 +72,8 @@ app:
       unit: kWh/a
       title: "Subtotal Tertiary (non-Municipal) Final energy consumption"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET1_2_GHG_"
       parent: "FET1"
     FET1_2_1:
       unit: kWh/a
@@ -73,11 +89,15 @@ app:
       unit: kWh/a
       title: "Energy consumption: residential buildings"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET1_3_GHG_"
       parent: "FET1"
     FET1_4:
       unit: kWh/a
       title: "Subtotal Industry Final energy consumption"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET1_4_GHG_"
       parent: "FET1"
     FET1_4_1:
       unit: kWh/a
@@ -93,6 +113,8 @@ app:
       unit: kWh/a
       title: "Subtotal Municipal Fleet energy consumption"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET2_1_GHG_"
       parent: "FET2"
     FET2_1_1:
       unit: kWh/a
@@ -108,6 +130,8 @@ app:
       unit: kWh/a
       title: "Subtotal Public transport energy consumption"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET2_2_GHG_"
       parent: "FET2"
     FET2_2_1:
       unit: kWh/a
@@ -133,6 +157,8 @@ app:
       unit: kWh/a
       title: "Subtotal Private and commercial transport energy consumption"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET2_3_GHG_"
       parent: "FET2"
     FET2_3_1:
       unit: kWh/a
@@ -163,11 +189,15 @@ app:
       unit: kWh/a
       title: "Energy consumption: Other type of transport"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET2_4_GHG_"
       parent: "FET2"
     FET3_1:
       unit: kWh/a
       title: "Subtotal other sectors energy consumption"
       categoryLabel: Energy
+      kpi: true
+      greenHouseGasEmissionKPI: "FET3_1_GHG_"
       parent: "FET3"
     FET3_1_1:
       unit: kWh/a
@@ -179,30 +209,37 @@ app:
       title: "Other not allocated"
       categoryLabel: Energy
       parent: "FET3_1"
+
     PET0:
       unit: kWh/a
       title: "Total district primary energy consumption"
       categoryLabel: Energy
+      kpi: true
       parent: "NONE"
     PET1:
       unit: kWh/a
       title: "Total primary energy consumption: buildings, equipment/facilities and industries"
       categoryLabel: Energy
+      kpi: true
       parent: "NONE"
     PET2:
       unit: kWh/a
       title: "Total primary energy consumption: transport"
       categoryLabel: Energy
+      kpi: true
       parent: "NONE"
     PET3:
       unit: kWh/a
       title: "Total primary energy consumption: other sectors"
       categoryLabel: Energy
+      kpi: true
       parent: "NONE"
+
     RES0:
       unit: kWh/a
       title: "RES generation"
       categoryLabel: Energy
+      kpi: true
       parent: "NONE"
     RES1:
       unit: kWh/a
@@ -234,12 +271,9 @@ app:
       unit: "%"
       title: "Degree of energetic self-supply by RES"
       categoryLabel: Energy
+      kpi: true
       parent: "NONE"
-    GHG0:
-      unit: tCO2eq/a
-      title: "Total amount of Greenhouse Gas Emissions"
-      categoryLabel: Environment
-      parent: "NONE"
+
     OVERALL_RES:
       unit: "%"
       title: "PED / PEN achievement rate for renewable energy"
@@ -249,9 +283,11 @@ app:
       unit: "%"
       title: "PED / PEN achievement rate for GHg emissions"
       categoryLabel: OVERALL_GHG
+      kpi: true
       parent: "NONE"
     OVERALL_GHG_RES:
       unit: "%"
       title: "PED / PEN achievement rate "
       categoryLabel: OVERALL_GHG_RES
+      kpi: true
       parent: "NONE"

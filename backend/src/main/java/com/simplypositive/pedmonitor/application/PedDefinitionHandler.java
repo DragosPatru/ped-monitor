@@ -1,6 +1,6 @@
 package com.simplypositive.pedmonitor.application;
 
-import static com.simplypositive.pedmonitor.utils.Numbers.fromDouble;
+import static com.simplypositive.pedmonitor.utils.Numbers.withDefaultScale;
 import static java.lang.Double.valueOf;
 
 import com.simplypositive.pedmonitor.application.model.PedDefinitionRequest;
@@ -61,14 +61,15 @@ public class PedDefinitionHandler {
     PedEntity ped = pedService.getById(pedId);
 
     BigDecimal densityOfFocusDistrict =
-        fromDouble(ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize());
-    BigDecimal builtUpDensity = fromDouble(ped.getBuildUpAreaSize() / ped.getFocusDistrictSize());
+        withDefaultScale(ped.getFocusDistrictPopulation() / ped.getFocusDistrictSize());
+    BigDecimal builtUpDensity =
+        withDefaultScale(ped.getBuildUpAreaSize() / ped.getFocusDistrictSize());
 
     BigDecimal rateOfPeopleReached = null;
     if (ped.getPeopleReached() != null) {
       var val =
           (valueOf((ped.getPeopleReached())) / valueOf(ped.getFocusDistrictPopulation())) * 100;
-      rateOfPeopleReached = fromDouble(valueOf(val));
+      rateOfPeopleReached = withDefaultScale(valueOf(val));
     }
 
     Map<String, IndicatorStats> indicatorsOverview = new HashMap<>();
@@ -78,22 +79,8 @@ public class PedDefinitionHandler {
             i -> {
               indicatorsOverview.put(i.getIndicator().getCode(), i);
             });
-    //    List<SustainabilityIndicatorOverview> indicatorOverviews =
-    //        indicators.stream()
-    //            .map(
-    //                indicator -> {
-    //                  try {
-    //                    return indicatorService.getProgress(indicator.getId());
-    //
-    //                  } catch (ResourceNotFoundException e) {
-    //                    throw new RuntimeException(e);
-    //                  }
-    //                })
-    //            .collect(Collectors.toList());
-    // TODO
 
-    Map<String, List<AnnualValue>> kpis = new HashMap<>();
-    kpis.put("FET0", List.of(new AnnualValue(2024, 10.11), new AnnualValue(2025, 20.11)));
+    PedStats pedStats = reportService.getKpis(ped);
 
     AnnualReport annualReport = reportService.lastYearReport(ped).orElse(null);
     reportService.getKpis(ped);
@@ -104,7 +91,10 @@ public class PedDefinitionHandler {
         .ped(ped)
         .lastYearReport(annualReport)
         .indicatorsStats(indicatorsOverview)
-        .kpis(kpis)
+        .kpis(pedStats.getKpisByYear())
+        .overallGhg(pedStats.getOverallGhg())
+        .overallResGhg(pedStats.getOverallResGhg())
+        .overallRes(pedStats.getOverallRes())
         .build();
   }
 

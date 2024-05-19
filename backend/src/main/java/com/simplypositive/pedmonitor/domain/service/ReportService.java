@@ -19,7 +19,7 @@ public interface ReportService {
 
   List<String> getDataSourceCodes(PedEntity ped, Integer year);
 
-  Map<String, List<AnnualValue>> getKpis(PedEntity ped);
+  PedStats getKpis(PedEntity ped);
 
   Map<String, List<AnnualValue>> calculateKpis(List<IndicatorEntity> indicators);
 
