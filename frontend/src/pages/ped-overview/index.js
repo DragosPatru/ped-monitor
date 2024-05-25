@@ -283,9 +283,9 @@ function PedOverview() {
                         <MDBox pl={1}>
                           <Grid container>
                             <Detail label="Factor for electricity" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricity + " (t CO2-eq/MWh)"} />
-                            <Detail label="Factor for electricity - source" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricitySourceCode} />
+                            <Detail label="Factor for electricity - source" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricitySource} />
                             <Detail label="Factor for heat/cold generated in the district" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGenerated + " (t CO2-eq/MWh)"} />
-                            <Detail label="Factor for heat/cold generated in the district - source" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSourceCode} />
+                            <Detail label="Factor for heat/cold generated in the district - source" textValue={pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSource} />
                           </Grid>
                         </MDBox>
                       </DetailsCard>

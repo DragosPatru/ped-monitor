@@ -42,7 +42,7 @@ public class KPIs {
     return result;
   }
 
-  public Set<String> kpisForIndicator(String indicator) {
+  public Set<String> kpiCodesForIndicator(String indicator) {
     Set<String> kpis = new HashSet<>();
     IndicatorMeta indicatorMeta = props.getMetaData(indicator);
     if (indicatorMeta != null) {
@@ -56,7 +56,7 @@ public class KPIs {
         }
       }
       if (indicatorMeta.hasParent()) {
-        kpis.addAll(kpisForIndicator(indicatorMeta.getParent()));
+        kpis.addAll(kpiCodesForIndicator(indicatorMeta.getParent()));
       }
     }
     return kpis;

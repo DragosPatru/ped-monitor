@@ -51,6 +51,7 @@ const indicatorsMap = new Map([
   ["PET3", createIndicator("kWh/a", "Total primary energy consumption: other sectors", "ENERGY")],
   
   ["RES0", createIndicator("kWh/a", "RES generation", "ENERGY")],
+  ["RESX", createIndicator("kWh/a", "Local electricity production", "ENERGY")],
   ["RES1", createIndicator("kWh/a", "Local electricity production: wind", "ENERGY")],
   ["RES2", createIndicator("kWh/a", "Local electricity production: hydroelectric", "ENERGY")],
   ["RES3", createIndicator("kWh/a", "Local electricity production: photovoltaics", "ENERGY")],

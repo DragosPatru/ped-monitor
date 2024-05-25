@@ -42,6 +42,7 @@ public class PedDefinitionHandler {
             AnnualReportSpec.builder()
                 .fetDataSources(request.getFetDataSources())
                 .energySourceFactors(request.energySourceFactors())
+                .resDataSources(request.getResDataSources())
                 .indicators(request.getIndicators())
                 .build());
     indicatorService.defineAll(request.getIndicators(), ped.getId());

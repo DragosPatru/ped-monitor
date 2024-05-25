@@ -21,15 +21,18 @@ import IndicatorService from "services/IndicatorService";
 import { commonInputProps } from "constants/component-properties"
 
 import dataSourceFactorsFET from "constants/data-source-factors-fet";
+import dataSourceFactorsRES from "constants/data-source-factors-res";
 
-function ValueCreateModal({ indicatorId, dataSourceCodes, isOpen, onClose }) {
-    const [basicFormState, handleBasicInputChange, resetFormState] = useEditableState(indicatorId);
-    const dataSources = createDataSources(dataSourceCodes);
+function ValueCreateModal({ indicatorId, dataSourceCodes, minTargetYear, maxTargetYear, isResIndicator, isOpen, onClose }) {
+    const [basicFormState, handleBasicInputChange, resetFormState] = useEditableState(indicatorId, minTargetYear, maxTargetYear);
+    const [dataSources, setDataSources] = useState([]);
 
     // Effect to reset form state when modal opens
     useEffect(() => {
         if (isOpen) {
             resetFormState();
+            const ds = createDataSources(dataSourceCodes, isResIndicator);
+            setDataSources(ds);
         }
     }, [isOpen]);
 
@@ -57,8 +60,6 @@ function ValueCreateModal({ indicatorId, dataSourceCodes, isOpen, onClose }) {
             }, {}),
         };
 
-        console.log("Sending data ...");
-        console.log(submissionData);
         try {
             openInfoAlert();
             const result = await IndicatorService.createValue(indicatorId, submissionData);
@@ -116,9 +117,9 @@ function ValueCreateModal({ indicatorId, dataSourceCodes, isOpen, onClose }) {
                     <Divider sx={{ my: 0 }} />
                     <MDBox pl={6} pr={6} pt={2} pb={2}>
                         <Grid container>
-                            <Grid item xs={12} lg={5.8} mt={1}>
+                            <Grid item xs={12} lg={5.8} mt={1.5}>
                                 <MDInput
-                                    label="Amount"
+                                    label="Amount (kWh/a)"
                                     name="amount"
                                     type="number"
                                     value={basicFormState.amount.value}
@@ -131,7 +132,7 @@ function ValueCreateModal({ indicatorId, dataSourceCodes, isOpen, onClose }) {
                             <Grid item xs={false} lg={0.4}>
                                 <></>
                             </Grid>
-                            <Grid item xs={12} lg={5.8} mt={1}>
+                            <Grid item xs={12} lg={5.8} mt={1.5}>
                                 <Dropdown
                                     name="dataSourceCode"
                                     label="Data source ..."
@@ -140,6 +141,22 @@ function ValueCreateModal({ indicatorId, dataSourceCodes, isOpen, onClose }) {
                                     valid={basicFormState.dataSourceCode.isValid}
                                     needValidation={true}
                                 />
+                            </Grid>
+
+                            <Grid item xs={12} lg={5.8} mt={1.5}>
+                                <MDInput
+                                    label="Creation Date"
+                                    name="createdAt"
+                                    type="date"
+                                    value={basicFormState.createdAt.value}
+                                    onChange={handleBasicInputChange}
+                                    error={!basicFormState.createdAt.isValid}
+                                    helperText={!basicFormState.createdAt.isValid ? "Year must be between '" + minTargetYear + "' and '" + maxTargetYear + "'" : ""}
+                                    {...commonInputProps}
+                                />
+                            </Grid>
+                            <Grid item xs="none" lg={0.4}>
+                                <></>
                             </Grid>
 
                             <Grid item xs={12} mt={1}>
@@ -166,13 +183,15 @@ function ValueCreateModal({ indicatorId, dataSourceCodes, isOpen, onClose }) {
 // Setting default props for the ProfileInfoCard
 ValueCreateModal.defaultProps = {
     isOpen: false,
+    isResIndicator: false
 };
 
-const useEditableState = (indicatorId) => {
+const useEditableState = (indicatorId, minTargetYear, maxTargetYear) => {
     const initialState = {
         indicatorId: { value: indicatorId, isValid: true },
         amount: { value: '', isValid: false },
-        dataSourceCode: { value: '', isValid: false }
+        dataSourceCode: { value: '', isValid: false },
+        createdAt: { value: '', isValid: false}
     };
     const [formState, setFormState] = useState(initialState);
 
@@ -189,6 +208,11 @@ const useEditableState = (indicatorId) => {
             isValid = !isNaN(value) && (Number(value)) > 0;
         }
 
+        if (name === 'createdAt') {
+            const date = new Date(value);
+            isValid = date.getFullYear() >= minTargetYear && date.getFullYear() <= maxTargetYear;
+        }
+
         setFormState(prevState => ({
             ...prevState,
             [name]: { value, isValid },
@@ -202,12 +226,16 @@ const useEditableState = (indicatorId) => {
     return [formState, handleInputChange, resetFormState];
 };
 
-function createDataSources(dataSourceCodes) {
+function createDataSources(dataSourceCodes, isResIndicator) {
+    let sourceCodesFactors = dataSourceFactorsFET;
+    if (isResIndicator === true) {
+        sourceCodesFactors = dataSourceFactorsRES;
+    }
+
     const dataSources = dataSourceCodes.map(code => {
-        const title = dataSourceFactorsFET.get(code) || code;
+        const title = sourceCodesFactors.get(code) || code;
         return { key: code, title: title };
     });
-
     return dataSources;
 }
 

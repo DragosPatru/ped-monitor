@@ -19,9 +19,9 @@ public class EnergySourceFactors {
 
   @NotNull private Double ghgEmissionFactorElectricity;
 
-  @NotEmpty private String ghgEmissionFactorElectricitySourceCode;
+  @NotEmpty private String ghgEmissionFactorElectricitySource;
 
   @NotNull private Double ghgEmissionFactorForHeathColdGenerated;
 
-  @NotEmpty private String ghgEmissionFactorForHeathColdGeneratedSourceCode;
+  @NotEmpty private String ghgEmissionFactorForHeathColdGeneratedSource;
 }

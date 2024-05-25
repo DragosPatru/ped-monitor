@@ -7,7 +7,8 @@ import com.simplypositive.pedmonitor.domain.service.IndicatorService;
 import com.simplypositive.pedmonitor.domain.service.PedService;
 import com.simplypositive.pedmonitor.domain.service.ReportService;
 import com.simplypositive.pedmonitor.persistence.entity.*;
-import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,10 +33,18 @@ public class IndicatorHandler {
     IndicatorEntity indicator = indicatorService.getById(indicatorId);
     PedEntity ped = pedService.getById(indicator.getPedId());
 
+    List<String> dataSourceCodes = Collections.emptyList();
+    // TODO: return by year
+    if (indicator.isRES()) {
+      dataSourceCodes = reportService.getResDataSourceCodes(ped, ped.getTargetYear());
+    } else {
+      dataSourceCodes = reportService.getFetDataSourceCodes(ped, ped.getTargetYear());
+    }
+
     builder
         .minTargetYear(ped.getBaselineYear())
         .maxTargetYear(ped.getTargetYear())
-        .dataSourceCodes(reportService.getDataSourceCodes(ped, LocalDate.now().getYear()))
+        .dataSourceCodes(dataSourceCodes)
         .indicator(indicator);
     return builder.build();
   }

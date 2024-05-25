@@ -30,11 +30,7 @@ public class IndicatorValue {
 
   @NotNull private Integer indicatorId;
 
-  private Instant createdAt = Instant.now();
-  private Integer creationYear = LocalDate.now().getYear();
+  private LocalDate createdAt = LocalDate.now();
+  private Integer creationYear;
 
-  @Transient
-  public LocalDate getCreationDate() {
-    return LocalDate.ofInstant(createdAt, ZoneOffset.UTC);
-  }
 }

@@ -22,7 +22,7 @@ import IndicatorService from "services/IndicatorService";
 // Data
 import { valuesTableRows, valuesTableColumns } from "./valuesTableData";
 
-function ValuesTable({ indicatorId, allowDataChanges, dataSourceCodes, onError, onAsyncOp, onAsyncOpEnd }) {
+function ValuesTable({ indicatorId, isResIndicator, allowDataChanges, dataSourceCodes, minTargetYear, maxTargetYear, onError }) {
   const [valueToProcess, setValueToProcess] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(Date.now());
   const [tableColumns, setTableColumns] = useState(valuesTableColumns);
@@ -104,7 +104,8 @@ function ValuesTable({ indicatorId, allowDataChanges, dataSourceCodes, onError, 
           <Icon>add</Icon>&nbsp;ADD NEW VALUE
         </MDButton>
 
-        <ValueCreateModal indicatorId={indicatorId} dataSourceCodes={dataSourceCodes} isOpen={createModalOpen} onClose={closeCreateModal} />
+        <ValueCreateModal indicatorId={indicatorId} isResIndicator={isResIndicator} dataSourceCodes={dataSourceCodes} minTargetYear={minTargetYear}
+                  maxTargetYear={maxTargetYear} isOpen={createModalOpen} onClose={closeCreateModal} />
         <ValueDeleteModal value={valueToProcess} isOpen={deleteModalOpen} onClose={closeDeleteModal} />
       </MDBox>
       <MDBox pt={3}>

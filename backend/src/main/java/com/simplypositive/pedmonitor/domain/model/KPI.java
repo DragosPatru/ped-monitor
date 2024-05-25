@@ -2,6 +2,7 @@ package com.simplypositive.pedmonitor.domain.model;
 
 import static com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta.*;
 
+import com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +15,6 @@ public class KPI {
   private double value = 0.0;
   private String code;
 
-  // isIndicator
-  // indicatorId
-  // si atunci am doar KPIs nu mai am indicator stats
   public boolean isGreenHouseEmissions() {
     return code.endsWith(GREEN_HOUSE_KPI_SUFFIX);
   }
@@ -29,10 +27,10 @@ public class KPI {
   }
 
   public boolean isFET() {
-    return code.startsWith(FET_PREFIX);
+    return IndicatorMeta.isFET(code);
   }
 
   public boolean isRES() {
-    return code.startsWith(RES_PREFIX);
+    return IndicatorMeta.isRES(code);
   }
 }

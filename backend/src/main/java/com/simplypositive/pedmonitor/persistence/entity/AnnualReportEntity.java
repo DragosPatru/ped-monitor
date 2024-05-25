@@ -27,6 +27,7 @@ public class AnnualReportEntity {
   @NotNull private Integer assignedYear;
 
   @Lob private Clob fetSourceFactorsJson;
+  @Lob private Clob resSourcesJson;
   @Lob private Clob energySourceFactorsJson;
   @Lob private Clob kpisJson;
 
@@ -38,6 +39,10 @@ public class AnnualReportEntity {
 
   public void setEnergySourceFactorsJson(String energySourceFactorsJson) {
     this.energySourceFactorsJson = generateProxy(energySourceFactorsJson);
+  }
+
+  public void setResSourcesJson(String resSourcesJson) {
+    this.resSourcesJson = generateProxy(resSourcesJson);
   }
 
   public void setKpisJson(String kpisJson) {
@@ -54,6 +59,10 @@ public class AnnualReportEntity {
 
   public String fetSourceFactorsJson() {
     return clobToString(fetSourceFactorsJson);
+  }
+
+  public String resSourcesJson() {
+    return clobToString(resSourcesJson);
   }
 
   private String clobToString(Clob data) {

@@ -2,6 +2,7 @@ package com.simplypositive.pedmonitor.persistence.entity;
 
 import static com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta.*;
 
+import com.simplypositive.pedmonitor.AppConfigurationProperties.IndicatorMeta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -60,10 +61,10 @@ public class IndicatorEntity {
   }
 
   public boolean isFET() {
-    return code.startsWith(FET_PREFIX);
+    return IndicatorMeta.isFET(this.code);
   }
 
   public boolean isRES() {
-    return code.startsWith(RES_PREFIX);
+    return IndicatorMeta.isRES(this.code);
   }
 }
