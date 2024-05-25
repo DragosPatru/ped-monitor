@@ -31,20 +31,20 @@ public class PedUpdateRequest {
 
   @NotNull private Double ghgEmissionFactorElectricity;
 
-  @NotEmpty private String ghgEmissionFactorElectricitySourceCode;
+  @NotEmpty private String ghgEmissionFactorElectricitySource;
 
   @NotNull private Double ghgEmissionFactorForHeathColdGenerated;
 
-  @NotEmpty private String ghgEmissionFactorForHeathColdGeneratedSourceCode;
+  @NotEmpty private String ghgEmissionFactorForHeathColdGeneratedSource;
 
   public EnergySourceFactors energySourceFactors() {
     return EnergySourceFactors.builder()
         .primaryEnergyFactor(primaryEnergyFactor)
         .ghgEmissionFactorElectricity(ghgEmissionFactorElectricity)
-        .ghgEmissionFactorElectricitySourceCode(safeTrim(ghgEmissionFactorElectricitySourceCode))
+        .ghgEmissionFactorElectricitySource(safeTrim(ghgEmissionFactorElectricitySource))
         .ghgEmissionFactorForHeathColdGenerated(ghgEmissionFactorForHeathColdGenerated)
-        .ghgEmissionFactorForHeathColdGeneratedSourceCode(
-            safeTrim(ghgEmissionFactorForHeathColdGeneratedSourceCode))
+        .ghgEmissionFactorForHeathColdGeneratedSource(
+            safeTrim(ghgEmissionFactorForHeathColdGeneratedSource))
         .build();
   }
 

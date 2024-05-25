@@ -241,29 +241,9 @@ app:
       categoryLabel: Energy
       kpi: true
       parent: "NONE"
-    RES1:
+    RESX:
       unit: kWh/a
-      title: "Local electricity production: wind"
-      categoryLabel: Energy
-      parent: "RES0"
-    RES2:
-      unit: kWh/a
-      title: "Local electricity production: hydroelectric"
-      categoryLabel: Energy
-      parent: "RES0"
-    RES3:
-      unit: kWh/a
-      title: "Local electricity production: photovoltaics"
-      categoryLabel: Energy
-      parent: "RES0"
-    RES4:
-      unit: kWh/a
-      title: "Local electricity production: geothermal"
-      categoryLabel: Energy
-      parent: "RES0"
-    RES5:
-      unit: kWh/a
-      title: "Local electricity production: other"
+      title: "Local electricity production"
       categoryLabel: Energy
       parent: "RES0"
 

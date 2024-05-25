@@ -5,6 +5,7 @@ import static java.util.Optional.empty;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import lombok.*;
 
 @Getter
@@ -19,6 +20,7 @@ public class AnnualReport {
   private Integer year;
   private EnergySourceFactors energySourceFactors;
   private FetSourceFactors fetSourceFactors;
+  private Set<String> resSources;
   private List<KPI> kpis;
   private boolean isCompleted;
 

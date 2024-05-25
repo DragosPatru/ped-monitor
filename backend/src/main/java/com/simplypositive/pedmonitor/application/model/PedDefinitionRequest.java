@@ -72,15 +72,17 @@ public class PedDefinitionRequest {
 
   @NotNull private Double ghgEmissionFactorElectricity;
 
-  @NotEmpty private String ghgEmissionFactorElectricitySourceCode;
+  @NotEmpty private String ghgEmissionFactorElectricitySource;
 
   @NotNull private Double ghgEmissionFactorForHeathColdGenerated;
 
-  @NotEmpty private String ghgEmissionFactorForHeathColdGeneratedSourceCode;
+  @NotEmpty private String ghgEmissionFactorForHeathColdGeneratedSource;
 
   @NotEmpty private Set<String> indicators;
 
   @NotEmpty private Set<String> fetDataSources;
+
+  private Set<String> resDataSources;
 
   public PedEntity pedData() {
     PedEntity ped =
@@ -106,10 +108,10 @@ public class PedDefinitionRequest {
     return EnergySourceFactors.builder()
         .primaryEnergyFactor(primaryEnergyFactor)
         .ghgEmissionFactorElectricity(ghgEmissionFactorElectricity)
-        .ghgEmissionFactorElectricitySourceCode(safeTrim(ghgEmissionFactorElectricitySourceCode))
+        .ghgEmissionFactorElectricitySource(safeTrim(ghgEmissionFactorElectricitySource))
         .ghgEmissionFactorForHeathColdGenerated(ghgEmissionFactorForHeathColdGenerated)
-        .ghgEmissionFactorForHeathColdGeneratedSourceCode(
-            safeTrim(ghgEmissionFactorForHeathColdGeneratedSourceCode))
+        .ghgEmissionFactorForHeathColdGeneratedSource(
+            safeTrim(ghgEmissionFactorForHeathColdGeneratedSource))
         .build();
   }
 }

@@ -166,7 +166,8 @@ function IndicatorOverview() {
                       </Grid>
 
                       <Grid item xs={12} mt={4}>
-                        <ValuesTable indicatorId={indicatorId} dataSourceCodes={indicatorOverview.dataSourceCodes} allowDataChanges={indicatorOverview.allowDataChanges} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></ValuesTable>
+                        <ValuesTable indicatorId={indicatorId} isResIndicator={indicatorOverview?.indicator?.res} dataSourceCodes={indicatorOverview.dataSourceCodes} minTargetYear={indicatorOverview?.minTargetYear}
+                  maxTargetYear={indicatorOverview?.maxTargetYear} allowDataChanges={indicatorOverview.allowDataChanges} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></ValuesTable>
                       </Grid>
 
                       <Grid item xs={12} mt={4}>

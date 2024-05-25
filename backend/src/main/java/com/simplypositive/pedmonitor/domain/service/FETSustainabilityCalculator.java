@@ -107,8 +107,8 @@ public class FETSustainabilityCalculator {
             if (stats.getKey() > 0) {
               fetKPIs.put(kpi.getCode(), new AnnualValue(annualReport.getYear(), stats.getKey()));
               fetKPIs.put(
-                      findGreenHouseEmissionsKpi(kpi.getCode(), kpis).get().getCode(),
-                      new AnnualValue(annualReport.getYear(), stats.getValue()));
+                  findGreenHouseEmissionsKpi(kpi.getCode(), kpis).get().getCode(),
+                  new AnnualValue(annualReport.getYear(), stats.getValue()));
             }
           }
         }
@@ -127,10 +127,10 @@ public class FETSustainabilityCalculator {
 
     for (var value : values) {
       double factor = 0.0;
-      if (value.getDataSourceCode().equals(ELECTRICITY_CODE)) {
-        factor = annualReport.getEnergySourceFactors().getPrimaryEnergyFactor();
+      if (ELECTRICITY_CODE.equalsIgnoreCase(value.getDataSourceCode())) {
+        factor = annualReport.getEnergySourceFactors().getGhgEmissionFactorElectricity();
 
-      } else if (value.getDataSourceCode().equals(LOCALLY_PRODUCED_HEAT_COLD_CODE)) {
+      } else if (LOCALLY_PRODUCED_HEAT_COLD_CODE.equalsIgnoreCase(value.getDataSourceCode())) {
         factor = annualReport.getEnergySourceFactors().getGhgEmissionFactorForHeathColdGenerated();
 
       } else {

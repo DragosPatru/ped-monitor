@@ -146,6 +146,9 @@ public class IndicatorServiceImpl implements IndicatorService {
     indicator.setTotalValue(indicator.getTotalValue() + value.getAmount());
     repository.save(indicator);
     value.setIndicatorId(indicatorId);
+    if (value.getCreatedAt() != null) {
+      value.setCreationYear(value.getCreatedAt().getYear());
+    }
     return valueRepository.save(value);
   }
 

@@ -67,7 +67,10 @@ public class ReportServiceImpl implements ReportService {
                 objectMapper.writeValueAsString(report.getEnergySourceFactors()));
             reportEntity.setFetSourceFactorsJson(
                 objectMapper.writeValueAsString(report.getFetSourceFactors()));
-
+            if (report.getResSources() != null) {
+              reportEntity.setResSourcesJson(
+                  objectMapper.writeValueAsString(report.getResSources()));
+            }
             reportEntity = annualReportRepo.save(reportEntity);
             report.setId(reportEntity.getId());
 
@@ -108,16 +111,26 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
-  public List<String> getDataSourceCodes(PedEntity ped, Integer year) {
+  public List<String> getFetDataSourceCodes(PedEntity ped, Integer year) {
     int lastYear = Integer.min(year, ped.getTargetYear());
     List<String> result = new ArrayList<>();
     Optional<AnnualReport> report = firstReport(ped.getId(), lastYear);
     if (report.isPresent()) {
       var sourceFactors = report.get().getFetSourceFactors();
-      var energySourceFactors = report.get().getEnergySourceFactors();
       result.addAll(sourceFactors.getDataSources());
-      result.add(energySourceFactors.getGhgEmissionFactorElectricitySourceCode());
-      result.add(energySourceFactors.getGhgEmissionFactorForHeathColdGeneratedSourceCode());
+      result = result.stream().sorted().toList();
+    }
+    return result;
+  }
+
+  @Override
+  public List<String> getResDataSourceCodes(PedEntity ped, Integer year) {
+    int lastYear = Integer.min(year, ped.getTargetYear());
+    List<String> result = new ArrayList<>();
+    Optional<AnnualReport> report = firstReport(ped.getId(), lastYear);
+    if (report.isPresent()) {
+      var sourceFactors = report.get().getResSources();
+      result.addAll(sourceFactors);
       result = result.stream().sorted().toList();
     }
     return result;
@@ -273,6 +286,7 @@ public class ReportServiceImpl implements ReportService {
               .kpis(kpis)
               .fetSourceFactors(fetSourceFactors)
               .energySourceFactors(energySourceFactors)
+              .resSources(request.getResDataSources())
               .build());
     }
 
@@ -282,7 +296,7 @@ public class ReportServiceImpl implements ReportService {
   private List<KPI> determineKpis(Set<String> indicators) {
     Set<String> values = new HashSet();
     for (String indicator : indicators) {
-      values.addAll(kips.kpisForIndicator(indicator));
+      values.addAll(kips.kpiCodesForIndicator(indicator));
       values.addAll(kips.overallKPIs(values));
     }
 
@@ -317,6 +331,12 @@ public class ReportServiceImpl implements ReportService {
       var energySourceFactors =
           objectMapper.readValue(entity.energySourceFactorsJson(), EnergySourceFactors.class);
       var kpis = objectMapper.readValue(entity.kpisJson(), new TypeReference<List<KPI>>() {});
+      Set<String> resSources = null;
+      if (entity.resSourcesJson() != null) {
+        resSources =
+            objectMapper.readValue(entity.resSourcesJson(), new TypeReference<Set<String>>() {});
+      }
+
       AnnualReport report =
           AnnualReport.builder()
               .id(entity.getId())
@@ -324,6 +344,7 @@ public class ReportServiceImpl implements ReportService {
               .year(entity.getAssignedYear())
               .fetSourceFactors(fetSourceFactors)
               .energySourceFactors(energySourceFactors)
+              .resSources(resSources)
               .isCompleted(DONE == entity.getStatus())
               .kpis(kpis)
               .build();

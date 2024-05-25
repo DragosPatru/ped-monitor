@@ -28,6 +28,9 @@ function DefinePed() {
     const [basicFormState, handleBasicInputChange] = useBasicState();
     const [selectedIndicators, setSelectedIndicators] = useState(new Set());
     const [selectedDataSources, setSelectedDataSources] = useState(new Set());
+    const [selectedResDataSources, setSelectedResDataSources] = useState(new Set());
+    // in case any of the RES data-sources is selected
+    const defaultRESIndicator = "RESX";
 
     const form = useRef();
     const navigate = useNavigate();
@@ -58,6 +61,20 @@ function DefinePed() {
         });
     };
 
+    const handleResDataSourceSelection = (event) => {
+        const { name, checked } = event.target;
+        setSelectedResDataSources(prev => {
+            const newSet = new Set(prev);
+            if (checked) {
+                newSet.add(name);
+            } else {
+                newSet.delete(name);
+            }
+            return newSet;
+        });
+    };
+
+
     const handleCountrySelect = (item) => {
         handleBasicInputChange({
             target: {
@@ -79,6 +96,11 @@ function DefinePed() {
             return;
         }
 
+        const indicators = Array.from(selectedIndicators);
+        if (selectedResDataSources.size > 0) {
+            indicators.push(defaultRESIndicator);
+        }
+
         const submissionData = {
             ...Object.keys(basicFormState).reduce((acc, key) => {
                 const value = basicFormState[key].value;
@@ -86,8 +108,9 @@ function DefinePed() {
                 acc[key] = Number.isFinite(+value) ? +value : value;
                 return acc;
             }, {}),
-            indicators: Array.from(selectedIndicators),
-            fetDataSources: Array.from(selectedDataSources)
+            indicators: indicators,
+            fetDataSources: Array.from(selectedDataSources),
+            resDataSources: Array.from(selectedResDataSources)
         };
 
         try {
@@ -367,12 +390,12 @@ function DefinePed() {
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
                                                     label="Factor for electricity - source"
-                                                    name="ghgEmissionFactorElectricitySourceCode"
+                                                    name="ghgEmissionFactorElectricitySource"
                                                     type="text"
-                                                    value={basicFormState.ghgEmissionFactorElectricitySourceCode.value}
+                                                    value={basicFormState.ghgEmissionFactorElectricitySource.value}
                                                     onChange={handleBasicInputChange}
-                                                    error={!basicFormState.ghgEmissionFactorElectricitySourceCode.isValid}
-                                                    helperText={!basicFormState.ghgEmissionFactorElectricitySourceCode.isValid ? "Value required" : ""}
+                                                    error={!basicFormState.ghgEmissionFactorElectricitySource.isValid}
+                                                    helperText={!basicFormState.ghgEmissionFactorElectricitySource.isValid ? "Value required" : ""}
                                                     {...commonInputProps}
                                                 />
                                             </Grid>
@@ -391,19 +414,19 @@ function DefinePed() {
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
                                                     label="Factor for heat/cold generated in the district - source"
-                                                    name="ghgEmissionFactorForHeathColdGeneratedSourceCode"
+                                                    name="ghgEmissionFactorForHeathColdGeneratedSource"
                                                     type="text"
-                                                    value={basicFormState.ghgEmissionFactorForHeathColdGeneratedSourceCode.value}
+                                                    value={basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.value}
                                                     onChange={handleBasicInputChange}
-                                                    error={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSourceCode.isValid}
-                                                    helperText={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSourceCode.isValid ? "Value required" : ""}
+                                                    error={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.isValid}
+                                                    helperText={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.isValid ? "Value required" : ""}
                                                     {...commonInputProps}
                                                 />
                                             </Grid>
 
                                             {/* Indicators */}
                                             <Grid item xs={12}>
-                                                <IndicatorsForm handleIndicatorSelection={handleIndicatorSelection} handleDataSourceSelection={handleDataSourceSelection} />
+                                                <IndicatorsForm handleIndicatorSelection={handleIndicatorSelection} handleFetDataSourceSelection={handleDataSourceSelection} handleResDataSourceSelection={handleResDataSourceSelection} />
                                             </Grid>
 
 

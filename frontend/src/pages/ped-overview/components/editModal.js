@@ -235,12 +235,12 @@ function EditModal({ pedOverview, isOpen, onClose }) {
                 <Grid item xs={12} mt={1}>
                   <MDInput
                     label="Data-source"
-                    name="ghgEmissionFactorElectricitySourceCode"
+                    name="ghgEmissionFactorElectricitySource"
                     type="text"
-                    value={basicFormState.ghgEmissionFactorElectricitySourceCode.value}
+                    value={basicFormState.ghgEmissionFactorElectricitySource.value}
                     onChange={handleBasicInputChange}
-                    error={!basicFormState.ghgEmissionFactorElectricitySourceCode.isValid}
-                    helperText={!basicFormState.ghgEmissionFactorElectricitySourceCode.isValid ? "Value required" : ""}
+                    error={!basicFormState.ghgEmissionFactorElectricitySource.isValid}
+                    helperText={!basicFormState.ghgEmissionFactorElectricitySource.isValid ? "Value required" : ""}
                     {...commonInputProps}
                   />
                 </Grid>
@@ -271,12 +271,12 @@ function EditModal({ pedOverview, isOpen, onClose }) {
                 <Grid item xs={12} mt={1}>
                   <MDInput
                     label="Data-source"
-                    name="ghgEmissionFactorForHeathColdGeneratedSourceCode"
+                    name="ghgEmissionFactorForHeathColdGeneratedSource"
                     type="text"
-                    value={basicFormState.ghgEmissionFactorForHeathColdGeneratedSourceCode.value}
+                    value={basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.value}
                     onChange={handleBasicInputChange}
-                    error={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSourceCode.isValid}
-                    helperText={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSourceCode.isValid ? "Value required" : ""}
+                    error={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.isValid}
+                    helperText={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.isValid ? "Value required" : ""}
                     {...commonInputProps}
                   />
                 </Grid>
@@ -321,9 +321,9 @@ const useEditablePedState = (pedOverview) => {
     referenceYear: { value: pedOverview.lastYearReport.year, isValid: true },
     primaryEnergyFactor: { value: pedOverview.lastYearReport.energySourceFactors.primaryEnergyFactor, isValid: true },
     ghgEmissionFactorElectricity: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricity, isValid: true },
-    ghgEmissionFactorElectricitySourceCode: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricitySourceCode, isValid: true },
+    ghgEmissionFactorElectricitySource: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricitySource, isValid: true },
     ghgEmissionFactorForHeathColdGenerated: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGenerated, isValid: true },
-    ghgEmissionFactorForHeathColdGeneratedSourceCode: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSourceCode, isValid: true }
+    ghgEmissionFactorForHeathColdGeneratedSource: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSource, isValid: true }
   });
 
   // Generalized input change handler

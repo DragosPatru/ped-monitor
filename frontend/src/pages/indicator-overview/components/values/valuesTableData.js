@@ -12,7 +12,7 @@ export const valuesTableRows = (values) => {
         id: value.id,
         dataSource: dataSourceFactorsFET.get(value.dataSourceCode) || value.dataSourceCode,
         amount: value.amount,
-        created: value.creationDate,
+        created: value.createdAt,
         action: value,
     }))) : [];
 
@@ -21,7 +21,7 @@ export const valuesTableRows = (values) => {
 
 export const valuesTableColumns = [
     { Header: "dataSource", accessor: "dataSource", width: "45%", align: "left" },
-    { Header: "amount", accessor: "amount", align: "left" },
+    { Header: "amount (kWh/a)", accessor: "amount", align: "left" },
     { Header: "created", accessor: "created", align: "left" },
     {
         Header: "action", accessor: "action", align: "center", Cell: ({ cell: { value } }) => (

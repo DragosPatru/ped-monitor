@@ -10,9 +10,14 @@ import Grid from "@mui/material/Grid";
 import energyRelatedIndicators from 'constants/indicators-sections';
 import indicatorsMap from 'constants/indicators-map';
 import dataSourceFactorsFET from 'constants/data-source-factors-fet';
+import dataSourceFactorsRES from 'constants/data-source-factors-res';
 
 const dataSourceFactorsListFET = Array.from(dataSourceFactorsFET).map(([key, value]) => {
     return { key, title: value }; // Transform into an array of objects
+});
+
+const dataSourcesRES = Array.from(dataSourceFactorsRES).map(([key, value]) => {
+    return { key, title: value };
 });
 
 function IndicatorSection({ section, sectionKey, itemNamePrefix, onIndicatorChange }) {
@@ -102,7 +107,37 @@ function DataSourceFactorsFET({ itemNamePrefix, onDataSourceChange }) {
     );
 }
 
-export default function IndicatorsForm({ handleIndicatorSelection, handleDataSourceSelection }) {
+function DataSourcesRES({ itemNamePrefix, onDataSourceChange }) {
+    const renderChildNode = (item) => {
+        return (
+                <FormControlLabel key={itemNamePrefix + item.key}
+                    control={<Checkbox name={item.key} onChange={onDataSourceChange} />}
+                    label={"Local electricity production:" + item.title}
+                    sx={{
+                        '& .MuiFormControlLabel-label': {
+                            fontWeight: 'fontWeightRegular',
+                            color: 'text.main'
+                        }
+                    }}
+                />
+        );
+    };
+
+    return (
+        <CollapsableRow
+            title="RES generation"
+            titleFontWeight="regular"
+            rightMostText=""
+            description=""
+            key="res-source-section-collapsable" >
+            <FormGroup sx={{ paddingLeft: '1rem' }}>
+            {dataSourcesRES.map(renderChildNode)}
+            </FormGroup>
+        </CollapsableRow>
+    );
+}
+
+export default function IndicatorsForm({ handleIndicatorSelection, handleFetDataSourceSelection, handleResDataSourceSelection }) {
     return (
         <MDBox
             //bgColor="grey-100"
@@ -125,7 +160,7 @@ export default function IndicatorsForm({ handleIndicatorSelection, handleDataSou
                 <FormControl component="fieldset" variant="outlined"
                     sx={{ width: "100%" }}>
                     <MDBox ml={2} mr={2}>
-                        <DataSourceFactorsFET itemNamePrefix="data-source-" onDataSourceChange={handleDataSourceSelection} />
+                        <DataSourceFactorsFET itemNamePrefix="data-source-" onDataSourceChange={handleFetDataSourceSelection} />
                     </MDBox>
 
                     <MDBox ml={2} mr={2} mt={4}>
@@ -141,9 +176,12 @@ export default function IndicatorsForm({ handleIndicatorSelection, handleDataSou
                             <IndicatorSection key={"fet-group-" + index} section={item} sectionKey={"fet-group-" + index} itemNamePrefix={"indicator-"} onIndicatorChange={handleIndicatorSelection} />
                         ))}
 
-                        {energyRelatedIndicators.sectionsRES.map((item, index) => (
+                        {/* {energyRelatedIndicators.sectionsRES.map((item, index) => (
                             <IndicatorSection key={"res-group-" + index} section={item} sectionKey={"res-group-" + index} itemNamePrefix={"indicator-"} onIndicatorChange={handleIndicatorSelection} />
-                        ))}
+                        ))} */}
+
+                        <DataSourcesRES itemNamePrefix="data-source-res-" onDataSourceChange={handleResDataSourceSelection} />
+                        
                     </MDBox>
 
                 </FormControl>

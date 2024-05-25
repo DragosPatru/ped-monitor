@@ -13,4 +13,5 @@ public class AnnualReportSpec {
   private Set<String> indicators;
   private EnergySourceFactors energySourceFactors;
   private Set<String> fetDataSources;
+  private Set<String> resDataSources;
 }

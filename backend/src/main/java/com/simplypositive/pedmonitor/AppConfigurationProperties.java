@@ -1,12 +1,13 @@
 package com.simplypositive.pedmonitor;
 
+import static org.springframework.util.StringUtils.hasText;
+
 import java.util.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.util.StringUtils;
 
 @ConfigurationProperties(prefix = "app")
 @Getter
@@ -44,11 +45,21 @@ public class AppConfigurationProperties {
     }
 
     public boolean hasGreenHouseEmissionKPI() {
-      return StringUtils.hasText(greenHouseGasEmissionKPI);
+      return hasText(greenHouseGasEmissionKPI);
     }
 
     public boolean hasOverallKPIs() {
       return overallKPIS != null && !overallKPIS.isEmpty();
     }
+
+    public static boolean isFET(String code) {
+      return hasText(code) && code.startsWith(FET_PREFIX);
+    }
+
+    public static boolean isRES(String code) {
+      return hasText(code) && code.startsWith(RES_PREFIX);
+    }
   }
+
+  public static class DataSource {}
 }

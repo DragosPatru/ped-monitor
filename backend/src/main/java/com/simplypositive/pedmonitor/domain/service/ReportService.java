@@ -17,7 +17,9 @@ public interface ReportService {
 
   Optional<AnnualReport> lastYearReport(PedEntity ped);
 
-  List<String> getDataSourceCodes(PedEntity ped, Integer year);
+  List<String> getFetDataSourceCodes(PedEntity ped, Integer year);
+
+  List<String> getResDataSourceCodes(PedEntity ped, Integer year);
 
   PedStats getKpis(PedEntity ped);
 

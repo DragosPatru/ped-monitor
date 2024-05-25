@@ -20,9 +20,9 @@ const useBasicState = () => {
       ghgEmissionsTotalInBaseline: { value: '', isValid: false },
 
       ghgEmissionFactorElectricity: { value: '', isValid: false },
-      ghgEmissionFactorElectricitySourceCode: { value: '', isValid: false },
+      ghgEmissionFactorElectricitySource: { value: '', isValid: false },
       ghgEmissionFactorForHeathColdGenerated: { value: '', isValid: false },
-      ghgEmissionFactorForHeathColdGeneratedSourceCode: { value: '', isValid: false }
+      ghgEmissionFactorForHeathColdGeneratedSource: { value: '', isValid: false }
 
     });
 
