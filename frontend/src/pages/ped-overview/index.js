@@ -24,6 +24,7 @@ import DetailsCard from "./components/detailsCard";
 import Detail from "./components/detail";
 import EditModal from "./components/editModal";
 import IndicatorsStats from "./components/indicatorsStats";
+import IndicatorsStatsGhg from "./components/indicatorsStatsGhg";
 import EnergySourcesModal from "./components/energySourcesModal";
 
 // service
@@ -300,7 +301,10 @@ function PedOverview() {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <IndicatorsStats kpis={pedOverview.kpis} indicatorsStats={pedOverview.indicatorsStats} />
+                      <DetailsCard title="PED Indicators" description={" "} shadow={true}>
+                        <IndicatorsStats kpis={pedOverview.kpis} indicatorsStats={pedOverview.indicatorsStats} />
+                        <IndicatorsStatsGhg kpis={pedOverview.kpis}/>
+                      </DetailsCard>
                     </Grid>
 
 

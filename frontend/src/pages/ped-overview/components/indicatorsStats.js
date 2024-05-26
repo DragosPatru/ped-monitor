@@ -106,7 +106,7 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
 
 export default function IndicatorsStats({ kpis, indicatorsStats }) {
     return (
-        <DetailsCard title="PED Indicators" description={"Demo description for this section"} shadow={true}>
+        
             <Grid item xs={12} pl={2} pr={2}>
                 <CollapsableRow
                     title={energyRelatedIndicators.title}
@@ -136,6 +136,6 @@ export default function IndicatorsStats({ kpis, indicatorsStats }) {
                 </CollapsableRow>
             </Grid>
 
-        </DetailsCard>
+        
     );
 }
