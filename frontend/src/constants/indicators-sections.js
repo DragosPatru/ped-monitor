@@ -56,6 +56,7 @@ const energyRelatedIndicators = {
             title: "Transport",
             hasSubsections: true,
             kpis:["FET2"],
+            kpisGhg:["FET2_GHG_"],
             subsections: [
                 {
                     key: "municipal_fleet",

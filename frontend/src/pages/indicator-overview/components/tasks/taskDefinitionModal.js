@@ -59,8 +59,6 @@ function TaskDefinitionModal({ indicatorId, isOpen, onClose }) {
             }, {}),
         };
 
-        console.log("Sending data ...");
-        console.log(submissionData);
         try {
             openInfoAlert();
 
@@ -246,7 +244,6 @@ const useEditableState = (indicatorId) => {
         }
 
         if (formState.energySavedUnit !== '') {
-            console.log("energySavedUnit - not empty");
             if (formState.expectedEnergySaved === '') {
                 setFormState(prevState => ({
                     ...prevState,
@@ -256,7 +253,6 @@ const useEditableState = (indicatorId) => {
         }
 
         if (name === 'expectedEnergySaved') {
-            console.log("expectedEnergySaved - completed");
             if (formState.energySavedUnit === '' && !isEmpty) {
                 setFormState(prevState => ({
                     ...prevState,

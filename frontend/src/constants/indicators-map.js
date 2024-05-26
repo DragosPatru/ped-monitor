@@ -66,7 +66,22 @@ const indicatorsMap = new Map([
   ["A3", createIndicator("%", "Success rate", "ACCEPTANCE")],
   
   ["E1", createIndicator("€", "Money spent", "ECONOMIC")],
-  ["E2", createIndicator("years", "Return on investment", "ECONOMIC")]
+  ["E2", createIndicator("years", "Return on investment", "ECONOMIC")],
+
+
+  ["FET0_GHG_", createIndicator("kWh/a", "Total district final energy consumption", "ENVIRONMENT", "NONE", "District energy consumption")],
+  ["FET1_GHG_", createIndicator("kWh/a", "Total final energy consumption: buildings, equipment/facilities and industries", "ENVIRONMENT", "NONE", "Energy consumption")],
+  ["FET2_GHG_", createIndicator("kWh/a", "Total final energy consumption: transport", "ENVIRONMENT", "NONE", "Energy consumption")],
+  ["FET3_GHG_", createIndicator("kWh/a", "Total final energy consumption: other sectors", "ENVIRONMENT", "NONE", "Energy consumption")],
+  ["FET1_1_GHG_", createIndicator("kWh/a", "Subtotal Municipal Final energy consumption", "ENVIRONMENT", "FET1_GHG_", "Energy consumption")],
+  ["FET1_2_GHG_", createIndicator("kWh/a", "Subtotal Tertiary (non-Municipal) Final energy consumption", "ENVIRONMENT", "FET1_GHG_", "Energy consumption" )],
+  ["FET1_3_GHG_", createIndicator("kWh/a", "Energy consumption: residential buildings", "ENVIRONMENT", "FET1_GHG_", "Energy consumption")],
+  ["FET1_4_GHG_", createIndicator("kWh/a", "Subtotal Industry Final energy consumption", "ENVIRONMENT", "FET1_GHG_", "Energy consumption")],
+  ["FET2_1_GHG_", createIndicator("kWh/a", "Subtotal Municipal Fleet energy consumption", "ENVIRONMENT", "FET2_GHG_", "Energy consumption")],
+  ["FET2_2_GHG_", createIndicator("kWh/a", "Subtotal Public transport energy consumption", "ENVIRONMENT", "FET2_GHG_", "Energy consumption")],
+  ["FET2_3_GHG_", createIndicator("kWh/a", "Subtotal Private and commercial transport energy consumption", "ENVIRONMENT", "FET2_GHG_", "Energy consumption")],
+  ["FET2_4_GHG_", createIndicator("kWh/a", "Energy consumption: Other type of transport", "ENVIRONMENT", "FET2_GHG_", "Energy consumption")],
+  ["FET3_1_GHG_", createIndicator("kWh/a", "Subtotal other sectors energy consumption", "ENVIRONMENT", "FET3_GHG_", "Energy consumption")]
 
 ]);
 

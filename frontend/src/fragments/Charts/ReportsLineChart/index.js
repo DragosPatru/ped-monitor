@@ -55,8 +55,9 @@ ChartJS.register(
   Filler
 );
 
-function ReportsLineChart({ color, title, description, date, chart, shadow }) {
+function ReportsLineChart({ color, title, titleVariant, italicText, description, date, chart, shadow }) {
   const { data, options } = configs(chart.labels || [], chart.datasets || {});
+  const fontStyle = italicText === true ? 'italic' : 'normal';
 
   return (
     <Card sx={{ height: "100%" , boxShadow: !shadow && "none" }}>
@@ -78,8 +79,8 @@ function ReportsLineChart({ color, title, description, date, chart, shadow }) {
           ),
           [chart, color]
         )}
-        <MDBox pt={3} pb={0} px={0}>
-          <MDTypography variant="h6" textTransform="capitalize">
+        <MDBox pt={2} pb={0} px={0} sx={{ fontStyle: fontStyle }}>
+          <MDTypography variant={titleVariant} textTransform="capitalize">
             {title}
           </MDTypography>
           <MDTypography component="div" variant="button" color="text" fontWeight="light">
@@ -106,6 +107,8 @@ function ReportsLineChart({ color, title, description, date, chart, shadow }) {
 ReportsLineChart.defaultProps = {
   color: "info",
   description: "",
+  titleVariant: "h6",
+  italicText: false
 };
 
 // Typechecking props for the ReportsLineChart
