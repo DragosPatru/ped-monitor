@@ -1,5 +1,5 @@
 // @mui material components
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 

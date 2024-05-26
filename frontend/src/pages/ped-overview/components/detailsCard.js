@@ -10,8 +10,8 @@ import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function DetailsCard({ title, description, children, shadow }) {
-  const hasDescription = description.length > 0;
+function DetailsCard({ title, description, children, shadow, button }) {
+  const hasDescription = description && (description.length > 0);
 
   return (
     <Card sx={{ height: "100%", boxShadow: !shadow && "none" }}>
@@ -19,6 +19,9 @@ function DetailsCard({ title, description, children, shadow }) {
         <MDTypography variant="h6" fontWeight="medium" textTransform="capitalize">
           {title}
         </MDTypography>
+
+        {button}
+      
       </MDBox>
       <MDBox p={2} sx={{ width: "100%" }}>
         {hasDescription ? (
@@ -51,7 +54,7 @@ DetailsCard.defaultProps = {
 // Typechecking props for the DetailsCard
 DetailsCard.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   shadow: PropTypes.bool,
 };
 

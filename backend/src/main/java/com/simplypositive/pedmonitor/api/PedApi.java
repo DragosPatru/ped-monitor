@@ -6,6 +6,7 @@ import com.simplypositive.pedmonitor.api.model.SearchResult;
 import com.simplypositive.pedmonitor.application.model.PedDefinitionRequest;
 import com.simplypositive.pedmonitor.application.model.PedOverview;
 import com.simplypositive.pedmonitor.application.model.PedUpdateRequest;
+import com.simplypositive.pedmonitor.application.model.SourceFactorsHistory;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.PedDefinition;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
@@ -38,4 +39,8 @@ public interface PedApi {
 
   @DeleteMapping(value = "/{pedId}", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<?> deletePed(@PathVariable Integer pedId) throws ResourceNotFoundException;
+
+  @GetMapping(value = "/{pedId}/factors/history", produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<SourceFactorsHistory> getSourceFactorsHistory(@PathVariable Integer pedId)
+      throws ResourceNotFoundException;
 }

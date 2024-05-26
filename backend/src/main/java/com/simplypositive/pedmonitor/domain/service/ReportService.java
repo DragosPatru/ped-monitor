@@ -21,6 +21,8 @@ public interface ReportService {
 
   List<String> getResDataSourceCodes(PedEntity ped, Integer year);
 
+  List<EnergySourceFactors> getEnergySourceFactors(Integer pedId);
+
   PedStats getKpis(PedEntity ped);
 
   Map<String, List<AnnualValue>> calculateKpis(List<IndicatorEntity> indicators);

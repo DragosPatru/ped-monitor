@@ -8,5 +8,7 @@ public interface AnnualReportRepository extends CrudRepository<AnnualReportEntit
 
   List<AnnualReportEntity> findAllByPedIdAndAssignedYear(Integer pedId, Integer assignedYear);
 
+  List<AnnualReportEntity> findAllByPedId(Integer pedId);
+
   void deleteAllByPedId(Integer pedId);
 }
