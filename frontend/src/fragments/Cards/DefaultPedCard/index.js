@@ -60,13 +60,13 @@ function DefaultPedCard({ color, icon, title, description, action, deleteAction 
 					>
 						<Icon>open_in_new</Icon>&nbsp;{action.label}
 					</MDButton>
-					
+
 					{deleteAction && (
-					<MDBox>
-						<MDButton variant="outlined" color="error" onClick={deleteAction} size="small" >
-							<Icon>delete_outline_rounded</Icon>&nbsp;delete
-						</MDButton>
-					</MDBox>)}
+						<MDBox>
+							<MDButton variant="outlined" color="error" onClick={deleteAction} size="small" >
+								<Icon>delete_outline_rounded</Icon>&nbsp;delete
+							</MDButton>
+						</MDBox>)}
 				</MDBox>
 
 			</MDBox>

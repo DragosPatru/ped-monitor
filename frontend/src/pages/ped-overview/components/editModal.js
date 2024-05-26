@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -20,12 +20,18 @@ import PedService from "services/PedService";
 import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties"
 
 function EditModal({ pedOverview, isOpen, onClose }) {
-  const [basicFormState, handleBasicInputChange] = useEditablePedState(pedOverview);
+  const [basicFormState, handleBasicInputChange, resetFormState] = useEditablePedState(pedOverview);
 
   const closeMe = (triggerReload = false) => {
     closeMessageAlert();
     onClose(triggerReload);
   }
+  // Effect to reset form state when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      resetFormState();
+    }
+  }, [isOpen]);
 
   const saveData = async (e) => {
     e.preventDefault();
@@ -40,8 +46,10 @@ function EditModal({ pedOverview, isOpen, onClose }) {
     const submissionData = {
       ...Object.keys(basicFormState).reduce((acc, key) => {
         const value = basicFormState[key].value;
-        // Convert to number if possible, otherwise keep as original
-        acc[key] = Number.isFinite(+value) ? +value : value;
+        if (value) {
+          // Convert to number if possible, otherwise keep as original
+          acc[key] = Number.isFinite(+value) ? +value : value;
+        }
         return acc;
       }, {}),
     };
@@ -128,7 +136,7 @@ function EditModal({ pedOverview, isOpen, onClose }) {
                   label="People reached (no.)"
                   name="peopleReached"
                   type="number"
-                  value={basicFormState.peopleReached.value}
+                  value={basicFormState.peopleReached?.value}
                   onChange={handleBasicInputChange}
                   error={!basicFormState.peopleReached.isValid}
                   helperText={!basicFormState.peopleReached.isValid ? "Value must be between 0 and " + pedOverview.ped.focusDistrictPopulation : ""}
@@ -145,7 +153,7 @@ function EditModal({ pedOverview, isOpen, onClose }) {
                   label="Total Money Spent (EUR)"
                   name="moneySpent"
                   type="number"
-                  value={basicFormState.moneySpent.value}
+                  value={basicFormState.moneySpent?.value}
                   onChange={handleBasicInputChange}
                   error={!basicFormState.moneySpent.isValid}
                   helperText={!basicFormState.moneySpent.isValid ? "Value must greater than 0" : ""}
@@ -158,7 +166,7 @@ function EditModal({ pedOverview, isOpen, onClose }) {
                   label="Return Of Investment (years)"
                   name="returnOfInvestment"
                   type="number"
-                  value={basicFormState.returnOfInvestment.value}
+                  value={basicFormState.returnOfInvestment?.value}
                   onChange={handleBasicInputChange}
                   error={!basicFormState.returnOfInvestment.isValid}
                   helperText={!basicFormState.returnOfInvestment.isValid ? "Value must greater than 0" : ""}
@@ -175,7 +183,7 @@ function EditModal({ pedOverview, isOpen, onClose }) {
                   label="Internal success rate (%)"
                   name="internalSuccessRate"
                   type="number"
-                  value={basicFormState.internalSuccessRate.value}
+                  value={basicFormState.internalSuccessRate?.value}
                   onChange={handleBasicInputChange}
                   error={!basicFormState.internalSuccessRate.isValid}
                   helperText={!basicFormState.internalSuccessRate.isValid ? "Value must greater than 0" : ""}
@@ -186,12 +194,25 @@ function EditModal({ pedOverview, isOpen, onClose }) {
               <Grid item xs={12} >
                 <MDBox borderRadius="lg" mb={0} mt={2}>
                   <MDTypography variant="subtitle2" color="dark" fontWeight="bold" mb={2}>
-                    Factors and data-sources for the current year
+                    Factors and data-sources for the reference year
                   </MDTypography>
                 </MDBox>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={5.8}>
+                <MDInput
+                  label="Reference Year"
+                  name="referenceYear"
+                  type="number"
+                  value={basicFormState.referenceYear.value}
+                  onChange={handleBasicInputChange}
+                  error={!basicFormState.referenceYear.isValid}
+                  helperText={!basicFormState.referenceYear.isValid ? "Year must be between '" + pedOverview?.ped?.baselineYear + "' and '" + pedOverview?.ped?.targetYear + "'" : ""}
+                  {...commonInputProps}
+                />
+              </Grid>
+
+              <Grid item xs={12} mt={2}>
                 <MDInput
                   label="Primary Energy Factor"
                   name="primaryEnergyFactor"
@@ -310,7 +331,7 @@ EditModal.defaultProps = {
 };
 
 const useEditablePedState = (pedOverview) => {
-  const [formState, setFormState] = useState({
+  const initialState = {
     name: { value: pedOverview.ped.name, isValid: true },
     description: { value: pedOverview.ped.description, isValid: true },
     peopleReached: { value: pedOverview.ped.peopleReached, isValid: true },
@@ -324,7 +345,8 @@ const useEditablePedState = (pedOverview) => {
     ghgEmissionFactorElectricitySource: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorElectricitySource, isValid: true },
     ghgEmissionFactorForHeathColdGenerated: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGenerated, isValid: true },
     ghgEmissionFactorForHeathColdGeneratedSource: { value: pedOverview.lastYearReport.energySourceFactors.ghgEmissionFactorForHeathColdGeneratedSource, isValid: true }
-  });
+  };
+  const [formState, setFormState] = useState(initialState);
 
   // Generalized input change handler
   const handleInputChange = (e) => {
@@ -332,6 +354,10 @@ const useEditablePedState = (pedOverview) => {
 
     let isValid = true;
     let isEmpty = value.trim() === '' ? true : false;
+
+    if (name === 'referenceYear') {
+      isValid = !isNaN(value) && (Number(value)) >= pedOverview.ped.baselineYear && (Number(value)) <= pedOverview.ped.targetYear;
+    }
 
     if (name === 'name') {
       isValid = !isEmpty && (value.length < 250);
@@ -363,7 +389,11 @@ const useEditablePedState = (pedOverview) => {
     }));
   };
 
-  return [formState, handleInputChange];
+  const resetFormState = () => {
+    setFormState(initialState);
+  };
+
+  return [formState, handleInputChange, resetFormState];
 };
 
 export default EditModal;

@@ -58,6 +58,17 @@ class PedService {
       throw error;
     }
   };
+
+  getSourceFactorsHistory = async (id) => {
+    try {
+      const endpoint = PEDS_BASE_PATH + '/' + id + '/factors/history';
+      return await HttpService.get(endpoint);
+
+    } catch (error) {
+      console.error("Error getting source factors history for PED:" + id, error);
+      throw error;
+    }
+  };
 }
 
 export default new PedService();

@@ -20,6 +20,7 @@ import com.simplypositive.pedmonitor.persistence.repository.AnnualReportReposito
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,6 +135,18 @@ public class ReportServiceImpl implements ReportService {
       result = result.stream().sorted().toList();
     }
     return result;
+  }
+
+  @Override
+  public List<EnergySourceFactors> getEnergySourceFactors(Integer pedId) {
+    return annualReportRepo.findAllByPedId(pedId).stream()
+        .map(
+            e -> {
+              EnergySourceFactors energySourceFactors = fromEntity(e).getEnergySourceFactors();
+              energySourceFactors.setReportingYear(e.getAssignedYear());
+              return energySourceFactors;
+            })
+        .collect(Collectors.toList());
   }
 
   @Override

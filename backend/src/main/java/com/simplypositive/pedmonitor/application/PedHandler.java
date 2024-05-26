@@ -6,6 +6,7 @@ import static java.lang.Double.valueOf;
 import com.simplypositive.pedmonitor.application.model.PedDefinitionRequest;
 import com.simplypositive.pedmonitor.application.model.PedOverview;
 import com.simplypositive.pedmonitor.application.model.PedUpdateRequest;
+import com.simplypositive.pedmonitor.application.model.SourceFactorsHistory;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.*;
 import com.simplypositive.pedmonitor.domain.service.*;
@@ -13,11 +14,12 @@ import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PedDefinitionHandler {
+public class PedHandler {
 
   private final PedService pedService;
   private final IndicatorService indicatorService;
@@ -25,7 +27,7 @@ public class PedDefinitionHandler {
   private final ReportService reportService;
 
   @Autowired
-  public PedDefinitionHandler(
+  public PedHandler(
       PedService pedService, IndicatorService indicatorService, ReportService reportService) {
     this.pedService = pedService;
     this.indicatorService = indicatorService;
@@ -107,5 +109,16 @@ public class PedDefinitionHandler {
     reportService.deleteAllForPed(pedId);
     indicatorService.deleteAllForPed(pedId);
     pedService.delete(pedId);
+  }
+
+  public SourceFactorsHistory sourceFactorsHistory(Integer pedId) {
+    SourceFactorsHistory sfh = new SourceFactorsHistory();
+    List<EnergySourceFactors> energySourceFactors = new ArrayList<>();
+    energySourceFactors =
+        reportService.getEnergySourceFactors(pedId).stream()
+            .sorted(Comparator.comparing(EnergySourceFactors::getReportingYear))
+            .collect(Collectors.toList());
+    sfh.setEnergySourceFactors(energySourceFactors);
+    return sfh;
   }
 }

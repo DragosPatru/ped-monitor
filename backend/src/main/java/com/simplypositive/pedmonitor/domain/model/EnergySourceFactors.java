@@ -13,7 +13,7 @@ import lombok.Setter;
 @Builder
 public class EnergySourceFactors {
 
-  private Integer reportingYearId;
+  private Integer reportingYear;
 
   @NotNull private Double primaryEnergyFactor;
 

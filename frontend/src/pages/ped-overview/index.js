@@ -24,6 +24,7 @@ import DetailsCard from "./components/detailsCard";
 import Detail from "./components/detail";
 import EditModal from "./components/editModal";
 import IndicatorsStats from "./components/indicatorsStats";
+import EnergySourcesModal from "./components/energySourcesModal";
 
 // service
 import PedService from "services/PedService";
@@ -44,7 +45,11 @@ function PedOverview() {
       window.location.reload(false)
     }
   }
-  
+
+  const [energySourcesModalOpen, setEnergySourcesModalOpen] = useState(false);
+  const openEnergySourcesModal = () => setEnergySourcesModalOpen(true);
+  const closeEnergySourcesModal = () => setEnergySourcesModalOpen(false);
+
   useEffect(() => {
     const fetchData = async () => {
       openBackdrop();
@@ -157,7 +162,7 @@ function PedOverview() {
                     </MDButton>)}
 
                   <EditModal pedOverview={pedOverview} isOpen={editModalOpen} onClose={closeEditModal} />
-
+                  <EnergySourcesModal pedId={pedId} isOpen={energySourcesModalOpen} onClose={closeEnergySourcesModal} />
                 </MDBox>
 
                 <MDBox mt={3} mb={3} p={2}>
@@ -203,21 +208,21 @@ function PedOverview() {
                         </Grid>
 
                         {pedOverview.rateOfPeopleReached && (
-                        <Grid item xs={10} md={5}>
-                          <MDBox mb={1.5}>
-                            <ComplexStatisticsCard
-                              color="dark"
-                              icon="person_outline"
-                              title="Rate of people reached"
-                              count={pedOverview.rateOfPeopleReached + " %"}
-                              percentage={{
-                                color: "success",
-                                amount: "",
-                                label: "Percentage of population impacted",
-                              }}
-                            />
-                          </MDBox>
-                        </Grid>)}
+                          <Grid item xs={10} md={5}>
+                            <MDBox mb={1.5}>
+                              <ComplexStatisticsCard
+                                color="dark"
+                                icon="person_outline"
+                                title="Rate of people reached"
+                                count={pedOverview.rateOfPeopleReached + " %"}
+                                percentage={{
+                                  color: "success",
+                                  amount: "",
+                                  label: "Percentage of population impacted",
+                                }}
+                              />
+                            </MDBox>
+                          </Grid>)}
 
                         <Grid item xs={10} md={5}>
                           <MDBox mb={1.5}>
@@ -246,22 +251,22 @@ function PedOverview() {
                         <Detail label="AVG Household Income" textValue={pedOverview.ped.avgHouseholdIncome + " EUR"} />
                         <Detail label="Heating Degree Days" textValue={pedOverview.ped.heatingDegreeDays + "  days/year"} />
                         <Detail label="Cooling Degree Days" textValue={pedOverview.ped.coolingDegreeDays + " days/year"} />
-                      
-                        {pedOverview.ped.peopleReached && (
-                        <Detail label="People Reached" textValue={pedOverview.ped.peopleReached + ""} />
+
+                        {pedOverview.ped.peopleReached !== null && (
+                          <Detail label="People Reached" textValue={pedOverview.ped.peopleReached + ""} />
                         )}
 
-                        {pedOverview.ped.moneySpent && (
-                        <Detail label="Money Spent" textValue={pedOverview.ped.moneySpent + " EUR"} />
+                        {pedOverview.ped.moneySpent !== null && (
+                          <Detail label="Money Spent" textValue={pedOverview.ped.moneySpent + " EUR"} />
                         )}
 
-                        {pedOverview.ped.internalSuccessRate && (
-                        <Detail label="Internal Success Rate" textValue={pedOverview.ped.internalSuccessRate + " %"} />
+                        {pedOverview.ped.internalSuccessRate !== null && (
+                          <Detail label="Internal Success Rate" textValue={pedOverview.ped.internalSuccessRate + " %"} />
                         )}
 
-                        {pedOverview.ped.returnOfInvestment && (
-                        <Detail label="Return of Investment" textValue={pedOverview.ped.returnOfInvestment + " years"} />
-                        )}
+                        {pedOverview.ped.returnOfInvestment !== null ? (
+                          <Detail label="Return of Investment" textValue={pedOverview.ped.returnOfInvestment + " years"} />
+                        ) : (<></>)}
                       </DetailsCard>
                     </Grid>
 
@@ -269,9 +274,12 @@ function PedOverview() {
                   <Divider />
                   </Grid> */}
 
-
+                    
                     <Grid item xs={12} md={6}>
-                      <DetailsCard title="Frequently changed factors" description={"Values for the year '" + pedOverview.lastYearReport.year + "'. They can be updated every year between baseline and target."} shadow={true}>
+                      <DetailsCard title="Frequently changed factors" description={"Values for the year '" + pedOverview.lastYearReport.year + "'. They can be updated every year between baseline and target."} shadow={true}
+                        button={<MDButton variant="text" color="secondary" size="large" onClick={openEnergySourcesModal}>
+                          <Icon>open_in_new</Icon>&nbsp;All values
+                        </MDButton>}>
                         <Detail label="Primary Energy Factor" textValue={pedOverview.lastYearReport.energySourceFactors.primaryEnergyFactor + ""} />
 
                         <MDBox borderRadius="lg" mb={0} mt={1}>
@@ -292,7 +300,7 @@ function PedOverview() {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <IndicatorsStats kpis={pedOverview.kpis} indicatorsStats={pedOverview.indicatorsStats}/>
+                      <IndicatorsStats kpis={pedOverview.kpis} indicatorsStats={pedOverview.indicatorsStats} />
                     </Grid>
 
 

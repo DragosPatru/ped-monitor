@@ -4,10 +4,11 @@ import static org.springframework.http.ResponseEntity.ok;
 
 import com.simplypositive.pedmonitor.api.model.SearchCriteria;
 import com.simplypositive.pedmonitor.api.model.SearchResult;
-import com.simplypositive.pedmonitor.application.PedDefinitionHandler;
+import com.simplypositive.pedmonitor.application.PedHandler;
 import com.simplypositive.pedmonitor.application.model.PedDefinitionRequest;
 import com.simplypositive.pedmonitor.application.model.PedOverview;
 import com.simplypositive.pedmonitor.application.model.PedUpdateRequest;
+import com.simplypositive.pedmonitor.application.model.SourceFactorsHistory;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.PedDefinition;
 import com.simplypositive.pedmonitor.domain.service.PedService;
@@ -25,23 +26,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class PedController implements PedApi {
 
   private final PedService pedService;
-  private final PedDefinitionHandler pedDefinitionHandler;
+  private final PedHandler pedHandler;
 
   @Autowired
-  public PedController(PedService pedService, PedDefinitionHandler pedDefinitionHandler) {
+  public PedController(PedService pedService, PedHandler pedHandler) {
     this.pedService = pedService;
-    this.pedDefinitionHandler = pedDefinitionHandler;
+    this.pedHandler = pedHandler;
   }
 
   @Override
   public ResponseEntity<PedDefinition> create(PedDefinitionRequest request) {
-    return ok(pedDefinitionHandler.createPedDefinition(request));
+    return ok(pedHandler.createPedDefinition(request));
   }
 
   @Override
   public ResponseEntity<PedEntity> update(Integer pedId, PedUpdateRequest updateRequest) {
     try {
-      return ok(pedDefinitionHandler.updatePedDefinition(pedId, updateRequest));
+      return ok(pedHandler.updatePedDefinition(pedId, updateRequest));
 
     } catch (ResourceNotFoundException e) {
       return ResponseEntity.internalServerError().build();
@@ -56,13 +57,19 @@ public class PedController implements PedApi {
 
   @Override
   public ResponseEntity<PedOverview> getOverview(Integer pedId) throws ResourceNotFoundException {
-    PedOverview overview = pedDefinitionHandler.getOverview(pedId);
+    PedOverview overview = pedHandler.getOverview(pedId);
     return ok(overview);
   }
 
   @Override
   public ResponseEntity<?> deletePed(Integer pedId) throws ResourceNotFoundException {
-    pedDefinitionHandler.deletePed(pedId);
+    pedHandler.deletePed(pedId);
     return ok().build();
+  }
+
+  @Override
+  public ResponseEntity<SourceFactorsHistory> getSourceFactorsHistory(Integer pedId)
+      throws ResourceNotFoundException {
+    return ok(pedHandler.sourceFactorsHistory(pedId));
   }
 }
