@@ -1,6 +1,6 @@
 const energyRelatedIndicators = {
     title: "Energy Related",
-    kpis:["FET0", "PET0"],
+    kpis:["FET0", "SS", "PET0"],
     kpisGhg:["FET0_GHG_"],
     sectionsFET: [
         {
