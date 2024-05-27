@@ -44,11 +44,6 @@ function configs(labels, datasets, cutout = 60) {
       animation: {
         duration: 0 // disable Y axis animation
       },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
       interaction: {
         intersect: false,
         mode: "index",
@@ -63,7 +58,7 @@ function configs(labels, datasets, cutout = 60) {
         },
         tooltip: {
           enabled: false
-        }
+        },
       },
       interaction: {
         intersect: false,
@@ -71,7 +66,7 @@ function configs(labels, datasets, cutout = 60) {
       },
 
       // custom
-      cutout: '85%',
+      cutout: '70%',
       circumference: 180,
       rotation: 270,
       aspectRatio: 2,

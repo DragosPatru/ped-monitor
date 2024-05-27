@@ -18,10 +18,30 @@ import MDTypography from "components/MDTypography";
 // GaugeChart configurations
 import configs from "fragments/Charts/GaugeChart/configs";
 
+import colors from "assets/theme/base/colors";
+const { dark } = colors;
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function GaugeChart({ icon, title, description, height, chart }) {
   const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.cutout);
+
+  // custom plugin
+  const gaugeChartText = {
+    id: 'gaugeChartText',
+    afterDatasetsDraw(chart, args, pluginOptions) {
+      const {ctx, data, chartArea: {top, bottom, left, right, width, height}, scales: {r} } = chart;
+      ctx.save();
+      const xCoor = chart.getDatasetMeta(0).data[0].x;
+      const yCoor = chart.getDatasetMeta(0).data[0].y;
+      ctx.fillStyle = dark.main;
+      ctx.textAllign = 'center';
+      ctx.font = '2rem sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(data.datasets[0].data[0] + '%', xCoor, yCoor);
+    }
+  };
 
   const renderChart = (
     <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
@@ -53,7 +73,7 @@ function GaugeChart({ icon, title, description, height, chart }) {
       {useMemo(
         () => (
           <MDBox height={height}>
-            <Doughnut data={data} options={options} redraw />
+            <Doughnut data={data} options={options} plugins={[gaugeChartText]} redraw />
           </MDBox>
         ),
         [chart, height]
@@ -89,6 +109,7 @@ GaugeChart.propTypes = {
       "error",
       "light",
       "dark",
+      "grey-100"
     ]),
     component: PropTypes.node,
   }),
