@@ -237,11 +237,11 @@ public class ReportServiceImpl implements ReportService {
         AnnualValue fetValue = fetValues.get(fetKpiCode);
         if (fetValue != null) {
           petStats.put(
-                  petKpiCode,
-                  new AnnualValue(
-                          year,
-                          fetValue.getValue()
-                                  * annualReport.getEnergySourceFactors().getPrimaryEnergyFactor()));
+              petKpiCode,
+              new AnnualValue(
+                  year,
+                  fetValue.getValue()
+                      * annualReport.getEnergySourceFactors().getPrimaryEnergyFactor()));
         }
       }
     }
@@ -250,7 +250,7 @@ public class ReportServiceImpl implements ReportService {
 
   private void computeOverallStats(PedEntity ped, PedStats stats) {
     var overallRes = stats.kpiByCode(SS).isPresent();
-    var overallGhg = stats.kpiByCode(OVERALL_GHG).isPresent();
+    var overallGhg = stats.kpiByCode(GHG).isPresent();
 
     if (overallRes) {
       List<AnnualValue> ssValues = stats.kpiByCode(SS).get();
@@ -258,6 +258,26 @@ public class ReportServiceImpl implements ReportService {
       var result = Math.min(maxValue.getValue(), 100);
       stats.setOverallRes(withScale(result, 1));
     }
+
+    //    if (overallRes) {
+    //      List<AnnualValue> ssValues = stats.kpiByCode(SS).get();
+    //      AnnualValue maxValue = Collections.max(ssValues,
+    // Comparator.comparing(AnnualValue::getValue));
+    //      var result = Math.min(maxValue.getValue(), 100);
+    //      if (result < 100) {
+    //       // calculate progress against self supply in baseline
+    //        AnnualValue fet0Value = stats.kpiByCode("FET0").get().stream().filter(v ->
+    // maxValue.getYear().equals(v.getYear())).findFirst().get();
+    //        AnnualValue res0Value = stats.kpiByCode("RES0").get().stream().filter(v ->
+    // maxValue.getYear().equals(v.getYear())).findFirst().get();
+    //
+    //        double selfSupplyBaseline = ped.getPercentSelfSupplyRenewableEnergyInBaseline() *
+    // fet0Value.getValue() / 100;
+    //        result = (res0Value.getValue() - selfSupplyBaseline) / (fet0Value.getValue() -
+    // selfSupplyBaseline) * 100;
+    //      }
+    //      stats.setOverallRes(withScale(result, 1));
+    //    }
 
     if (overallGhg) {
       List<AnnualValue> values = stats.kpiByCode(GHG).get();

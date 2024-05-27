@@ -108,8 +108,7 @@ GaugeChart.propTypes = {
       "warning",
       "error",
       "light",
-      "dark",
-      "grey-100"
+      "dark"
     ]),
     component: PropTypes.node,
   }),

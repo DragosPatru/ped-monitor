@@ -18,7 +18,7 @@ const renderKpi = (kpiCode, kpis, showTitle, color, bgColor) => {
     if (kpis.hasOwnProperty(kpiCode)) {
         stats = kpis[kpiCode];
     }
-    
+
     if (stats === null) {
         return null;
     }
@@ -139,7 +139,7 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
 
                 <Grid container mt={2}>
                     {section.kpis.map(kpiCode => {
-                        return renderKpi(kpiCode, kpis, true, "info")
+                        return renderKpi(kpiCode, kpis, true, "secondary")
                     })}
                 </Grid>
 
@@ -166,7 +166,7 @@ export default function IndicatorsStats({ kpis, indicatorsStats }) {
                 <MDBox ml={4} mr={4}>
                     <Grid container mt={2} mb={-2} ml={-2}>
                         {energyRelatedIndicators.kpis.map(kpiCode => {
-                            return renderKpi(kpiCode, kpis, true, "success")
+                            return renderKpi(kpiCode, kpis, true, "info")
                         })}
                     </Grid>
 

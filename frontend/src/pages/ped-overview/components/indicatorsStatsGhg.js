@@ -100,7 +100,7 @@ export default function IndicatorsStatsGhg({ kpis }) {
                 <MDBox ml={4} mr={4}>
                     <Grid container mt={2} mb={-2} ml={-2}>
                         {energyRelatedIndicators.kpisGhg.map(kpiCode => {
-                            return renderKpi(kpiCode, kpis, true, "success")
+                            return renderKpi(kpiCode, kpis, true, "info")
                         })}
                     </Grid>
 
