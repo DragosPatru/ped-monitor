@@ -1,6 +1,4 @@
 import ReportsLineChart from "fragments/Charts/ReportsLineChart";
-import ProgressLineChart from "examples/Charts/LineCharts/ProgressLineChart";
-import VerticalBarChart from "examples/Charts/BarCharts/VerticalBarChart";
 import indicatorsMap from 'constants/indicators-map';
 
 function KpiChart({ code, values, showTitle, color, bgColor }) {

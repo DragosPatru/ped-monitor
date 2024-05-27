@@ -31,6 +31,7 @@ import EnergySourcesModal from "./components/energySourcesModal";
 import PedService from "services/PedService";
 
 import { getCountryByKey } from "constants/eu-countries"
+import GaugeChart from "fragments/Charts/GaugeChart";
 
 function PedOverview() {
   const { pedId } = useParams();
@@ -167,7 +168,7 @@ function PedOverview() {
                 </MDBox>
 
                 <MDBox mt={3} mb={3} p={2}>
-                  <Grid container spacing={1}>
+                  <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <MDBox mb={2} lineHeight={1} pl={1}>
                         <MDTypography variant="body2" color="text" fontWeight="regular">
@@ -192,9 +193,9 @@ function PedOverview() {
 
 
                     <Grid item xs={12} md={6}>
-                      <Grid container spacing={1} mt={1}>
-                        <Grid item xs={10} md={5}>
-                          <MDBox mb={1.5}>
+                      <Grid container spacing={2} mt={1}>
+                        <Grid item xs={10} md={6}>
+                          <MDBox mb={2}>
                             <ComplexStatisticsCard
                               icon="leaderboard"
                               title="Density of Focus District"
@@ -209,8 +210,8 @@ function PedOverview() {
                         </Grid>
 
                         {pedOverview.rateOfPeopleReached && (
-                          <Grid item xs={10} md={5}>
-                            <MDBox mb={1.5}>
+                          <Grid item xs={10} md={6}>
+                            <MDBox>
                               <ComplexStatisticsCard
                                 color="dark"
                                 icon="person_outline"
@@ -225,8 +226,8 @@ function PedOverview() {
                             </MDBox>
                           </Grid>)}
 
-                        <Grid item xs={10} md={5}>
-                          <MDBox mb={1.5}>
+                        <Grid item xs={10} md={6}>
+                          <MDBox mb={2}>
                             <ComplexStatisticsCard
                               color="success"
                               icon="store"
@@ -275,7 +276,7 @@ function PedOverview() {
                   <Divider />
                   </Grid> */}
 
-                    
+
                     <Grid item xs={12} md={6}>
                       <DetailsCard title="Frequently changed factors" description={"Values for the year '" + pedOverview.lastYearReport.year + "'. They can be updated every year between baseline and target."} shadow={true}
                         button={<MDButton variant="text" color="secondary" size="large" onClick={openEnergySourcesModal}>
@@ -300,16 +301,60 @@ function PedOverview() {
                       </DetailsCard>
                     </Grid>
 
+                    {pedOverview.overallRes && (
+                      <Grid item xs={12} md={4} mt={2}>
+                        <GaugeChart
+                          icon={{ color: "info", component: "leaderboard" }}
+                          title="Renewable Energy - max. achievement rate"
+                          description="Progress against the baseline year value"
+                          chart={{
+                            datasets: {
+                              label: "Progress",
+                              backgroundColors: ["success", "secondary"],
+                              data: [pedOverview.overallRes, 100],
+                            },
+                          }}
+                        />
+                      </Grid>)}
+
+                      {pedOverview.overallGhg && (
+                      <Grid item xs={8} md={4} mt={2}>
+                        <GaugeChart
+                          icon={{ color: "dark", component: "leaderboard" }}
+                          title="Max. achievement rate for rewable energy"
+                          description="Progress against the baseline year value"
+                          chart={{
+                            datasets: {
+                              label: "Progress",
+                              backgroundColors: ["success", "secondary"],
+                              data: [pedOverview.overallGhg, 100],
+                            },
+                          }}
+                        />
+                      </Grid>)}
+
+                      {pedOverview.overallResGhg && (
+                      <Grid item xs={8} md={4} mt={2}>
+                        <GaugeChart
+                          icon={{ color: "success", component: "leaderboard" }}
+                          title="Max. achievement rate for Greenhouse Gas Emissions"
+                          description="Progress against the emissions in baseline year"
+                          chart={{
+                            datasets: {
+                              label: "Progress",
+                              backgroundColors: ["success", "secondary"],
+                              data: [pedOverview.overallResGhg, 100],
+                            },
+                          }}
+                        />
+                      </Grid>)}
+
                     <Grid item xs={12}>
                       <DetailsCard title="PED Indicators" description={" "} shadow={true}>
                         <IndicatorsStats kpis={pedOverview.kpis} indicatorsStats={pedOverview.indicatorsStats} />
-                        <IndicatorsStatsGhg kpis={pedOverview.kpis}/>
+                        <IndicatorsStatsGhg kpis={pedOverview.kpis} />
                       </DetailsCard>
                     </Grid>
-
-
-
-
 
                   </Grid>
                 </MDBox>
