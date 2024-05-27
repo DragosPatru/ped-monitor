@@ -55,13 +55,13 @@ ChartJS.register(
   Filler
 );
 
-function ReportsLineChart({ color, title, titleVariant, italicText, description, date, chart, shadow }) {
+function ReportsLineChart({ color, title, titleVariant, italicText, description, date, chart, shadow, bgColor }) {
   const { data, options } = configs(chart.labels || [], chart.datasets || {});
   const fontStyle = italicText === true ? 'italic' : 'normal';
 
   return (
-    <Card sx={{ height: "100%" , boxShadow: !shadow && "none" }}>
-      <MDBox padding="1rem">
+    <Card sx={{ height: "100%" , boxShadow: !shadow && "none" }} >
+      <MDBox padding="1rem" bgColor={bgColor}>
         {useMemo(
           () => (
             <MDBox
@@ -69,6 +69,7 @@ function ReportsLineChart({ color, title, titleVariant, italicText, description,
               bgColor={color}
               borderRadius="lg"
               coloredShadow={color}
+              
               py={2}
               pr={0.5}
               mt={-5}
@@ -108,7 +109,8 @@ ReportsLineChart.defaultProps = {
   color: "info",
   description: "",
   titleVariant: "h6",
-  italicText: false
+  italicText: false,
+  bgColor: ""
 };
 
 // Typechecking props for the ReportsLineChart
