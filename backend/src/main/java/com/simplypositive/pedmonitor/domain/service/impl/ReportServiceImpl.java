@@ -249,16 +249,14 @@ public class ReportServiceImpl implements ReportService {
   }
 
   private void computeOverallStats(PedEntity ped, PedStats stats) {
-    Map<String, AnnualValue> overallKPIs = new HashMap<>();
-
     var overallRes = stats.kpiByCode(SS).isPresent();
     var overallGhg = stats.kpiByCode(OVERALL_GHG).isPresent();
 
     if (overallRes) {
       List<AnnualValue> ssValues = stats.kpiByCode(SS).get();
       AnnualValue maxValue = Collections.max(ssValues, Comparator.comparing(AnnualValue::getValue));
-      var result = withScale(Math.min(maxValue.getValue(), 100), 1);
-      stats.setOverallRes(result);
+      var result = Math.min(maxValue.getValue(), 100);
+      stats.setOverallRes(withScale(result, 1));
     }
 
     if (overallGhg) {

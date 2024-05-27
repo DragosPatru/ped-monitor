@@ -306,11 +306,11 @@ function PedOverview() {
                         <GaugeChart
                           icon={{ color: "info", component: "leaderboard" }}
                           title="Renewable Energy - max. achievement rate"
-                          description="Progress against the baseline year value"
+                          description={"vs. baseline year: " + pedOverview.ped.percentSelfSupplyRenewableEnergyInBaseline + "%"}
                           chart={{
                             datasets: {
                               label: "Progress",
-                              backgroundColors: ["success", "secondary"],
+                              backgroundColors: ["info", "light"],
                               data: [pedOverview.overallRes, 100],
                             },
                           }}
@@ -326,7 +326,7 @@ function PedOverview() {
                           chart={{
                             datasets: {
                               label: "Progress",
-                              backgroundColors: ["success", "secondary"],
+                              backgroundColors: ["success", "light"],
                               data: [pedOverview.overallGhg, 100],
                             },
                           }}
@@ -342,7 +342,7 @@ function PedOverview() {
                           chart={{
                             datasets: {
                               label: "Progress",
-                              backgroundColors: ["success", "secondary"],
+                              backgroundColors: ["success", "light"],
                               data: [pedOverview.overallResGhg, 100],
                             },
                           }}
