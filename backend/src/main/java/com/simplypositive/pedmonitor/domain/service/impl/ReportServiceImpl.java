@@ -205,12 +205,14 @@ public class ReportServiceImpl implements ReportService {
     Map<String, AnnualValue> resValues = computeRES(annualReport, indicators);
     Map<String, AnnualValue> selfEnergySupply =
         selfEnergySupplyRate(annualReport, fetValues, resValues);
+    Map<String, AnnualValue> petValues = computePET(annualReport, fetValues);
 
     if (selfEnergySupply != null) {
       mergeResults(selfEnergySupply, result);
     }
     mergeResults(fetValues, result);
     mergeResults(resValues, result);
+    mergeResults(petValues, result);
   }
 
   private Map<String, AnnualValue> computeFET(
@@ -221,6 +223,29 @@ public class ReportServiceImpl implements ReportService {
   private Map<String, AnnualValue> computeRES(
       AnnualReport annualReport, List<IndicatorEntity> indicators) {
     return resCalculator.compute(annualReport, indicators);
+  }
+
+  private Map<String, AnnualValue> computePET(
+      AnnualReport annualReport, Map<String, AnnualValue> fetValues) {
+    Integer year = annualReport.getYear();
+    Map<String, AnnualValue> petStats = new HashMap<>();
+    for (int i = 0; i <= 3; i++) {
+      String fetKpiCode = "FET" + i;
+      String petKpiCode = "PET" + i;
+      Optional<KPI> pet0 = annualReport.kpiByCode(fetKpiCode);
+      if (pet0.isPresent()) {
+        AnnualValue fetValue = fetValues.get(fetKpiCode);
+        if (fetValue != null) {
+          petStats.put(
+                  petKpiCode,
+                  new AnnualValue(
+                          year,
+                          fetValue.getValue()
+                                  * annualReport.getEnergySourceFactors().getPrimaryEnergyFactor()));
+        }
+      }
+    }
+    return petStats;
   }
 
   private void computeOverallStats(PedEntity ped, PedStats stats) {
@@ -264,8 +289,8 @@ public class ReportServiceImpl implements ReportService {
     Map<String, AnnualValue> overallKPIs = new HashMap<>();
     var overallSs = annualReport.kpiByCode(SS).isPresent();
     if (overallSs) {
-      AnnualValue resValue = fetValues.get("RES0");
-      AnnualValue fetValue = resValues.get("FET0");
+      AnnualValue resValue = resValues.get("RES0");
+      AnnualValue fetValue = fetValues.get("FET0");
       if (resValue != null && fetValue != null) {
         var value = resValue.getValue() / fetValue.getValue() * 100;
         overallKPIs.put(SS, new AnnualValue(annualReport.getYear(), value));

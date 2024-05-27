@@ -1,12 +1,12 @@
 const energyRelatedIndicators = {
     title: "Energy Related",
-    kpis:["FET0"],
+    kpis:["FET0", "PET0"],
     kpisGhg:["FET0_GHG_"],
     sectionsFET: [
         {
             title: "Buildings, equipment/facilities and industries",
             hasSubsections: true,
-            kpis:["FET1"],
+            kpis:["FET1", "PET1"],
             kpisGhg:["FET1_GHG_"],
             subsections: [
                 {
@@ -55,7 +55,7 @@ const energyRelatedIndicators = {
         {
             title: "Transport",
             hasSubsections: true,
-            kpis:["FET2"],
+            kpis:["FET2", "PET2"],
             kpisGhg:["FET2_GHG_"],
             subsections: [
                 {
@@ -107,8 +107,8 @@ const energyRelatedIndicators = {
         {
             title: "Other sectors",
             hasSubsections: false,
-            kpis:["FET3_1"],
-            kpisGhg:["FET3_1_GHG_"],
+            kpis:["FET3", "PET3"],
+            kpisGhg:["FET3_GHG_"],
             items: [
                 "FET3_1_1",
                 "FET3_1_2",

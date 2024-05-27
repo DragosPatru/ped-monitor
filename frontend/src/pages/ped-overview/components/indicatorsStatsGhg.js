@@ -10,7 +10,6 @@ import KpiChart from "./kpiChart";
 import energyRelatedIndicators from 'constants/indicators-sections';
 
 const renderKpi = (kpiCode, kpis, showTitle, color) => {
-    console.log("KPI CODE " + kpiCode);
     let stats = null;
     if (kpis.hasOwnProperty(kpiCode)) {
         stats = kpis[kpiCode];
@@ -20,8 +19,29 @@ const renderKpi = (kpiCode, kpis, showTitle, color) => {
     }
 
     return (
-        <Grid item xs={12} md={8} xl={6}>
+        <Grid item xs={12} md={8} xl={6} key={kpiCode}>
             <KpiChart code={kpiCode} values={stats} showTitle={showTitle} color={color} />
+        </Grid>
+    );
+};
+
+const renderKpis = (kpiCodes, kpis, showTitle, color) => {
+    var shouldRenderKpis = false;
+    const renderedKpis = kpiCodes.map(kpiCode => {
+        const kpi = renderKpi(kpiCode, kpis, showTitle, color);
+        if (kpi !== null) {
+            shouldRenderKpis = shouldRenderKpis || true;
+        }
+        return kpi;
+    });
+
+    if (shouldRenderKpis == false) {
+        return null;
+    }
+
+    return (
+        <Grid container mt={3} mb={-2}>
+            {renderedKpis}
         </Grid>
     );
 };
@@ -30,14 +50,11 @@ function KpiSection({ section, sectionKey, kpis }) {
     const title = section.title;
 
     const renderSubsection = (subsection) => {
+        const renderedKpis = renderKpis(subsection.kpisGhg, kpis, false, "secondary");
         const children = (<MDBox key={subsection.key + "-children"}
             component="ul" display="flex" flexDirection="column" p={0}
             m={0} sx={{ listStyle: "none" }} width="100%">
-            <Grid container mt={3} mb={-2}>
-                {subsection.kpisGhg.map(kpiCode => {
-                    return renderKpi(kpiCode, kpis, false, "secondary")
-                })}
-            </Grid>
+            {renderedKpis}
         </MDBox>);
 
         const content = subsection.isContainer ? (
@@ -54,14 +71,11 @@ function KpiSection({ section, sectionKey, kpis }) {
         );
     };
 
+
+
     // daca sectiunea are KPIs atunci ar trebui prezentati
     return (
-        <CollapsableRow
-            title={title}
-            titleFontWeight="regular"
-            rightMostText=""
-            description=""
-            key={sectionKey + "-collapsable"}>
+        <CollapsableRow title={title} titleFontWeight="regular" rightMostText="" description="" key={sectionKey + "-collapsable"}>
             <MDBox key={sectionKey + "-section"} sx={{ paddingLeft: '1rem' }} width="100%">
                 <Grid container mt={3} mb={-2}>
                     {section.kpisGhg.map(kpiCode => {
@@ -82,7 +96,7 @@ export default function IndicatorsStatsGhg({ kpis }) {
     return (
         <Grid item xs={12} pl={2} pr={2}>
             <CollapsableRow
-                title="Environment Related"
+                title="Environment Related (Greenhouse Gas Emissions)"
                 titleVariant="subtitle2"
                 rightMostText=""
                 description="">

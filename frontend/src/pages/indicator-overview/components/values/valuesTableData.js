@@ -6,11 +6,16 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 import dataSourceFactorsFET from "constants/data-source-factors-fet";
+import dataSourceFactorsRES from "constants/data-source-factors-res";
 
-export const valuesTableRows = (values) => {
+export const valuesTableRows = (values, isResIndicator) => {
+    let sourceCodesFactors = dataSourceFactorsFET;
+    if (isResIndicator === true) {
+        sourceCodesFactors = dataSourceFactorsRES;
+    }
     const rows = values.length ? (values.map(value => ({
         id: value.id,
-        dataSource: dataSourceFactorsFET.get(value.dataSourceCode) || value.dataSourceCode,
+        dataSource: sourceCodesFactors.get(value.dataSourceCode) || value.dataSourceCode,
         amount: value.amount,
         created: value.createdAt,
         action: value,

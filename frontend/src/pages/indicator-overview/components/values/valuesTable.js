@@ -50,7 +50,7 @@ function ValuesTable({ indicatorId, isResIndicator, allowDataChanges, dataSource
   }))) : [];
 
     // Table data
-    const rows = valuesTableRows(decoratedValues);
+    const rows = valuesTableRows(decoratedValues, isResIndicator);
     setTableRows(rows);
   };
 

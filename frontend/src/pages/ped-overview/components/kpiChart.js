@@ -3,7 +3,7 @@ import ProgressLineChart from "examples/Charts/LineCharts/ProgressLineChart";
 import VerticalBarChart from "examples/Charts/BarCharts/VerticalBarChart";
 import indicatorsMap from 'constants/indicators-map';
 
-function KpiChart({ code, values, showTitle, color }) {
+function KpiChart({ code, values, showTitle, color, bgColor }) {
     const title = showTitle === true ? indicatorsMap.get(code).shortTitleInSubcategory : "";
     const unit = indicatorsMap.get(code).unit;
     const formattedValues = formatKpiDataForChart(values, unit);
@@ -16,9 +16,10 @@ function KpiChart({ code, values, showTitle, color }) {
         <ReportsLineChart
             color={color}
             title={title}
-            description= {description}
+            description={description}
             chart={formattedValues}
             titleVariant="body2"
+            bgColor={bgColor}
         />
 
     );
@@ -49,8 +50,9 @@ function formatKpiDataForChart(entries, unit) {
 
 KpiChart.defaultProps = {
     showTitle: true,
-    color: "info"
+    color: "info",
+    bgColor: ""
 };
-  
+
 
 export default KpiChart;
