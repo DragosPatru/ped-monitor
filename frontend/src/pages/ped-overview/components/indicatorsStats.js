@@ -18,13 +18,13 @@ const renderKpi = (kpiCode, kpis, showTitle, color, bgColor) => {
     if (kpis.hasOwnProperty(kpiCode)) {
         stats = kpis[kpiCode];
     }
-    console.log("STATS: " + stats);
+    
     if (stats === null) {
         return null;
     }
 
     return (
-        <Grid item xs={12} md={8} xl={6} key={kpiCode}>
+        <Grid item xs={12} md={8} xl={6} key={kpiCode} mt={2}>
             <KpiChart code={kpiCode} values={stats} showTitle={showTitle} color={color} bgColor={bgColor} />
         </Grid>
     );
@@ -87,7 +87,7 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
         const kpisSection = renderedKpis && (
             <MDBox bgColor={"grey-100"}
                 borderRadius="lg" p={1} pb={2} mt={2}>
-                <Grid container mt={6} mb={-2}>
+                <Grid container mt={3} mb={-2}>
                     {renderedKpis}
                 </Grid>
             </MDBox>);
@@ -137,7 +137,7 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
             key={sectionKey + "-collapsable"}>
             <MDBox key={sectionKey + "-section"} sx={{ paddingLeft: '1rem' }} width="100%">
 
-                <Grid container mt={3}>
+                <Grid container mt={2}>
                     {section.kpis.map(kpiCode => {
                         return renderKpi(kpiCode, kpis, true, "info")
                     })}
@@ -164,7 +164,7 @@ export default function IndicatorsStats({ kpis, indicatorsStats }) {
                 description="">
 
                 <MDBox ml={4} mr={4}>
-                    <Grid container mt={3} mb={-2} ml={-2}>
+                    <Grid container mt={2} mb={-2} ml={-2}>
                         {energyRelatedIndicators.kpis.map(kpiCode => {
                             return renderKpi(kpiCode, kpis, true, "success")
                         })}

@@ -19,7 +19,7 @@ const renderKpi = (kpiCode, kpis, showTitle, color) => {
     }
 
     return (
-        <Grid item xs={12} md={8} xl={6} key={kpiCode}>
+        <Grid item xs={12} md={8} xl={6} key={kpiCode} mt={1}>
             <KpiChart code={kpiCode} values={stats} showTitle={showTitle} color={color} />
         </Grid>
     );
@@ -57,27 +57,23 @@ function KpiSection({ section, sectionKey, kpis }) {
             {renderedKpis}
         </MDBox>);
 
-        const content = subsection.isContainer ? (
+        const content = renderedKpis && (subsection.isContainer ? (
             <MDBox ml={2} mr={2} mt={2}>
                 <MDTypography variant="h6" fontWeight="medium" color="text">
                     {subsection.title} &nbsp;
                 </MDTypography>
                 <Divider></Divider>
                 {children}
-            </MDBox>) : (<MDBox></MDBox>);
-
+            </MDBox>) : (<MDBox></MDBox>));
         return (
             <MDBox key={subsection.key + "-subsection"}>{content}</MDBox>
         );
     };
 
-
-
-    // daca sectiunea are KPIs atunci ar trebui prezentati
     return (
         <CollapsableRow title={title} titleFontWeight="regular" rightMostText="" description="" key={sectionKey + "-collapsable"}>
             <MDBox key={sectionKey + "-section"} sx={{ paddingLeft: '1rem' }} width="100%">
-                <Grid container mt={3} mb={-2}>
+                <Grid container mt={2} mb={-1}>
                     {section.kpisGhg.map(kpiCode => {
                         return renderKpi(kpiCode, kpis, true, "info")
                     })}
@@ -102,7 +98,7 @@ export default function IndicatorsStatsGhg({ kpis }) {
                 description="">
 
                 <MDBox ml={4} mr={4}>
-                    <Grid container mt={3} mb={-2} ml={-2}>
+                    <Grid container mt={2} mb={-2} ml={-2}>
                         {energyRelatedIndicators.kpisGhg.map(kpiCode => {
                             return renderKpi(kpiCode, kpis, true, "success")
                         })}
