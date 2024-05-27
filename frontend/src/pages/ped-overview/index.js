@@ -305,45 +305,45 @@ function PedOverview() {
                       <Grid item xs={12} md={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "info", component: "leaderboard" }}
-                          title="Renewable Energy - max. achievement rate"
+                          title="Renewable Energy (RES)"
                           description={"vs. baseline year: " + pedOverview.ped.percentSelfSupplyRenewableEnergyInBaseline + "%"}
                           chart={{
                             datasets: {
                               label: "Progress",
                               backgroundColors: ["info", "light"],
-                              data: [pedOverview.overallRes, 100],
+                              data: [pedOverview.overallRes, 100 - pedOverview.overallRes],
                             },
                           }}
                         />
                       </Grid>)}
 
-                      {pedOverview.overallGhg && (
+                    {pedOverview.overallGhg && (
                       <Grid item xs={8} md={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "dark", component: "leaderboard" }}
-                          title="Max. achievement rate for rewable energy"
-                          description="Progress against the baseline year value"
+                          title="Greenhouse Gas Emissions (GHG)"
+                          description={"Progress against the baseline " + pedOverview.ped.ghgEmissionsTotalInBaseline + " tCO2eq/a"}
                           chart={{
                             datasets: {
                               label: "Progress",
-                              backgroundColors: ["success", "light"],
-                              data: [pedOverview.overallGhg, 100],
+                              backgroundColors: ["info", "light"],
+                              data: [pedOverview.overallGhg, 100 - pedOverview.overallGhg],
                             },
                           }}
                         />
                       </Grid>)}
 
-                      {pedOverview.overallResGhg && (
+                    {pedOverview.overallResGhg && (
                       <Grid item xs={8} md={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "success", component: "leaderboard" }}
-                          title="Max. achievement rate for Greenhouse Gas Emissions"
-                          description="Progress against the emissions in baseline year"
+                          title="Overall Achievement Rate"
+                          description="Average of RES & GHG"
                           chart={{
                             datasets: {
                               label: "Progress",
-                              backgroundColors: ["success", "light"],
-                              data: [pedOverview.overallResGhg, 100],
+                              backgroundColors: ["info", "light"],
+                              data: [pedOverview.overallResGhg, 100 - pedOverview.overallResGhg],
                             },
                           }}
                         />
