@@ -5,7 +5,7 @@ The project uses the Maven build system and contains the parent POM and 2 module
 
 *What is doing Maven?*
 
-- parent pom.xml - It declares the 2 modules to build. frontend for React and backend for Java.
+- parent pom.xml - declares the 2 modules to build **frontend** for React and **backend** for Java.
 - install the missing libraries (node) and dependencies
 - build the frontend using *frontend-maven-plugin* and the frontend *static/public* directory of Spring Boot
 - build the final fat JAR that can be started or deployed in a container OR locally
