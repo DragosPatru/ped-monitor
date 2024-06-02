@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
 import ReportsLineChart from "fragments/Charts/ReportsLineChart";
 import indicatorsMap from 'constants/indicators-map';
 
 function KpiChart({ code, values, showTitle, color, bgColor }) {
     const title = showTitle === true ? indicatorsMap.get(code).shortTitleInSubcategory : "";
     const unit = indicatorsMap.get(code).unit;
-    const formattedValues = formatKpiDataForChart(values, unit);
+    const [formattedValues, setFormattedValues] = useState(formatKpiDataForChart(values, unit));
     const description = (<>
         {/* (<strong>This</strong>) is a demo description. */}
     </>
@@ -19,7 +20,6 @@ function KpiChart({ code, values, showTitle, color, bgColor }) {
             titleVariant="body2"
             bgColor={bgColor}
         />
-
     );
 }
 

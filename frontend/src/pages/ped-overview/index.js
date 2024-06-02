@@ -37,6 +37,10 @@ function PedOverview() {
   const { pedId } = useParams();
   const [pedOverview, setPedOverview] = useState({});
 
+  const [resChartConfig, setResChartConfig] = useState({});
+  const [ghgChartConfig, setGhgChartConfig] = useState({});
+  const [ghgResChartConfig, setGhgResChartConfig] = useState({});
+
   // Edit Modal
   const [editButtonVisible, setEditButtonVisible] = useState(true);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -60,6 +64,37 @@ function PedOverview() {
         setPedOverview(overview);
         if (overview.ped.targetYear < (new Date().getFullYear())) {
           setEditButtonVisible(false);
+        }
+
+        if (overview.overallRes) {
+          setResChartConfig(
+            {
+              datasets: {
+                label: "Progress",
+                backgroundColors: ["info", "light"],
+                data: [overview.overallRes, (100 - overview.overallRes) < 0 ? 0 : (100 - overview.overallRes)],
+              }
+            })
+        }
+
+        if (overview.overallGhg) {
+          setGhgChartConfig({
+            datasets: {
+              label: "Progress",
+              backgroundColors: ["info", "light"],
+              data: [overview.overallGhg, (100 - overview.overallGhg) < 0 ? 0 : (100 - overview.overallGhg)],
+            }
+          });
+        }
+
+        if (overview.overallResGhg) {
+          setGhgResChartConfig({
+            datasets: {
+              label: "Progress",
+              backgroundColors: ["info", "light"],
+              data: [overview.overallResGhg, (100 - overview.overallResGhg) < 0 ? 0 : (100 - overview.overallResGhg)],
+            }
+          });
         }
 
       } catch (error) {
@@ -114,6 +149,9 @@ function PedOverview() {
       bgWhite
     />
   );
+
+
+
 
   return (
     <DashboardLayout>
@@ -307,13 +345,7 @@ function PedOverview() {
                           icon={{ color: "info", component: "leaderboard" }}
                           title="Renewable Energy (RES)"
                           description={"vs. baseline year: " + pedOverview.ped.percentSelfSupplyRenewableEnergyInBaseline + "%"}
-                          chart={{
-                            datasets: {
-                              label: "Progress",
-                              backgroundColors: ["info", "light"],
-                              data: [pedOverview.overallRes, 100 - pedOverview.overallRes],
-                            },
-                          }}
+                          chart={resChartConfig}
                         />
                       </Grid>)}
 
@@ -323,13 +355,7 @@ function PedOverview() {
                           icon={{ color: "dark", component: "leaderboard" }}
                           title="Greenhouse Gas Emissions (GHG)"
                           description={"Progress against the baseline " + pedOverview.ped.ghgEmissionsTotalInBaseline + " tCO2eq/a"}
-                          chart={{
-                            datasets: {
-                              label: "Progress",
-                              backgroundColors: ["info", "light"],
-                              data: [pedOverview.overallGhg, 100 - pedOverview.overallGhg],
-                            },
-                          }}
+                          chart={ghgChartConfig}
                         />
                       </Grid>)}
 
@@ -339,13 +365,7 @@ function PedOverview() {
                           icon={{ color: "success", component: "leaderboard" }}
                           title="Overall Achievement Rate"
                           description="Average of RES & GHG"
-                          chart={{
-                            datasets: {
-                              label: "Progress",
-                              backgroundColors: ["info", "light"],
-                              data: [pedOverview.overallResGhg, 100 - pedOverview.overallResGhg],
-                            },
-                          }}
+                          chart={ghgResChartConfig}
                         />
                       </Grid>)}
 

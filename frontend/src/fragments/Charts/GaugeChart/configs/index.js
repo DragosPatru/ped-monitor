@@ -44,6 +44,9 @@ function configs(labels, datasets, cutout = 60) {
       animation: {
         duration: 0 // disable Y axis animation
       },
+      animations: {
+        x: false
+      },
       interaction: {
         intersect: false,
         mode: "index",
@@ -59,10 +62,6 @@ function configs(labels, datasets, cutout = 60) {
         tooltip: {
           enabled: false
         },
-      },
-      interaction: {
-        intersect: false,
-        mode: "index",
       },
 
       // custom

@@ -30,7 +30,7 @@ function GaugeChart({ icon, title, description, height, chart }) {
   const gaugeChartText = {
     id: 'gaugeChartText',
     afterDatasetsDraw(chart, args, pluginOptions) {
-      const {ctx, data, chartArea: {top, bottom, left, right, width, height}, scales: {r} } = chart;
+      const { ctx, data, chartArea: { top, bottom, left, right, width, height }, scales: { r } } = chart;
       ctx.save();
       const xCoor = chart.getDatasetMeta(0).data[0].x;
       const yCoor = chart.getDatasetMeta(0).data[0].y;
