@@ -12,6 +12,7 @@ The project uses the Maven build system and contains the parent POM and 2 module
 
 The 2 modules can be started separately during the development. The React app will use the port 3000, the Java application will use the port 8080.
 
+#
 ### Build
 Both backend and frontend are packed together into a JAR file, the HTML & JS resources being served by the embedded SpringBoot Tomcat application server.
 
