@@ -149,14 +149,14 @@
 <!--                            <jar>${project.build.directory}/${project.artifactId}-${project.version}.jar</jar>-->
 <!--                            <outfile>${project.build.directory}/ped_monitor.exe</outfile>-->
 <!--                            <dontWrapJar>false</dontWrapJar>-->
-<!--                            <addDependencies>true</addDependencies>-->
+<!--&lt;!&ndash;                            <addDependencies>true</addDependencies>&ndash;&gt;-->
 <!--                            <errTitle>Error in launch4j plugin</errTitle>-->
 <!--                            <classPath>-->
 <!--                                <mainClass>com.simplypositive.pedmonitor.PedMonitorApplication</mainClass>-->
 <!--                                <preCp>anything</preCp>-->
 <!--                            </classPath>-->
 <!--                            <jre>-->
-<!--                                <path>%JAVA_HOME%;%PATH%</path>-->
+<!--                                <path>../jre</path>-->
 <!--                                <minVersion>21</minVersion>-->
 <!--                            </jre>-->
 <!--                            <messages>-->

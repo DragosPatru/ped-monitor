@@ -4,7 +4,6 @@ import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -14,9 +13,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 @Service
 public class DataSourceFactors {
@@ -42,11 +39,12 @@ public class DataSourceFactors {
   }
 
   private byte[] readConfigFile() throws IOException {
-    try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream(
-            "data-source-factors.json")) {
+    try (InputStream stream =
+        this.getClass().getClassLoader().getResourceAsStream("data-source-factors.json")) {
       return stream.readAllBytes();
     }
   }
+
   private Resource loadEmployeesWithClassPathResource() {
     return new ClassPathResource("data-source-factors.json");
   }

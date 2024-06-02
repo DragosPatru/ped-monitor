@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/indicators")
+@RequestMapping("/api/indicators")
 public interface IndicatorApi {
 
   @GetMapping(value = "/{indicatorId}/overview", produces = APPLICATION_JSON_VALUE)
