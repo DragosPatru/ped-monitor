@@ -26,7 +26,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // ReportsLineChart configurations
-import configs from "examples/Charts/LineCharts/ReportsLineChart/configs";
+import configs from "./configs";
 
 ChartJS.register(
   CategoryScale,

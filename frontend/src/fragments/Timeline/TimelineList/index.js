@@ -27,7 +27,7 @@ import MDTypography from "components/MDTypography";
 import { useMaterialUIController } from "context";
 
 // Timeline context
-import { TimelineProvider } from "examples/Timeline/context";
+import { TimelineProvider } from "fragments/Timeline/context";
 
 function TimelineList({ title, dark, children }) {
   const [controller] = useMaterialUIController();
