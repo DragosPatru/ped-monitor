@@ -5,10 +5,10 @@ The project uses the Maven build system and contains the parent POM and 2 module
 
 *What is doing Maven?*
 
-- parent pom.xml - declares the 2 modules to build **frontend** for React and **backend** for Java.
+- parent pom.xml - declares the 2 modules to build **frontend** and **backend**.
 - install the missing libraries (node) and dependencies
 - build the frontend using *frontend-maven-plugin* and the frontend *static/public* directory of Spring Boot
-- build the final fat JAR that can be started or deployed in a container OR locally
+- build the final fat JAR that can be started/deployed in a container OR locally
 
 The 2 modules can be started separately during the development. The React app will use the port 3000, the Java application will use the port 8080.
 
