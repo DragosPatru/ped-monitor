@@ -1,4 +1,5 @@
-PED Monitor App backend + frontend (Java & SpringBoot + React JS)
+# PED Monitor App: backend + frontend (Java & SpringBoot + React JS)
+
 
 The project uses the Maven build system and contains the parent POM and 2 modules (frontend and backend).
 
