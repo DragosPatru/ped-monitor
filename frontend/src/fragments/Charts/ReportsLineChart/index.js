@@ -40,30 +40,28 @@ ChartJS.register(
 );
 
 function ReportsLineChart({ color, title, titleVariant, italicText, description, date, chart, shadow, bgColor }) {
-  const { data, options } = configs(chart.labels || [], chart.datasets || {});
+  //const { data, options } = configs(chart.labels || [], chart.datasets || {});
+  const chartConfig = useMemo(() => configs(chart.labels || [], chart.datasets || {}), [chart.labels, chart.datasets]);
   const fontStyle = italicText === true ? 'italic' : 'normal';
 
   return (
-    <Card sx={{ height: "100%" , boxShadow: !shadow && "none" }} >
+    <Card sx={{ height: "100%", boxShadow: !shadow && "none" }} >
       <MDBox padding="1rem" bgColor={bgColor}>
-        {useMemo(
-          () => (
-            <MDBox
-              variant="gradient"
-              bgColor={color}
-              borderRadius="lg"
-              coloredShadow={color}
-              
-              py={2}
-              pr={0.5}
-              mt={-5}
-              height="12.5rem"
-            >
-              <Line data={data} options={options} redraw />
-            </MDBox>
-          ),
-          [chart, color]
-        )}
+
+        <MDBox
+          variant="gradient"
+          bgColor={color}
+          borderRadius="lg"
+          coloredShadow={color}
+
+          py={2}
+          pr={0.5}
+          mt={-5}
+          height="12.5rem"
+        >
+          <Line data={chartConfig.data} options={chartConfig.options} redraw />
+        </MDBox>
+
         <MDBox pt={2} pb={0} px={0} sx={{ fontStyle: fontStyle }}>
           <MDTypography variant={titleVariant} textTransform="capitalize">
             {title}
@@ -72,16 +70,16 @@ function ReportsLineChart({ color, title, titleVariant, italicText, description,
             {description}
           </MDTypography>
           {/* <Divider /> */}
-          {date &&(
-          <MDBox display="flex" alignItems="center">
-            <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
-              <Icon>schedule</Icon>
-            </MDTypography>
-            
-            <MDTypography variant="button" color="text" fontWeight="light">
-              {date}
-            </MDTypography>
-          </MDBox>)}
+          {date && (
+            <MDBox display="flex" alignItems="center">
+              <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+                <Icon>schedule</Icon>
+              </MDTypography>
+
+              <MDTypography variant="button" color="text" fontWeight="light">
+                {date}
+              </MDTypography>
+            </MDBox>)}
         </MDBox>
       </MDBox>
     </Card>

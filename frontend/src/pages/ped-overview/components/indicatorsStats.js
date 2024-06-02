@@ -67,7 +67,7 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
         const title = indicatorsMap.get(indicatorCode).shortTitleInSubcategory;
         const displayOpts = stats.configured === false ?
             ({ color: "error", value: "Not Configured" }) :
-            ({ color: "info", value: stats.progress + " %" });
+            ({ color: "info", value: "Configured" }); // stats.progress + " %" 
 
         return (
             <Indicator key={indicator.code}

@@ -35,25 +35,15 @@ Coded by www.creative-tim.com
   10. The `component` key is used to store the component of its route.
 */
 
-
-//// TODO
-// https://github.com/creativetimofficial/material-dashboard-material-ui-v4/blob/main/src/components/Table/Table.js
-// https://github.com/creativetimofficial/light-bootstrap-dashboard-react - pt lista editabila
-
-// Pt crearea unui card cu "NEW PED"
-// https://demos.creative-tim.com/soft-ui-dashboard-react/?_ga=2.28429436.1113405783.1710087585-1586395320.1709997043#/profile
-//https://www.creative-tim.com/learning-lab/react/placeholder-card/soft-ui-dashboard/
-
 // Material Dashboard 2 React layouts
-import Dashboard from "layouts/dashboard";
+
 import PedsOverview from "pages/peds-overview";
 import DefinePed from "pages/define-ped";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
+// import Tables from "layouts/tables";
+// import Billing from "layouts/billing";
+// import Notifications from "layouts/notifications";
+// import Profile from "layouts/profile";
+// import Dashboard from "layouts/dashboard";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -75,14 +65,14 @@ const routes = [
     route: "/define-ped",
     component: <DefinePed />,
   },
-  {
-    type: "collapse",
-    name: "Dashboard",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Dashboard",
+  //   key: "dashboard",
+  //   icon: <Icon fontSize="small">dashboard</Icon>,
+  //   route: "/dashboard",
+  //   component: <Dashboard />,
+  // },
   // {
   //   type: "collapse",
   //   name: "Tables",
@@ -91,14 +81,14 @@ const routes = [
   //   route: "/tables",
   //   component: <Tables />,
   // },
-  {
-    type: "collapse",
-    name: "Billing",
-    key: "billing",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
-    component: <Billing />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Billing",
+  //   key: "billing",
+  //   icon: <Icon fontSize="small">receipt_long</Icon>,
+  //   route: "/billing",
+  //   component: <Billing />,
+  // },
   // {
   //   type: "collapse",
   //   name: "Notifications",
