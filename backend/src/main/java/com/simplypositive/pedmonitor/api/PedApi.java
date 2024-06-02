@@ -13,7 +13,7 @@ import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/peds")
+@RequestMapping("/api/peds")
 public interface PedApi {
 
   @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)

@@ -84,13 +84,13 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
     const renderSubsection = (subsection) => {
         // render kpis
         const renderedKpis = renderKpis(subsection.kpis, kpis, true, "secondary")
-        const kpisSection = renderedKpis && (
+        const kpisSection = renderedKpis ? (
             <MDBox bgColor={"grey-100"}
                 borderRadius="lg" p={1} pb={2} mt={2}>
                 <Grid container mt={3} mb={-2}>
                     {renderedKpis}
                 </Grid>
-            </MDBox>);
+            </MDBox>) : (<></>);
 
         // render indicators
         var hasIndicators = false;
@@ -111,7 +111,7 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
             sx={{ listStyle: "none", width: { xs: "100%", md: "75%", lg: "60%" } }}
         >{renderedIndicators}</MDBox>);
 
-        const content = kpisSection && indicatorsSection && (subsection.isContainer ? (
+        const content = indicatorsSection && (subsection.isContainer ? (
             <MDBox ml={2} mr={2} mt={2}>
                 <MDTypography variant="h6" fontWeight="medium" color="text">
                     {subsection.title} &nbsp;
