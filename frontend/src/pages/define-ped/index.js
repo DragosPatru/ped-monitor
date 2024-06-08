@@ -21,7 +21,7 @@ import useBasicState from "./useBasicState";
 import IndicatorsForm from "./indicatorsForm"
 
 import { countriesEU } from "constants/eu-countries"
-import {commonInputProps, commonInputPropsNotRequired} from "constants/component-properties"
+import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties"
 import PedService from "services/PedService";
 
 function DefinePed() {
@@ -86,15 +86,25 @@ function DefinePed() {
 
     const createPed = async (e) => {
         e.preventDefault();
-        handleOpenBackdrop(true);
-
-        // Check if all fields are valid before submitting
+        // all fields must be valid before submitting
         const allValid = Object.values(basicFormState).every(field => field.isValid);
-        if (!allValid) {
-            console.error("Validation failed.");
-            openValidationErrorSB("Please make sure all the required values are filled and at least one indicator and data-source are selected !");
+        const atLeastOneDs = selectedDataSources.size > 0;
+        const atLeastOneIndicator = selectedIndicators.size > 0;
+        const countryHasValue = basicFormState["country"].value.length > 0;
+
+        if (!countryHasValue) {
+            openValidationErrorSB("Please select a 'Country'!");
             return;
         }
+
+        if (!allValid || !atLeastOneDs || !atLeastOneIndicator) {
+            openValidationErrorSB("Please make sure all the required values are filled and at " +
+                "least one indicator and data-source are selected !");
+            return;
+        }
+
+        // show loading
+        handleOpenBackdrop(true);
 
         const indicators = Array.from(selectedIndicators);
         if (selectedResDataSources.size > 0) {
@@ -127,9 +137,9 @@ function DefinePed() {
 
 
     // Validation toast message
-    const [validationErrorSB, setValidationErrorSB] = useState({open: false, message: ""});
-    const openValidationErrorSB = (message) => setValidationErrorSB({open: true, message: message});
-    const closeValidationErrorSB = () => setValidationErrorSB({open: false, message: ""});
+    const [validationErrorSB, setValidationErrorSB] = useState({ open: false, message: "" });
+    const openValidationErrorSB = (message) => setValidationErrorSB({ open: true, message: message });
+    const closeValidationErrorSB = () => setValidationErrorSB({ open: false, message: "" });
     const renderValidationErrorSB = (
         <MDSnackbar
             color="error"
@@ -146,18 +156,18 @@ function DefinePed() {
 
     const [backdropOpen, setBackdropOpen] = useState(false);
     const handleOpenBackdrop = () => {
-      setBackdropOpen(true);
+        setBackdropOpen(true);
     };
     const handleCloseBackdrop = () => {
-      setBackdropOpen(false);
+        setBackdropOpen(false);
     };
-  
+
     return (
         <DashboardLayout>
             <DashboardNavbar />
 
             <MDBox pt={6} pb={3}>
-            <SimpleBackdrop open={backdropOpen} handleClose={handleCloseBackdrop}/>
+                <SimpleBackdrop open={backdropOpen} handleClose={handleCloseBackdrop} />
                 <Grid container spacing={6}>
                     <Grid item xs={12}>
                         <Card>
