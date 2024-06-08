@@ -16,7 +16,10 @@ public class WebFilter extends OncePerRequestFilter {
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
     String path = request.getRequestURI();
-    if (!path.startsWith("/api") && !path.contains(".") && path.matches("/(.*)")) {
+    if (!path.startsWith("/api")
+        && !path.startsWith("/h2-console")
+        && !path.contains(".")
+        && path.matches("/(.*)")) {
       request.getRequestDispatcher("/").forward(request, response);
       return;
     }

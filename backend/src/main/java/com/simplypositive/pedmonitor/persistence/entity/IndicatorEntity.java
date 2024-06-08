@@ -16,6 +16,7 @@ import lombok.*;
 @Entity(name = "SUSTAINABILITY_INDICATOR")
 @AllArgsConstructor
 @Builder
+@Table(indexes = @Index(name = "indicator_pedId_idx", columnList = "pedId"))
 public class IndicatorEntity {
 
   @Id

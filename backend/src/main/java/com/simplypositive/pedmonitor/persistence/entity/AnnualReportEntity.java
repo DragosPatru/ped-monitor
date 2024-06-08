@@ -16,6 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity(name = "ANNUAL_REPORT")
+@Table(indexes = @Index(name = "annualreport_pedId_idx", columnList = "pedId"))
 public class AnnualReportEntity {
 
   @Id
