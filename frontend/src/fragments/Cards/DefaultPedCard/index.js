@@ -41,7 +41,7 @@ function DefaultPedCard({ color, icon, title, description, action, deleteAction 
 					</MDTypography>
 				</MDBox>
 			</MDBox>
-			<MDBox pb={2} px={2} pt={1} textAlign="justify" lineHeight={1.25}>
+			<MDBox pb={2} px={2} pt={1} textAlign="justify" lineHeight={1}>
 
 				{description && (
 					<MDTypography variant="caption" color="text" fontWeight="regular">
