@@ -18,6 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity(name = "INDICATOR_TASK")
+@Table(indexes = @Index(name = "task_indicatorId_idx", columnList = "indicatorId"))
 public class IndicatorTask {
 
   @Id

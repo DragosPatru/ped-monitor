@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity(name = "INDICATOR_VALUE")
+@Table(indexes = @Index(name = "value_indicatorId_idx", columnList = "indicatorId"))
 public class IndicatorValue {
 
   @Id

@@ -12,6 +12,10 @@ spring:
       ddl-auto: update
       globally_quoted_identifiers: true
 
+  h2:
+    console:
+      enabled: false
+
 app:
   indicators:
     FET0:

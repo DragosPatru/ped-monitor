@@ -30,6 +30,10 @@ function configs(labels, datasets) {
           fill: true,
           data: datasets.data,
           maxBarThickness: 6,
+          datalabels: {
+            align: 'start',
+            anchor: 'start'
+          }
         },
       ],
     },
