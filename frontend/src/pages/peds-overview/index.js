@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
+
 
 // custom components
 import MDBox from "components/MDBox";
@@ -130,7 +132,33 @@ function PedsOverview() {
             </MDBox>
           </Grid>
 
+          <Grid item xs={12} mt={1} mb={2}>
+            <MDBox opacity={0.6}>
+              <Divider />
+            </MDBox>
+            <MDBox lineHeight={1} pr={2} justifyContent="space-between">
+              <MDTypography variant="body2" color="text" fontWeight="light" textAlign="justify">
+                This project has received funding in the framework of the PED Program, which is implemented by
+                the Joint Programming Initiative Urban Europe and SET Plan Action 3.2.
+                The project is supported by the Austrian Ministry of Climate Action,
+                Environment, Energy, Mobility, Innovation, and Technology (BMK) and the RVO
+                (the Netherlands Enterprise Agency), reference number ERANETPED-02767306.
+                This work was supported by a grant of the Ministry of Research,
+                Innovation and Digitization CNCS/CCCDI – UEFISCDI, project number PED-JPI-SIMPLY POSITIVE,
+                contracts number 325/2022 and 326/2022, within PNCDI III and by a grant of the Ministry
+                of Education and Merit - Department for Higher Education and Research, project number
+                PED_00042, from the Fund for Investment in Scientific and Technological Research
+                (FIRST/FAR) and/or Special Accounting Account no. 5944.
+              </MDTypography>
+            </MDBox>
 
+            <MDBox mt={2} pr={2} display="flex">
+              <MDTypography variant="body2" color="text" fontWeight="light">For more information please access: &nbsp;</MDTypography>
+              <MDTypography component="a" variant="body2" color="info" fontWeight="light" target="_blank" rel="noreferrer" href="http://simplypositive.eu/">
+                http://simplypositive.eu/
+              </MDTypography>
+            </MDBox>
+          </Grid>
 
         </Grid>
       </MDBox>
