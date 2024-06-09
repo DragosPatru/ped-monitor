@@ -32,6 +32,8 @@ public class IndicatorEntity {
 
   @NotNull private ResourceStatus definitionStatus = ResourceStatus.INITIAL;
 
+  private Double totalValue = 0.0;
+
   private Instant createdAt = Instant.now();
 
   public boolean isFET() {

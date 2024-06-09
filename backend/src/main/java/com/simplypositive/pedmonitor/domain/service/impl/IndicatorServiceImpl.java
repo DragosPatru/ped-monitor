@@ -75,6 +75,7 @@ public class IndicatorServiceImpl implements IndicatorService {
                 .pedId(pedId)
                 .definitionStatus(ResourceStatus.INITIAL)
                 .createdAt(Instant.now())
+                .totalValue(0.0) // backward compatibility
                 .build();
         indicators.add(indicator);
       }

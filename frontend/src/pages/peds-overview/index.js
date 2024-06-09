@@ -104,7 +104,7 @@ function PedsOverview() {
       <MDBox py={3}>
         <Grid container spacing={3}>
           {peds.map((ped) => (
-            <Grid item xs={12} md={6} lg={3} key={ped.id}>
+            <Grid item xs={12} md={6} lg={4} key={ped.id}>
               <DefaultPedCard
                 icon="account_balance"
                 title={ped.name}
@@ -132,12 +132,18 @@ function PedsOverview() {
             </MDBox>
           </Grid>
 
-          <Grid item xs={12} mt={1} mb={2}>
+        </Grid>
+      </MDBox>
+
+
+      <MDBox width="100%" display="flex" py={0}>
+          <Grid container justifyContent="center">
+          <Grid item xs={12} mt={1} mb={0}>
             <MDBox opacity={0.6}>
               <Divider />
             </MDBox>
             <MDBox lineHeight={1} pr={2} justifyContent="space-between">
-              <MDTypography variant="body2" color="text" fontWeight="light" textAlign="justify">
+              <MDTypography variant="caption" color="text" fontWeight="light" textAlign="justify">
                 This project has received funding in the framework of the PED Program, which is implemented by
                 the Joint Programming Initiative Urban Europe and SET Plan Action 3.2.
                 The project is supported by the Austrian Ministry of Climate Action,
@@ -152,17 +158,15 @@ function PedsOverview() {
               </MDTypography>
             </MDBox>
 
-            <MDBox mt={2} pr={2} display="flex">
-              <MDTypography variant="body2" color="text" fontWeight="light">For more information please access: &nbsp;</MDTypography>
-              <MDTypography component="a" variant="body2" color="info" fontWeight="light" target="_blank" rel="noreferrer" href="http://simplypositive.eu/">
+            <MDBox mt={1} pr={2} display="flex">
+              <MDTypography variant="caption" color="text" fontWeight="light">For more information please access: &nbsp;</MDTypography>
+              <MDTypography component="a" variant="caption" color="info" fontWeight="light" target="_blank" rel="noreferrer" href="http://simplypositive.eu/">
                 http://simplypositive.eu/
               </MDTypography>
             </MDBox>
           </Grid>
-
-        </Grid>
-      </MDBox>
-
+          </Grid>
+          </MDBox>
     </DashboardLayout>
   );
 }
