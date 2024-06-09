@@ -6,10 +6,8 @@ import static org.springframework.http.ResponseEntity.ok;
 import com.simplypositive.pedmonitor.AppConfigurationProperties;
 import com.simplypositive.pedmonitor.application.IndicatorHandler;
 import com.simplypositive.pedmonitor.application.model.IndicatorOverview;
-import com.simplypositive.pedmonitor.application.model.IndicatorUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.service.IndicatorService;
-import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorValue;
 import java.util.List;
@@ -42,12 +40,6 @@ public class IndicatorController implements IndicatorApi {
   public ResponseEntity<IndicatorOverview> getOverview(Integer indicatorId)
       throws ResourceNotFoundException {
     return ok(indicatorHandler.getOverview(indicatorId));
-  }
-
-  @Override
-  public ResponseEntity<IndicatorEntity> update(Integer indicatorId, IndicatorUpdateRequest request)
-      throws ResourceNotFoundException {
-    return ok(indicatorHandler.update(indicatorId, request));
   }
 
   @Override

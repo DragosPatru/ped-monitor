@@ -62,7 +62,7 @@ function ValueCreateModal({ indicatorId, dataSourceCodes, minTargetYear, maxTarg
 
         try {
             openInfoAlert();
-            const result = await IndicatorService.createValue(indicatorId, submissionData);
+            await IndicatorService.createValue(indicatorId, submissionData);
             closeMe(true);
 
         } catch (error) {
@@ -155,7 +155,7 @@ function ValueCreateModal({ indicatorId, dataSourceCodes, minTargetYear, maxTarg
                                     {...commonInputProps}
                                 />
                             </Grid>
-                            <Grid item xs="none" lg={0.4}>
+                            <Grid item xs={false} lg={0.4}>
                                 <></>
                             </Grid>
 

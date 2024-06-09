@@ -1,13 +1,13 @@
 package com.simplypositive.pedmonitor.application;
 
+import static java.util.Collections.emptyList;
+
 import com.simplypositive.pedmonitor.application.model.IndicatorOverview;
-import com.simplypositive.pedmonitor.application.model.IndicatorUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.service.IndicatorService;
 import com.simplypositive.pedmonitor.domain.service.PedService;
 import com.simplypositive.pedmonitor.domain.service.ReportService;
 import com.simplypositive.pedmonitor.persistence.entity.*;
-import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +33,7 @@ public class IndicatorHandler {
     IndicatorEntity indicator = indicatorService.getById(indicatorId);
     PedEntity ped = pedService.getById(indicator.getPedId());
 
-    List<String> dataSourceCodes = Collections.emptyList();
+    List<String> dataSourceCodes = emptyList();
     // TODO: return by year
     if (indicator.isRES()) {
       dataSourceCodes = reportService.getResDataSourceCodes(ped, ped.getTargetYear());
@@ -47,12 +47,6 @@ public class IndicatorHandler {
         .dataSourceCodes(dataSourceCodes)
         .indicator(indicator);
     return builder.build();
-  }
-
-  public IndicatorEntity update(Integer indicatorId, IndicatorUpdateRequest updateRequest)
-      throws ResourceNotFoundException {
-    return indicatorService.configure(
-        indicatorId, updateRequest.getTargetValue(), updateRequest.getTargetYear());
   }
 
   public IndicatorTask updateTask(IndicatorTask task) throws ResourceNotFoundException {

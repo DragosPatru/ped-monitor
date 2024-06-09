@@ -17,9 +17,6 @@ import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
 import SimpleBackdrop from "fragments/Backdrop";
 
-import IndicatorConfigModal from "./components/indicatorConfigModal";
-import TimelineOverview from "./components/timelineOverview";
-
 // service
 import IndicatorService from "services/IndicatorService";
 import indicatorsMap from 'constants/indicators-map';
@@ -29,21 +26,8 @@ import ValuesTable from "./components/values/valuesTable";
 
 function IndicatorOverview() {
   const { indicatorId } = useParams();
-  const [indicatorOverview, setIndicatorOverview] = useState({dataSourceCodes:[]});
+  const [indicatorOverview, setIndicatorOverview] = useState({ dataSourceCodes: [] });
   const [title, setTitle] = useState("");
-
-  const [timelineDates, setTimelineDates] = useState({ creationDate: null, endDate: null });
-
-  // Edit Modal
-  const [editButtonVisible, setEditButtonVisible] = useState(true);
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const openEditModal = () => setEditModalOpen(true);
-  const closeEditModal = (needReload = false) => {
-    setEditModalOpen(false);
-    if (needReload === true) {
-      window.location.reload(false);
-    }
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,17 +36,6 @@ function IndicatorOverview() {
         const overview = await IndicatorService.getOverview(indicatorId);
         setIndicatorOverview(overview);
         setTitle(indicatorsMap.get(overview.indicator.code).title);
-
-        if (overview.configured === true) {
-          setEditButtonVisible(false);
-          setTimelineDates({
-            creationDate: overview.indicator.createdAt, endDate: overview.indicator.endOfTargetYear
-          });
-
-        } else {
-          openNotConfiguredWarningSB();
-        }
-
 
       } catch (error) {
         console.error('Error fetching Indicator data:', error);
@@ -101,7 +74,6 @@ function IndicatorOverview() {
   };
 
   const openErrorSB = () => setAlertSB({ open: true, message: "Could not retrieve data from the server !", color: "error", title: "Error" });
-  const openNotConfiguredWarningSB = () => setAlertSB({ open: true, message: "Indicator is not configured. Please configure it!", color: "warning", title: "Warning" });
   const closeAlertSB = () => setAlertSB({ open: false, message: "", color: "error", title: "" });
   const renderErrorSB = (
     <MDSnackbar
@@ -130,11 +102,6 @@ function IndicatorOverview() {
           {title}
         </MDTypography>
       </MDBox>
-
-      {editButtonVisible && (
-        <MDButton variant="text" color="light" size="large" onClick={openEditModal}>
-          <Icon>settings</Icon>&nbsp;configure
-        </MDButton>)}
     </MDBox>
   );
 
@@ -154,29 +121,17 @@ function IndicatorOverview() {
 
                 {header}
 
-                <IndicatorConfigModal indicatorId={indicatorId} minTargetYear={indicatorOverview.minTargetYear}
-                  maxTargetYear={indicatorOverview.maxTargetYear} isOpen={editModalOpen} onClose={closeEditModal} />
-
-                {!editButtonVisible && (
-                  <MDBox mt={3} mb={3} p={2}>
-                    <Grid container spacing={1}>
-
-                      <Grid item xs={12}>
-                        <TimelineOverview startDate={timelineDates.creationDate} endDate={timelineDates.endDate} />
-                      </Grid>
-
-                      <Grid item xs={12} mt={4}>
-                        <ValuesTable indicatorId={indicatorId} isResIndicator={indicatorOverview?.indicator?.res} dataSourceCodes={indicatorOverview.dataSourceCodes} minTargetYear={indicatorOverview?.minTargetYear}
-                  maxTargetYear={indicatorOverview?.maxTargetYear} allowDataChanges={indicatorOverview.allowDataChanges} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></ValuesTable>
-                      </Grid>
-
-                      <Grid item xs={12} mt={4}>
-                        <TasksTable indicatorId={indicatorId} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></TasksTable>
-                      </Grid>
-
+                <MDBox mt={3} mb={3} p={2}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} mt={4}>
+                      <ValuesTable indicatorId={indicatorId} isResIndicator={indicatorOverview?.indicator?.res} dataSourceCodes={indicatorOverview.dataSourceCodes} minTargetYear={indicatorOverview?.minTargetYear}
+                        maxTargetYear={indicatorOverview?.maxTargetYear} allowDataChanges={indicatorOverview.allowDataChanges} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></ValuesTable>
                     </Grid>
-                  </MDBox>
-                )}
+                    <Grid item xs={12} mt={4}>
+                      <TasksTable indicatorId={indicatorId} onError={openErrorSB} onAsyncOp={openBackdrop} onAsyncOpEnd={closeBackdrop}></TasksTable>
+                    </Grid>
+                  </Grid>
+                </MDBox>
 
               </Card>
             </Grid>

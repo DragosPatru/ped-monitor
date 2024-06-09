@@ -1,6 +1,5 @@
 package com.simplypositive.pedmonitor.domain.service.impl;
 
-import static com.simplypositive.pedmonitor.persistence.entity.ResourceStatus.DONE;
 import static com.simplypositive.pedmonitor.persistence.entity.ResourceStatus.OPEN;
 import static java.util.stream.StreamSupport.stream;
 
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -53,19 +53,6 @@ public class IndicatorServiceImpl implements IndicatorService {
   @Override
   @Transactional
   public IndicatorEntity create(IndicatorEntity indicator) {
-    return repository.save(indicator);
-  }
-
-  @Override
-  public IndicatorEntity configure(Integer indicatorId, Double targetValue, Integer targetYear)
-      throws ResourceNotFoundException {
-    if (targetValue == null || targetValue < 0 || targetYear == null || targetYear <= 2000) {
-      throw new IllegalArgumentException("invalid data to configure an indicator");
-    }
-    IndicatorEntity indicator = getById(indicatorId);
-    indicator.setTargetValue(targetValue);
-    indicator.setTargetYear(targetYear);
-    indicator.setDefinitionStatus(DONE);
     return repository.save(indicator);
   }
 
@@ -120,22 +107,14 @@ public class IndicatorServiceImpl implements IndicatorService {
   @Override
   public List<IndicatorStats> getPedIndicatorsStats(int pedId) {
     return repository.findAllByPedId(pedId).stream()
-        .map(i -> IndicatorStats.with().indicator(i).progress(0.0).build())
+        .map(
+            i ->
+                IndicatorStats.with()
+                    .indicator(i)
+                    .progress(0.0)
+                    .hasData(hasData(i.getId()))
+                    .build())
         .toList();
-  }
-
-  @Override
-  public IndicatorStats getStats(Integer indicatorId) throws ResourceNotFoundException {
-    IndicatorEntity indicator = findByIdElseThrow(indicatorId);
-    //    SustainabilityCalculator calculator =
-    //        registry
-    //            .getCalculator(indicator.getCode())
-    //            .orElseThrow(
-    //                () -> new ResourceNotFoundException("Sustainability calculator not defined"));
-
-    // TODO
-    double progress = 0.0;
-    return new IndicatorStats(progress, indicator);
   }
 
   @Override
@@ -143,7 +122,6 @@ public class IndicatorServiceImpl implements IndicatorService {
   public IndicatorValue addData(Integer indicatorId, IndicatorValue value)
       throws ResourceNotFoundException {
     IndicatorEntity indicator = findByIdElseThrow(indicatorId);
-    indicator.setTotalValue(indicator.getTotalValue() + value.getAmount());
     repository.save(indicator);
     value.setIndicatorId(indicatorId);
     if (value.getCreatedAt() != null) {
@@ -172,7 +150,6 @@ public class IndicatorServiceImpl implements IndicatorService {
       values.forEach(
           value -> {
             value.setIndicatorId(indicatorId);
-            indicator.setTotalValue(indicator.getTotalValue() + value.getAmount());
           });
       stream(valueRepository.saveAll(values).spliterator(), false).forEach(i -> savedValues.add(i));
     }
@@ -199,6 +176,11 @@ public class IndicatorServiceImpl implements IndicatorService {
   @Override
   public List<IndicatorValue> getData(Integer indicatorId) {
     return valueRepository.findAllByIndicatorIdOrderByCreatedAtDesc(indicatorId);
+  }
+
+  @Override
+  public boolean hasData(Integer indicatorId) {
+    return valueRepository.findAllByIndicatorId(indicatorId, Pageable.ofSize(1)).hasContent();
   }
 
   @Override
