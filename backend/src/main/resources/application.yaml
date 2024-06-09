@@ -5,17 +5,26 @@ spring:
     url: jdbc:h2:file:~/pedmonitor/data
     driverClassName: org.h2.Driver
     username: ${DB_USER:dbuser}
-    password: ${DB_USER:dbpassword}
+    password: ${DB_PASSWORD:dbpassword}
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
       globally_quoted_identifiers: true
 
   h2:
     console:
-      enabled: false
+      enabled: true
 
+  flyway:
+    enabled: true
+    url: jdbc:h2:file:~/pedmonitor/data
+    baseline-on-migrate: true
+    user: ${DB_USER:dbuser}
+    password: ${DB_PASSWORD:dbpassword}
+
+# APP Process specific properties
 app:
   indicators:
     FET0:
