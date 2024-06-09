@@ -8,6 +8,8 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import MDSnackbar from "components/MDSnackbar";
+import Tooltip from '@mui/material/Tooltip';
+import { Icon } from "@mui/material";
 
 import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
@@ -23,6 +25,8 @@ import IndicatorsForm from "./indicatorsForm"
 import { countriesEU } from "constants/eu-countries"
 import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties"
 import PedService from "services/PedService";
+import HelpInputLabel from "./helpInputLabel";
+
 
 function DefinePed() {
     const [basicFormState, handleBasicInputChange] = useBasicState();
@@ -227,15 +231,19 @@ function DefinePed() {
                                             </Grid>
 
                                             <Grid item xs={12} md={6}>
+
                                                 <MDInput
-                                                    label="Baseline Year"
+                                                    // InputLabelProps={{ style: { pointerEvents: "auto" } }}
+                                                    label={
+                                                        <HelpInputLabel label={"Baseline Year *"} helpText={"Demo help text"} />
+                                                    }
                                                     name="baselineYear"
                                                     type="number"
                                                     value={basicFormState.baselineYear.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.baselineYear.isValid}
                                                     helperText={!basicFormState.baselineYear.isValid ? "Value required. Greater than 2000 and less than 'Target Year'" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} md={6}>
