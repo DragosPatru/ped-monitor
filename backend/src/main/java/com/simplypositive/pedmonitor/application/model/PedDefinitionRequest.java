@@ -43,10 +43,7 @@ public class PedDefinitionRequest {
   @NotNull
   private Double avgHouseholdIncome;
 
-  @Min(1)
   private Integer heatingDegreeDays;
-
-  @Min(1)
   private Integer coolingDegreeDays;
 
   @NotNull

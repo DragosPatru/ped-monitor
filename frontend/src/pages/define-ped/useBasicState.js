@@ -10,12 +10,12 @@ const useBasicState = () => {
       focusDistrictSize: { value: '', isValid: false },
       buildUpAreaSize: { value: '', isValid: false },
       focusDistrictPopulation: { value: '', isValid: false },
-      heatingDegreeDays: { value: '', isValid: false },
-      coolingDegreeDays: { value: '', isValid: false },
+      heatingDegreeDays: { value: '', isValid: true },
+      coolingDegreeDays: { value: '', isValid: true },
       avgHouseholdIncome: {value: '', isValid: false},
 
       percentSelfSupplyRenewableEnergyInBaseline: { value: '', isValid: false },
-      primaryEnergyFactor: { value: '2.5', isValid: true },
+      primaryEnergyFactor: { value: '1.9', isValid: true },
       
       ghgEmissionsTotalInBaseline: { value: '', isValid: false },
 

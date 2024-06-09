@@ -37,26 +37,19 @@ public class PedEntity {
 
   private Instant createdAt = Instant.now();
 
-  @Min(1)
   @NotNull
   private Double focusDistrictSize;
 
-  @Min(1)
   @NotNull
   private Double buildUpAreaSize;
 
-  @Min(1)
   @NotNull
   private Long focusDistrictPopulation;
 
-  @Min(1)
   @NotNull
   private Double avgHouseholdIncome;
 
-  @Min(1)
   private Integer heatingDegreeDays;
-
-  @Min(1)
   private Integer coolingDegreeDays;
 
   @NotNull

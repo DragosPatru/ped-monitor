@@ -343,7 +343,7 @@ function DefinePed() {
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.heatingDegreeDays.isValid}
                                                     helperText={!basicFormState.heatingDegreeDays.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
                                             {/* Cooling Degree Days */}
@@ -356,7 +356,7 @@ function DefinePed() {
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.coolingDegreeDays.isValid}
                                                     helperText={!basicFormState.coolingDegreeDays.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
 
