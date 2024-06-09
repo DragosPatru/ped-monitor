@@ -71,7 +71,7 @@ function KpiSection({ section, sectionKey, kpis }) {
     };
 
     return (
-        <CollapsableRow title={title} titleFontWeight="regular" rightMostText="" description="" key={sectionKey + "-collapsable"}>
+        <CollapsableRow title={title} rightMostText="" description="" key={sectionKey + "-collapsable"}>
             <MDBox key={sectionKey + "-section"} sx={{ paddingLeft: '1rem' }} width="100%">
                 <Grid container mt={2} mb={-1}>
                     {section.kpisGhg.map(kpiCode => {

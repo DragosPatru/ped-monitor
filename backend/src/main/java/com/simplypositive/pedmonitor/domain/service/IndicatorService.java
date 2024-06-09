@@ -13,9 +13,6 @@ public interface IndicatorService {
 
   IndicatorEntity create(IndicatorEntity indicator);
 
-  IndicatorEntity configure(Integer indicatorId, Double targetValue, Integer targetYear)
-      throws ResourceNotFoundException;
-
   List<IndicatorEntity> defineAll(Set<String> indicatorCodes, Integer pedId);
 
   List<IndicatorEntity> createAll(List<IndicatorEntity> indicators);
@@ -23,8 +20,6 @@ public interface IndicatorService {
   List<IndicatorEntity> getPedIndicators(int pedId);
 
   List<IndicatorStats> getPedIndicatorsStats(int pedId);
-
-  IndicatorStats getStats(Integer indicatorId) throws ResourceNotFoundException;
 
   IndicatorValue addData(Integer indicatorId, IndicatorValue value)
       throws ResourceNotFoundException;
@@ -37,6 +32,8 @@ public interface IndicatorService {
   IndicatorEntity getById(Integer indicatorId) throws ResourceNotFoundException;
 
   List<IndicatorValue> getData(Integer indicatorId);
+
+  boolean hasData(Integer indicatorId);
 
   List<IndicatorValue> getData(Integer indicatorId, Integer year);
 

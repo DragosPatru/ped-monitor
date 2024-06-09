@@ -3,9 +3,7 @@ package com.simplypositive.pedmonitor.api;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.simplypositive.pedmonitor.application.model.IndicatorOverview;
-import com.simplypositive.pedmonitor.application.model.IndicatorUpdateRequest;
 import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
-import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorValue;
 import jakarta.validation.Valid;
@@ -18,12 +16,6 @@ public interface IndicatorApi {
 
   @GetMapping(value = "/{indicatorId}/overview", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<IndicatorOverview> getOverview(@PathVariable @NotNull Integer indicatorId)
-      throws ResourceNotFoundException;
-
-  @PutMapping(value = "/{indicatorId}", produces = APPLICATION_JSON_VALUE)
-  ResponseEntity<IndicatorEntity> update(
-      @PathVariable @NotNull Integer indicatorId,
-      @RequestBody @Valid IndicatorUpdateRequest request)
       throws ResourceNotFoundException;
 
   @PostMapping(

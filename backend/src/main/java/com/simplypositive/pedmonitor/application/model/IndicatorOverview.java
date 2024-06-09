@@ -26,7 +26,7 @@ public class IndicatorOverview extends IndicatorStats {
       Integer minTargetYear,
       Integer maxTargetYear,
       List<String> dataSourceCodes) {
-    super(progress, indicator);
+    super(progress, indicator, false);
     this.minTargetYear = minTargetYear;
     this.maxTargetYear = maxTargetYear;
     this.dataSourceCodes = dataSourceCodes;

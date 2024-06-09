@@ -1,7 +1,6 @@
 package com.simplypositive.pedmonitor.domain.model;
 
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
-import com.simplypositive.pedmonitor.persistence.entity.ResourceStatus;
 import lombok.*;
 
 @Getter
@@ -10,14 +9,12 @@ public class IndicatorStats {
 
   private Double progress = 0.0;
   private IndicatorEntity indicator;
+  private boolean hasData;
 
   @Builder(builderMethodName = "with")
-  public IndicatorStats(Double progress, IndicatorEntity indicator) {
+  public IndicatorStats(Double progress, IndicatorEntity indicator, boolean hasData) {
     this.progress = progress;
     this.indicator = indicator;
-  }
-
-  public boolean isConfigured() {
-    return indicator != null && indicator.getDefinitionStatus() != ResourceStatus.INITIAL;
+    this.hasData = hasData;
   }
 }

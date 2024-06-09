@@ -3,10 +3,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import CollapsableRow from 'fragments/CollapsableRow';
 import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import Grid from "@mui/material/Grid";
 
-import DetailsCard from "./detailsCard";
 import Indicator from "./indicator";
 import KpiChart from "./kpiChart";
 
@@ -39,7 +37,7 @@ const renderKpis = (kpiCodes, kpis, showTitle, color) => {
         }
         return kpi;
     });
-    if (shouldRenderKpis == false) {
+    if (shouldRenderKpis === false) {
         return null;
     }
 
@@ -65,9 +63,9 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
 
         const indicator = stats.indicator;
         const title = indicatorsMap.get(indicatorCode).shortTitleInSubcategory;
-        const displayOpts = stats.configured === false ?
-            ({ color: "error", value: "Not Configured" }) :
-            ({ color: "info", value: "Configured" }); // stats.progress + " %" 
+        const displayOpts = stats.hasData === false ?
+            ({ color: "error", value: "No values recorded" }) :
+            ({ color: "info", value: "" });
 
         return (
             <Indicator key={indicator.code}
@@ -131,7 +129,7 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
     return (
         <CollapsableRow
             title={title}
-            titleFontWeight="regular"
+            // titleFontWeight="regular"
             rightMostText=""
             description=""
             key={sectionKey + "-collapsable"}>
