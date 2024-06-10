@@ -61,10 +61,6 @@ public class PedDefinitionRequest {
   // year
   private Double percentSelfSupplyRenewableEnergyInBaseline;
 
-  @NotNull
-  // total quantity of GHG emissions in baseline year
-  private Double ghgEmissionsTotalInBaseline;
-
   @NotNull private Double primaryEnergyFactor;
 
   @NotNull private Double ghgEmissionFactorElectricity;
@@ -95,7 +91,6 @@ public class PedDefinitionRequest {
             .focusDistrictSize(focusDistrictSize)
             .focusDistrictPopulation(focusDistrictPopulation)
             .avgHouseholdIncome(avgHouseholdIncome)
-            .ghgEmissionsTotalInBaseline(ghgEmissionsTotalInBaseline)
             .percentSelfSupplyRenewableEnergyInBaseline(percentSelfSupplyRenewableEnergyInBaseline)
             .build();
     return ped;

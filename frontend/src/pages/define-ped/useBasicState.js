@@ -17,8 +17,6 @@ const useBasicState = () => {
       percentSelfSupplyRenewableEnergyInBaseline: { value: '', isValid: false },
       primaryEnergyFactor: { value: '1.9', isValid: true },
       
-      ghgEmissionsTotalInBaseline: { value: '', isValid: false },
-
       ghgEmissionFactorElectricity: { value: '', isValid: false },
       ghgEmissionFactorElectricitySource: { value: '', isValid: false },
       ghgEmissionFactorForHeathColdGenerated: { value: '', isValid: false },
