@@ -1,13 +1,25 @@
 import Tooltip from '@mui/material/Tooltip';
-import { Icon } from "@mui/material";
+import { Icon } from '@mui/material';
+import { styled } from '@mui/system';
+import { tooltipClasses } from '@mui/material/Tooltip';
+import MDTypography from 'components/MDTypography';
 
-export default function HelpInputLabel({label, helpText}) {
+
+const StyledTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))({
+    [`& .${tooltipClasses.tooltip}`]: {
+        textAlign: 'justify',
+    },
+});
+
+export default function HelpInputLabel({ label, helpText }) {
     return (
         <div>
             {label}
-            <Tooltip title={helpText} placement='right'>
+            <StyledTooltip title={<MDTypography variant="button" color="white" fontWeight="light" dangerouslySetInnerHTML={{ __html: helpText }}></MDTypography>} placement='right'>
                 <Icon>help</Icon>
-            </Tooltip>
+            </StyledTooltip>
         </div>
     );
 }

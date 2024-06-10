@@ -8,8 +8,6 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import MDSnackbar from "components/MDSnackbar";
-import Tooltip from '@mui/material/Tooltip';
-import { Icon } from "@mui/material";
 
 import DashboardLayout from "fragments/Layouts/DashboardLayout";
 import DashboardNavbar from "fragments/Navbars/DashboardNavbar";
@@ -23,10 +21,10 @@ import useBasicState from "./useBasicState";
 import IndicatorsForm from "./indicatorsForm"
 
 import { countriesEU } from "constants/eu-countries"
-import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties"
+import { commonInputPropsNotRequired } from "constants/component-properties"
 import PedService from "services/PedService";
 import HelpInputLabel from "./helpInputLabel";
-
+import HelpInputLabelLarge from "./helpInputLabelLarge";
 
 function DefinePed() {
     const [basicFormState, handleBasicInputChange] = useBasicState();
@@ -196,13 +194,15 @@ function DefinePed() {
                                         <Grid container spacing={3}>
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Name"
+                                                    label={
+                                                        <HelpInputLabel label={"Name *"} helpText={"name of the district or area for which a Positive Energy District (PED) would be implemented"} />
+                                                    }
                                                     name="name"
                                                     value={basicFormState.name.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.name.isValid}
                                                     helperText={!basicFormState.name.isValid ? "Value required. No more than 250 characters" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
 
@@ -235,7 +235,7 @@ function DefinePed() {
                                                 <MDInput
                                                     // InputLabelProps={{ style: { pointerEvents: "auto" } }}
                                                     label={
-                                                        <HelpInputLabel label={"Baseline Year *"} helpText={"Demo help text"} />
+                                                        <HelpInputLabel label={"Baseline Year *"} helpText={"baseline year for the calculation of progress for PED achievement"} />
                                                     }
                                                     name="baselineYear"
                                                     type="number"
@@ -248,39 +248,30 @@ function DefinePed() {
                                             </Grid>
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Target Year"
+                                                    label={
+                                                        <HelpInputLabel label={"Target Year *"} helpText={"target year set up by the user to achieve PED status"} />
+                                                    }
                                                     name="targetYear"
                                                     value={basicFormState.targetYear.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.targetYear.isValid}
                                                     helperText={!basicFormState.targetYear.isValid ? "Value required. Greater than 'Baseline Year'" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
 
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Degree of energetic self-supply by RES in baseline year (%)"
+                                                    label={
+                                                        <HelpInputLabel label={"Degree of energetic self-supply by RES in baseline year (%) *"} helpText={"percent of final energy consumption provided by renewable energy generated on-site in baseline year"} />
+                                                    }
                                                     name="percentSelfSupplyRenewableEnergyInBaseline"
                                                     type="number"
                                                     value={basicFormState.percentSelfSupplyRenewableEnergyInBaseline.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.percentSelfSupplyRenewableEnergyInBaseline.isValid}
                                                     helperText={!basicFormState.percentSelfSupplyRenewableEnergyInBaseline.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
-                                                />
-                                            </Grid>
-
-                                            <Grid item xs={12} md={6}>
-                                                <MDInput
-                                                    label="GHG emissions in baseline year (tCO2eq/a)"
-                                                    name="ghgEmissionsTotalInBaseline"
-                                                    type="number"
-                                                    value={basicFormState.ghgEmissionsTotalInBaseline.value}
-                                                    onChange={handleBasicInputChange}
-                                                    error={!basicFormState.ghgEmissionsTotalInBaseline.isValid}
-                                                    helperText={!basicFormState.ghgEmissionsTotalInBaseline.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
 
@@ -290,52 +281,60 @@ function DefinePed() {
                                             {/* Total Area Size */}
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Size of Focus District (sq. meters)"
+                                                    label={
+                                                        <HelpInputLabel label={"Size of Focus District (m²) *"} helpText={"m² of district"} />
+                                                    }
                                                     name="focusDistrictSize"
                                                     type="number"
                                                     value={basicFormState.focusDistrictSize.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.focusDistrictSize.isValid}
                                                     helperText={!basicFormState.focusDistrictSize.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
                                             {/* Number of Citizens */}
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Population of Focus District"
+                                                    label={
+                                                        <HelpInputLabel label={"Population of Focus District *"} helpText={"no. of citizens"} />
+                                                    }
                                                     name="focusDistrictPopulation"
                                                     type="number"
                                                     value={basicFormState.focusDistrictPopulation.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.focusDistrictPopulation.isValid}
                                                     helperText={!basicFormState.focusDistrictPopulation.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
                                             {/* Build Up Area Size */}
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Build Up Area Size (sq. meters)"
+                                                    label={
+                                                        <HelpInputLabel label={"Build Up Area Size (sq. meters) *"} helpText={"m² of the focus district which has buildings"} />
+                                                    }
                                                     name="buildUpAreaSize"
                                                     type="number"
                                                     value={basicFormState.buildUpAreaSize.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.buildUpAreaSize.isValid}
                                                     helperText={!basicFormState.buildUpAreaSize.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
 
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Average Household Income (EUR)"
+                                                    label={
+                                                        <HelpInputLabel label={"Average Household Income (EUR) *"} helpText={"average household income EUR in the focus disctrict"} />
+                                                    }
                                                     name="avgHouseholdIncome"
                                                     value={basicFormState.avgHouseholdIncome.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.avgHouseholdIncome.isValid}
                                                     helperText={!basicFormState.avgHouseholdIncome.isValid ? "Value required." : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
 
@@ -344,7 +343,9 @@ function DefinePed() {
                                             {/* Heating Degree Days */}
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Heating Degree Days"
+                                                    label={
+                                                        <HelpInputLabelLarge label={"Heating Degree Days *"} helpText={"Heating degree days (HDD) are a measurement used to quantify the demand for energy needed to heat a building. They represent the number of degrees that a day’s average temperature is below 65°F (18°C), which is the temperature below which buildings need to be heated. Free reference for calculation: https://www.degreedays.net/"} />
+                                                    }
                                                     name="heatingDegreeDays"
                                                     type="number"
                                                     value={basicFormState.heatingDegreeDays.value}
@@ -357,7 +358,9 @@ function DefinePed() {
                                             {/* Cooling Degree Days */}
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Cooling Degree Days"
+                                                    label={
+                                                        <HelpInputLabelLarge label={"Cooling Degree Days *"} helpText={"Cooling Degree Days represent the cumulative difference between the average daily temperature and a reference temperature (usually 65°F or 18.3°C); this parameter is used to assess cooling energy requirements for buildings and manage energy consumption. Free reference for calculation: https://www.degreedays.net/"} />
+                                                    }
                                                     name="coolingDegreeDays"
                                                     type="number"
                                                     value={basicFormState.coolingDegreeDays.value}
@@ -374,14 +377,21 @@ function DefinePed() {
                                             {/* Dynamic indicators */}
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Primary Energy Factor"
+                                                    label={
+                                                        <HelpInputLabelLarge label={"Primary Energy Factor *"}
+                                                            helpText={"yearly primary energy factor may be the pre-selected default European average of"
+                                                                + " 1.9 OR can be insert manually; according to Art. 13 of Directive (EU) 2023/1791 "
+                                                                + "(available here: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AJOL_2023_231_R_0001&qid=1695186598766 ),"
+                                                                + " the default primary energy factor of 1.9 is to be used, unless there are other justified national circumstances. "
+                                                                + "Primary conversion factors may be found in national Energy Plans and strategies, depending on each country profile."} />
+                                                    }
                                                     name="primaryEnergyFactor"
                                                     type="number"
                                                     value={basicFormState.primaryEnergyFactor.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.primaryEnergyFactor.isValid}
                                                     helperText={!basicFormState.primaryEnergyFactor.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
 
@@ -395,50 +405,64 @@ function DefinePed() {
 
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Factor for electricity (t CO2-eq/MWh)"
+                                                    label={
+                                                        <HelpInputLabelLarge label={"Factor for electricity - value (t CO2-eq/MWh) *"} helpText={"Please insert yearly emission factors for grid electricity. Emission factors may be obtained:<br/><strong>(1) from electricity provider (suggested) and should be updated anually</strong> <br/>(2) from international databases such as IPPC." +
+                                                            "<br/>IMPORTANT: all yearly conversion factors introduced in the tool must be from the same source (e.g. energy provider) for all the monitoring years." +
+                                                            "<br/>Examples of open-source database: Joint Research Centre Data Catalogue <br/> -> please select the lates version of GHG Emission Factors for Electricity Consumption <br/>-> Table 3: CoM emission factors for national electricity for EU member states, Iceland and Norway: Life-cycle (LC) approach, GHG emissions in tonnes CO2-eq/MWh <br/>-> select the conversion factor closest to your baseline year <br/>-> yearly check the database for updates " +
+                                                            "link: https://data.jrc.ec.europa.eu/collection/id-00172 "} />
+                                                    }
                                                     name="ghgEmissionFactorElectricity"
                                                     type="number"
                                                     value={basicFormState.ghgEmissionFactorElectricity.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.ghgEmissionFactorElectricity.isValid}
                                                     helperText={!basicFormState.ghgEmissionFactorElectricity.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Factor for electricity - source"
+                                                    label={
+                                                        <HelpInputLabelLarge label={"Factor for electricity - source *"} helpText={"source of yearly emission factor provided for electricity;<br/> IMPORTANT: all yearly emission factors introduced in the tool must be from the same source (e.g. energy provider) for all the monitoring years."} />
+                                                    }
                                                     name="ghgEmissionFactorElectricitySource"
                                                     type="text"
                                                     value={basicFormState.ghgEmissionFactorElectricitySource.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.ghgEmissionFactorElectricitySource.isValid}
                                                     helperText={!basicFormState.ghgEmissionFactorElectricitySource.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Factor for heat/cold generated in the district (t CO2-eq/MWh)"
+                                                    label={
+                                                        <HelpInputLabelLarge label={"Factor for heat/cold generated in the district (t CO2-eq/MWh) *"} helpText={"Please insert yearly emission factors for locally produced heat (or cold), if local powerplants are in place for the district. Emission factors may be obtained:<br/>(1) from generation facility, based on specific studies <br/>(2) from international databases such as IPPC." +
+                                                            "<br/> IMPORTANT: all yearly emission factors introduced in the tool must be from the same source (e.g. IPPC) for all the monitoring years." +
+                                                            "<br/> Examples of open-source database: Joint Research Centre Data Catalogue <br/>-> please select the lates version of GHG Emission Factors for Local Energy Use <br/>-> Table 1 & Table 2 <br/>-> select the conversion factor according to the source of energy used within your facility <br/>-> yearly check the database for updates" +
+                                                            "<br/> link: https://data.jrc.ec.europa.eu/collection/id-00172"} />
+                                                    }
                                                     name="ghgEmissionFactorForHeathColdGenerated"
                                                     type="number"
                                                     value={basicFormState.ghgEmissionFactorForHeathColdGenerated.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.ghgEmissionFactorForHeathColdGenerated.isValid}
                                                     helperText={!basicFormState.ghgEmissionFactorForHeathColdGenerated.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
-                                                    label="Factor for heat/cold generated in the district - source"
+                                                    label={
+                                                        <HelpInputLabelLarge label={"Factor for heat/cold generated in the district - source *"} helpText={"source of yearly emission factor provided for electricity;<br/>IMPORTANT: all yearly emission factors introduced in the tool must be from the same source (e.g. IPPC) for all the monitoring years."} />
+                                                    }
                                                     name="ghgEmissionFactorForHeathColdGeneratedSource"
                                                     type="text"
                                                     value={basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.value}
                                                     onChange={handleBasicInputChange}
                                                     error={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.isValid}
                                                     helperText={!basicFormState.ghgEmissionFactorForHeathColdGeneratedSource.isValid ? "Value required" : ""}
-                                                    {...commonInputProps}
+                                                    {...commonInputPropsNotRequired}
                                                 />
                                             </Grid>
 

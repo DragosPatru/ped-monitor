@@ -1,3 +1,4 @@
 CREATE TABLE positive_energy_district_v2 AS SELECT * FROM positive_energy_district;
+ALTER TABLE positive_energy_district_v2 DROP COLUMN GHG_EMISSIONS_TOTAL_IN_BASELINE;
 DROP TABLE positive_energy_district;
 ALTER TABLE positive_energy_district_v2 RENAME TO positive_energy_district;
