@@ -3,7 +3,6 @@ import { Checkbox, FormGroup, FormControl, FormControlLabel } from '@mui/materia
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import CollapsableRow from 'fragments/CollapsableRow';
-import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Grid from "@mui/material/Grid";
 
