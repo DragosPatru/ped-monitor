@@ -344,7 +344,7 @@ function DefinePed() {
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
                                                     label={
-                                                        <HelpInputLabelLarge label={"Heating Degree Days *"} helpText={"Heating degree days (HDD) are a measurement used to quantify the demand for energy needed to heat a building. They represent the number of degrees that a day’s average temperature is below 65°F (18°C), which is the temperature below which buildings need to be heated. Free reference for calculation: https://www.degreedays.net/"} />
+                                                        <HelpInputLabelLarge label={"Heating Degree Days *"} helpText={"Heating degree days (HDD) are a measurement used to quantify the demand for energy needed to heat a building. They represent the number of degrees that a day’s average temperature is below 65°F (18°C), which is the temperature below which buildings need to be heated. Free reference for calculation: <a style='color: yellow;font-weight: bold;' target='_blank' href='https://www.degreedays.net/'>https://www.degreedays.net/</a>"} />
                                                     }
                                                     name="heatingDegreeDays"
                                                     type="number"
@@ -359,7 +359,7 @@ function DefinePed() {
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
                                                     label={
-                                                        <HelpInputLabelLarge label={"Cooling Degree Days *"} helpText={"Cooling Degree Days represent the cumulative difference between the average daily temperature and a reference temperature (usually 65°F or 18.3°C); this parameter is used to assess cooling energy requirements for buildings and manage energy consumption. Free reference for calculation: https://www.degreedays.net/"} />
+                                                        <HelpInputLabelLarge label={"Cooling Degree Days *"} helpText={"Cooling Degree Days represent the cumulative difference between the average daily temperature and a reference temperature (usually 65°F or 18.3°C); this parameter is used to assess cooling energy requirements for buildings and manage energy consumption. Free reference for calculation: <a style='color: yellow;font-weight: bold;' target='_blank' href='https://www.degreedays.net/'>https://www.degreedays.net/</a>"} />
                                                     }
                                                     name="coolingDegreeDays"
                                                     type="number"
@@ -381,7 +381,7 @@ function DefinePed() {
                                                         <HelpInputLabelLarge label={"Primary Energy Factor *"}
                                                             helpText={"yearly primary energy factor may be the pre-selected default European average of"
                                                                 + " 1.9 OR can be insert manually; according to Art. 13 of Directive (EU) 2023/1791 "
-                                                                + "(available here: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AJOL_2023_231_R_0001&qid=1695186598766 ),"
+                                                                + "(available <a style='color: yellow;font-weight: bold;' target='_blank' href='https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AJOL_2023_231_R_0001&qid=1695186598766'>here</a>),"
                                                                 + " the default primary energy factor of 1.9 is to be used, unless there are other justified national circumstances. "
                                                                 + "Primary conversion factors may be found in national Energy Plans and strategies, depending on each country profile."} />
                                                     }
@@ -409,7 +409,7 @@ function DefinePed() {
                                                         <HelpInputLabelLarge label={"Factor for electricity - value (t CO2-eq/MWh) *"} helpText={"Please insert yearly emission factors for grid electricity. Emission factors may be obtained:<br/><strong>(1) from electricity provider (suggested) and should be updated anually</strong> <br/>(2) from international databases such as IPPC." +
                                                             "<br/>IMPORTANT: all yearly conversion factors introduced in the tool must be from the same source (e.g. energy provider) for all the monitoring years." +
                                                             "<br/>Examples of open-source database: Joint Research Centre Data Catalogue <br/> -> please select the lates version of GHG Emission Factors for Electricity Consumption <br/>-> Table 3: CoM emission factors for national electricity for EU member states, Iceland and Norway: Life-cycle (LC) approach, GHG emissions in tonnes CO2-eq/MWh <br/>-> select the conversion factor closest to your baseline year <br/>-> yearly check the database for updates " +
-                                                            "link: https://data.jrc.ec.europa.eu/collection/id-00172 "} />
+                                                            "<a style='color: yellow;font-weight: bold;' target='_blank' href='https://data.jrc.ec.europa.eu/collection/id-00172'>here</a>"} />
                                                     }
                                                     name="ghgEmissionFactorElectricity"
                                                     type="number"
@@ -439,8 +439,8 @@ function DefinePed() {
                                                     label={
                                                         <HelpInputLabelLarge label={"Factor for heat/cold generated in the district (t CO2-eq/MWh) *"} helpText={"Please insert yearly emission factors for locally produced heat (or cold), if local powerplants are in place for the district. Emission factors may be obtained:<br/>(1) from generation facility, based on specific studies <br/>(2) from international databases such as IPPC." +
                                                             "<br/> IMPORTANT: all yearly emission factors introduced in the tool must be from the same source (e.g. IPPC) for all the monitoring years." +
-                                                            "<br/> Examples of open-source database: Joint Research Centre Data Catalogue <br/>-> please select the lates version of GHG Emission Factors for Local Energy Use <br/>-> Table 1 & Table 2 <br/>-> select the conversion factor according to the source of energy used within your facility <br/>-> yearly check the database for updates" +
-                                                            "<br/> link: https://data.jrc.ec.europa.eu/collection/id-00172"} />
+                                                            "<br/> Examples of open-source database: Joint Research Centre Data Catalogue <br/>-> please select the lates version of GHG Emission Factors for Local Energy Use <br/>-> Table 1 & Table 2 <br/>-> select the conversion factor according to the source of energy used within your facility <br/>-> yearly check the database for updates " +
+                                                            "<a style='color: yellow;font-weight: bold;' target='_blank' href='https://data.jrc.ec.europa.eu/collection/id-00172'>here</a>"} />
                                                     }
                                                     name="ghgEmissionFactorForHeathColdGenerated"
                                                     type="number"
