@@ -35,7 +35,7 @@ const renderKpis = (kpiCodes, kpis, showTitle, color) => {
         return kpi;
     });
 
-    if (shouldRenderKpis == false) {
+    if (shouldRenderKpis === false) {
         return null;
     }
 
@@ -92,7 +92,7 @@ export default function IndicatorsStatsGhg({ kpis }) {
     return (
         <Grid item xs={12} pl={2} pr={2}>
             <CollapsableRow
-                title="Environment Related (Greenhouse Gas Emissions)"
+                title="Greenhouse Gas Emissions"
                 titleVariant="subtitle2"
                 rightMostText=""
                 description="">
