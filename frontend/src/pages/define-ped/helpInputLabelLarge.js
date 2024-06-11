@@ -15,12 +15,14 @@ const StyledTooltip = styled(({ className, ...props }) => (
   },
 });
 
-export default function HelpInputLabelLarge({ label, helpText }) {
+export default function HelpInputLabelLarge({ label, helpText, warning=false}) {
+  const icon = warning ? "error_outline_outlined" : "help";
+  const color = warning ? "warning" : "";
   return (
     <div>
       {label}
       <StyledTooltip title={<MDTypography variant="button" color="white" fontWeight="light" dangerouslySetInnerHTML={{ __html: helpText }}></MDTypography>} placement='right'>
-        <Icon>help</Icon>
+        <Icon color={color}>{icon}</Icon>
       </StyledTooltip>
     </div>
   );
