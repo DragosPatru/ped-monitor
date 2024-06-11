@@ -6,7 +6,7 @@ import CollapsableRow from 'fragments/CollapsableRow';
 import Divider from '@mui/material/Divider';
 import Grid from "@mui/material/Grid";
 
-import HelpInputLabelLarge from "pages/define-ped/helpInputLabelLarge";
+import HelpInputLabelLarge from "fragments/Labels/helpInputLabelLarge";
 
 import energyRelatedIndicators from 'constants/indicators-sections';
 import indicatorsMap from 'constants/indicators-map';
@@ -96,9 +96,9 @@ function DataSourceFactorsFET({ itemNamePrefix, onDataSourceChange }) {
         <MDBox>
             <MDTypography variant="h5" fontWeight="bold" color="text">
                 <HelpInputLabelLarge warning={true} label="Energy Sources " helpText={"please select the types of energy sources applicable in your district"
-                    + "<br/>IMPORTANT: (1) if you have Electricity provided by a grid supplier please select <strong>Electricity</strong>"
-                    + "<br/>(2) if you have local generation of heat/cold, please select <strong>Locally produced Heat/cold</strong>"
-                    + "<br/><strong>(3) if you do not select in this stage ALL energy sources which are applicable to your district, data cannot be inserted in the later stage</strong>"}></HelpInputLabelLarge>
+                    + "<br/>IMPORTANT: (1) if you have Electricity provided by a grid supplier please select <strong>'Electricity'</strong>"
+                    + "<br/>(2) if you have local generation of heat/cold, please select <strong>'Locally produced Heat/cold'</strong>"
+                    + "<br/><strong>(3) IMPORTANT: if you do not select in this stage ALL energy sources which are applicable to your district, data cannot be inserted in the later stage</strong>"}></HelpInputLabelLarge>
 
             </MDTypography>
             <Divider />
@@ -153,7 +153,7 @@ export default function IndicatorsForm({ handleIndicatorSelection, handleFetData
         >
             <MDTypography variant="subtitle1" color="dark" fontWeight="bold" mb={2}>
                 <HelpInputLabelLarge warning={true} label="Relevant indicators for PED " helpText={"please select ALL energy sources and types of energy sectors which apply to your PED."
-                    + "</br><strong>IMPORTANT! if you do not select in this stage ALL applicable data for your district, data cannot be inserted in the later stage</strong>"} />
+                    + "</br><strong>IMPORTANT: if you do not select in this stage ALL applicable data for your district, data cannot be inserted in the later stage</strong>"} />
             </MDTypography>
 
             <CollapsableRow
@@ -174,7 +174,7 @@ export default function IndicatorsForm({ handleIndicatorSelection, handleFetData
                             <HelpInputLabelLarge warning={true} label="Energy Sectors " helpText={"please select the sectors of energy consumptions / renewable energy production you would like to monitor as part of your system boundaries; categories are defined according to Covenant of Mayors methodology"
                                 + "<br/>IMPORTANT: (1) select as many categories as possible in order to have an accurate PED progress"
                                 + "<br/>(2) energy consumptions/generation must be monitored according to these categories"
-                                + "<br/><strong>(3) if you do not select in this stage ALL categories which are applicable to your district, data cannot be inserted in the later stage</strong>"}>
+                                + "<br/><strong>(3) IMPORTANT: if you do not select in this stage ALL categories which are applicable to your district, data cannot be inserted in the later stage</strong>"}>
                             </HelpInputLabelLarge>
                         </MDTypography>
                         <Divider></Divider>

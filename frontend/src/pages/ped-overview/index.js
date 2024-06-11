@@ -225,7 +225,6 @@ function PedOverview() {
                         <Detail label="Baseline Year" textValue={pedOverview.ped.baselineYear} />
                         <Detail label="Target Year" textValue={pedOverview.ped.targetYear} />
                         <Detail label="Self Supply Renewable Energy In Baseline" textValue={pedOverview.ped.percentSelfSupplyRenewableEnergyInBaseline + "%"} />
-                        <Detail label="GHG Emissions Total In Baseline" textValue={pedOverview.ped.ghgEmissionsTotalInBaseline + " (tCO2eq/a)"} />
                       </DetailsCard>
                     </Grid>
 
@@ -289,8 +288,12 @@ function PedOverview() {
                         <Detail label="Population of focus district" textValue={pedOverview.ped.focusDistrictPopulation + " people"} />
                         <Detail label="Build Up Area Size" textValue={pedOverview.ped.buildUpAreaSize + " (sq. meters)"} />
                         <Detail label="AVG Household Income" textValue={pedOverview.ped.avgHouseholdIncome + " EUR"} />
-                        <Detail label="Heating Degree Days" textValue={pedOverview.ped.heatingDegreeDays + "  days/year"} />
-                        <Detail label="Cooling Degree Days" textValue={pedOverview.ped.coolingDegreeDays + " days/year"} />
+                        {pedOverview.ped.heatingDegreeDays !== null && (
+                          <Detail label="Heating Degree Days" textValue={pedOverview.ped.heatingDegreeDays + "  days/year"} />
+                        )}
+                        {pedOverview.ped.coolingDegreeDays !== null && (
+                          <Detail label="Cooling Degree Days" textValue={pedOverview.ped.coolingDegreeDays + " days/year"} />
+                        )}
 
                         {pedOverview.ped.peopleReached !== null && (
                           <Detail label="People Reached" textValue={pedOverview.ped.peopleReached + ""} />
