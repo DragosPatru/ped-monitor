@@ -23,8 +23,8 @@ import IndicatorsForm from "./indicatorsForm"
 import { countriesEU } from "constants/eu-countries"
 import { commonInputPropsNotRequired } from "constants/component-properties"
 import PedService from "services/PedService";
-import HelpInputLabel from "./helpInputLabel";
-import HelpInputLabelLarge from "./helpInputLabelLarge";
+import HelpInputLabel from "fragments/Labels/helpInputLabel";
+import HelpInputLabelLarge from "fragments/Labels/helpInputLabelLarge";
 
 function DefinePed() {
     const [basicFormState, handleBasicInputChange] = useBasicState();
@@ -96,7 +96,7 @@ function DefinePed() {
 
         if (!allValid || !atLeastOneDs || !atLeastOneIndicator) {
             openValidationErrorSB("Please make sure all the required values are filled and at " +
-                "least one indicator and data-source are selected !");
+                "least one 'Energy Source' and 'Energy Sector' are selected !");
             return;
         }
 
@@ -116,8 +116,9 @@ function DefinePed() {
         const submissionData = {
             ...Object.keys(basicFormState).reduce((acc, key) => {
                 const value = basicFormState[key].value;
-                // Convert to number if possible, otherwise keep as original
-                acc[key] = Number.isFinite(+value) ? +value : value;
+                if (value) {
+                    acc[key] = Number.isFinite(+value) ? +value : value;
+                  }
                 return acc;
             }, {}),
             indicators: indicators,
@@ -344,7 +345,7 @@ function DefinePed() {
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
                                                     label={
-                                                        <HelpInputLabelLarge label={"Heating Degree Days *"} helpText={"Heating degree days (HDD) are a measurement used to quantify the demand for energy needed to heat a building. They represent the number of degrees that a day’s average temperature is below 65°F (18°C), which is the temperature below which buildings need to be heated. Free reference for calculation: <a style='color: yellow;font-weight: bold;' target='_blank' href='https://www.degreedays.net/'>https://www.degreedays.net/</a>"} />
+                                                        <HelpInputLabelLarge label={"Heating Degree Days "} helpText={"Heating degree days (HDD) are a measurement used to quantify the demand for energy needed to heat a building. They represent the number of degrees that a day’s average temperature is below 65°F (18°C), which is the temperature below which buildings need to be heated. Free reference for calculation: <a style='color: yellow;font-weight: bold;' target='_blank' href='https://www.degreedays.net/'>https://www.degreedays.net/</a>"} />
                                                     }
                                                     name="heatingDegreeDays"
                                                     type="number"
@@ -359,7 +360,7 @@ function DefinePed() {
                                             <Grid item xs={12} md={6}>
                                                 <MDInput
                                                     label={
-                                                        <HelpInputLabelLarge label={"Cooling Degree Days *"} helpText={"Cooling Degree Days represent the cumulative difference between the average daily temperature and a reference temperature (usually 65°F or 18.3°C); this parameter is used to assess cooling energy requirements for buildings and manage energy consumption. Free reference for calculation: <a style='color: yellow;font-weight: bold;' target='_blank' href='https://www.degreedays.net/'>https://www.degreedays.net/</a>"} />
+                                                        <HelpInputLabelLarge label={"Cooling Degree Days "} helpText={"Cooling Degree Days represent the cumulative difference between the average daily temperature and a reference temperature (usually 65°F or 18.3°C); this parameter is used to assess cooling energy requirements for buildings and manage energy consumption. Free reference for calculation: <a style='color: yellow;font-weight: bold;' target='_blank' href='https://www.degreedays.net/'>https://www.degreedays.net/</a>"} />
                                                     }
                                                     name="coolingDegreeDays"
                                                     type="number"
