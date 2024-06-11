@@ -1,5 +1,6 @@
 const energyRelatedIndicators = {
-    title: "Energy Related",
+    title: "Energy consumption and generation",
+    titleGhg: "Greenhouse Gas Emissions",
     kpis:["FET0", "SS", "PET0"],
     kpisGhg:["FET0_GHG_"],
     sectionsFET: [
@@ -119,7 +120,7 @@ const energyRelatedIndicators = {
 
     sectionsRES: [
         {
-            title: "RES generation",
+            title: "Locally produced renewable energy",
             hasSubsections: false,
             kpis:["RES0"],
             items: [
