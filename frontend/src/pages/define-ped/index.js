@@ -94,14 +94,14 @@ function DefinePed() {
         const atLeastOneIndicator = selectedIndicators.size > 0;
         const countryHasValue = basicFormState["country"].value.length > 0;
 
-        if (!countryHasValue) {
-            openValidationErrorSB("Please select a 'Country'!");
-            return;
-        }
-
         if (!allValid || !atLeastOneDs || !atLeastOneIndicator) {
             openValidationErrorSB("Please make sure all the required values are filled and at " +
                 "least one indicator and data-source are selected !");
+            return;
+        }
+
+        if (!countryHasValue) {
+            openValidationErrorSB("Please select a 'Country'!");
             return;
         }
 
@@ -126,7 +126,7 @@ function DefinePed() {
         };
 
         try {
-            const result = await PedService.create(submissionData);
+            await PedService.create(submissionData);
             return navigate("/peds");
 
         } catch (error) {
