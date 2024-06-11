@@ -94,7 +94,7 @@ function DataSourceFactorsFET({ itemNamePrefix, onDataSourceChange }) {
     return (
         <MDBox>
             <MDTypography variant="h5" fontWeight="bold" color="text">
-                Data Sources
+                Energy Sources
             </MDTypography>
             <Divider />
             <FormGroup key="fet-source-section" sx={{ paddingLeft: '1rem' }}>
@@ -125,7 +125,7 @@ function DataSourcesRES({ itemNamePrefix, onDataSourceChange }) {
 
     return (
         <CollapsableRow
-            title="RES generation"
+            title="Locally produced renewable energy"
             titleFontWeight="regular"
             rightMostText=""
             description=""
@@ -165,7 +165,7 @@ export default function IndicatorsForm({ handleIndicatorSelection, handleFetData
 
                     <MDBox ml={2} mr={2} mt={4}>
                         <MDTypography variant="h5" fontWeight="bold" color="text">
-                            Indicators &nbsp;
+                        Energy Sectors &nbsp;
                             <Chip label="to be filled annualy" sx={{ fontWeight: 'regular' }} variant="outlined" size="small" />
                         </MDTypography>
                         <Divider></Divider>
