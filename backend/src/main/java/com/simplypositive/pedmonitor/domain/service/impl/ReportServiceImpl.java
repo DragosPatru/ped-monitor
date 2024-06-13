@@ -285,7 +285,7 @@ public class ReportServiceImpl implements ReportService {
       var result = Math.max(minValue.getValue(), 0);
       if (result > 0) {
         // TODO: CALCULATE GHG for baseline year
-        //result = (1 - result / ped.getGhgEmissionsTotalInBaseline()) * 100;
+        // result = (1 - result / ped.getGhgEmissionsTotalInBaseline()) * 100;
 
       } else {
         result = 100;
