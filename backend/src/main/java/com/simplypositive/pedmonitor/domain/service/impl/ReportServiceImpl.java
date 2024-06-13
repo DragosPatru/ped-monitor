@@ -249,55 +249,30 @@ public class ReportServiceImpl implements ReportService {
   }
 
   private void computeOverallStats(PedEntity ped, PedStats stats) {
-    var overallRes = stats.kpiByCode(SS).isPresent();
+    var overallSs = stats.kpiByCode(SS).isPresent();
     var overallGhg = stats.kpiByCode(GHG).isPresent();
 
-    if (overallRes) {
+    if (overallSs) {
       List<AnnualValue> ssValues = stats.kpiByCode(SS).get();
-      AnnualValue maxValue = Collections.max(ssValues, Comparator.comparing(AnnualValue::getValue));
-      var result = Math.min(maxValue.getValue(), 100);
-      stats.setOverallRes(withScale(result, 1));
+      stats.setOverallSs(
+          calculateSsProgressAgainstBaseline(
+              ped.getBaselineYear(),
+              ped.getPercentSelfSupplyRenewableEnergyInBaseline(),
+              ssValues));
     }
-
-    //    if (overallRes) {
-    //      List<AnnualValue> ssValues = stats.kpiByCode(SS).get();
-    //      AnnualValue maxValue = Collections.max(ssValues,
-    // Comparator.comparing(AnnualValue::getValue));
-    //      var result = Math.min(maxValue.getValue(), 100);
-    //      if (result < 100) {
-    //       // calculate progress against self supply in baseline
-    //        AnnualValue fet0Value = stats.kpiByCode("FET0").get().stream().filter(v ->
-    // maxValue.getYear().equals(v.getYear())).findFirst().get();
-    //        AnnualValue res0Value = stats.kpiByCode("RES0").get().stream().filter(v ->
-    // maxValue.getYear().equals(v.getYear())).findFirst().get();
-    //
-    //        double selfSupplyBaseline = ped.getPercentSelfSupplyRenewableEnergyInBaseline() *
-    // fet0Value.getValue() / 100;
-    //        result = (res0Value.getValue() - selfSupplyBaseline) / (fet0Value.getValue() -
-    // selfSupplyBaseline) * 100;
-    //      }
-    //      stats.setOverallRes(withScale(result, 1));
-    //    }
 
     if (overallGhg) {
       List<AnnualValue> values = stats.kpiByCode(GHG).get();
-      AnnualValue minValue = Collections.min(values, Comparator.comparing(AnnualValue::getValue));
-      var result = Math.max(minValue.getValue(), 0);
-      if (result > 0) {
-        // TODO: CALCULATE GHG for baseline year
-        // result = (1 - result / ped.getGhgEmissionsTotalInBaseline()) * 100;
-
-      } else {
-        result = 100;
-      }
-
-      stats.setOverallGhg(withScale(result, 1));
+      stats.setOverallGhg(calculateGhgProgressAgainstBaseline(ped.getBaselineYear(), values));
     }
 
-    if (stats.getOverallRes() != null && stats.getOverallGhg() != null) {
+    if (stats.getOverallSs() != null && stats.getOverallGhg() != null) {
       stats.setOverallResGhg(
           withScale(
-              (stats.getOverallRes().doubleValue() + stats.getOverallGhg().doubleValue()) / 2, 2));
+              (stats.getOverallSs().getCurrentValue().getValue()
+                      + stats.getOverallGhg().getCurrentValue().getValue())
+                  / 2,
+              2));
     }
   }
 
@@ -317,6 +292,71 @@ public class ReportServiceImpl implements ReportService {
       }
     }
 
+    return null;
+  }
+
+  private PedStats.OverallStats calculateSsProgressAgainstBaseline(
+      Integer baselineYear, Double baselineValue, List<AnnualValue> ssValues) {
+    List<AnnualValue> valuesExcludingBaseline =
+        ssValues.stream()
+            .filter(v -> !baselineYear.equals(v.getYear()))
+            .collect(Collectors.toList());
+    if (!valuesExcludingBaseline.isEmpty()) {
+      AnnualValue lastValue =
+          Collections.max(valuesExcludingBaseline, Comparator.comparing(AnnualValue::getYear));
+      AnnualValue maxValue =
+          Collections.max(valuesExcludingBaseline, Comparator.comparing(AnnualValue::getValue));
+      double progress = 0.0;
+      if (lastValue.getValue().equals(baselineValue)) {
+        progress = 0.0;
+
+      } else if (lastValue.getValue().doubleValue() == 100) {
+        progress = 100;
+
+      } else if (baselineValue == 100) {
+        progress = lastValue.getValue() - baselineValue;
+
+      } else {
+        progress = ((lastValue.getValue() - baselineValue) / (100 - baselineValue)) * 100;
+      }
+
+      new PedStats.OverallStats(
+          new AnnualValue(lastValue.getYear(), progress),
+          maxValue,
+          new AnnualValue(baselineYear, baselineValue));
+    }
+
+    return null;
+  }
+
+  private PedStats.OverallStats calculateGhgProgressAgainstBaseline(
+      Integer baselineYear, List<AnnualValue> ghgValues) {
+    Optional<AnnualValue> baselineValue =
+        ghgValues.stream().filter(v -> baselineYear.equals(v.getYear())).findFirst();
+    if (baselineValue.isPresent()) {
+        AnnualValue lastValue =
+            Collections.max(ghgValues, Comparator.comparing(AnnualValue::getYear));
+        AnnualValue minValue =
+            Collections.min(ghgValues, Comparator.comparing(AnnualValue::getValue));
+
+        var progress = Math.max(lastValue.getValue(), 0);
+        if (baselineValue.get().getValue() == 0.0) {
+          if (lastValue.getValue() > 0) {
+            progress = 0.0;
+          }
+
+        } else if (progress > 0) {
+          progress = (1 - lastValue.getValue() / baselineValue.get().getValue()) * 100;
+
+        } else {
+          progress = 100;
+        }
+        PedStats.OverallStats overallGhgStats =
+            new PedStats.OverallStats(
+                new AnnualValue(lastValue.getYear(), progress), minValue, baselineValue.get());
+        return overallGhgStats;
+
+    }
     return null;
   }
 

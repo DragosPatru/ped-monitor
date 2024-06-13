@@ -94,10 +94,7 @@ public class PedHandler {
         .ped(ped)
         .lastYearReport(annualReport)
         .indicatorsStats(indicatorsOverview)
-        .kpis(pedStats.getKpisByYear())
-        .overallGhg(pedStats.getOverallGhg())
-        .overallResGhg(pedStats.getOverallResGhg())
-        .overallRes(pedStats.getOverallRes())
+        .pedStats(pedStats)
         .build();
   }
 
