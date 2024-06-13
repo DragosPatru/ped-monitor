@@ -66,33 +66,52 @@ function PedOverview() {
           setEditButtonVisible(false);
         }
 
-        if (overview.overallRes) {
+        if (overview.pedStats.overallRes) {
+          let overallRes = overview.pedStats.overallRes;
+          let value = overallRes.currentValue.value.toFixed(2);
+          let baselineValue = overallRes.baselineValue.value.toFixed(2);
+          let bestValue = overallRes.bestValue.value.toFixed(2);
+          let gaugeProps = calculateGaugeChartProps(value);
           setResChartConfig(
             {
+              title: "Progress of degree of renewable energy self-supply for " + overallRes.currentValue.year,
+              description: "Progress against the baseline year value of " + baselineValue + " %. Highest value was " + bestValue + "% achieved in " + overallRes.bestValue.year,
               datasets: {
                 label: "Progress",
-                backgroundColors: ["info", "light"],
-                data: [overview.overallRes, (100 - overview.overallRes) < 0 ? 0 : (100 - overview.overallRes)],
+                backgroundColors: [gaugeProps.color, "light"],
+                data: [value, gaugeProps.remainingToFill],
               }
             })
         }
 
-        if (overview.overallGhg) {
+        if (overview.pedStats.overallGhg) {
+          let overallGhg = overview.pedStats.overallGhg;
+          let value = overallGhg.currentValue.value.toFixed(2);
+          let baselineValue = overallGhg.baselineValue.value.toFixed(2);
+          let bestValue = overallGhg.bestValue.value.toFixed(2);
+          let gaugeProps = calculateGaugeChartProps(value);
+
           setGhgChartConfig({
+            title: "Progress of Greenhouse Gas Emissions reduction rate for " + overallGhg.currentValue.year,
+            description: "Progress against the baseline year value of " + baselineValue + " tCO2eq/a. Lowest value was " + bestValue + " tCO2eq/a achieved in " + overallGhg.bestValue.year,
             datasets: {
               label: "Progress",
-              backgroundColors: ["info", "light"],
-              data: [overview.overallGhg, (100 - overview.overallGhg) < 0 ? 0 : (100 - overview.overallGhg)],
+              backgroundColors: [gaugeProps.color, "light"],
+              data: [value, gaugeProps.remainingToFill],
             }
           });
         }
 
-        if (overview.overallResGhg) {
+        if (overview.pedStats.overallResGhg) {
+          let value = overview.pedStats.overallResGhg;
+          let gaugeProps = calculateGaugeChartProps(value);
           setGhgResChartConfig({
+            title: "Overall PED/PEN Achievement Rate",
+            description: "",
             datasets: {
               label: "Progress",
-              backgroundColors: ["info", "light"],
-              data: [overview.overallResGhg, (100 - overview.overallResGhg) < 0 ? 0 : (100 - overview.overallResGhg)],
+              backgroundColors: [gaugeProps.color, "light"],
+              data: [value, gaugeProps.remainingToFill],
             }
           });
         }
@@ -342,40 +361,40 @@ function PedOverview() {
                       </DetailsCard>
                     </Grid>
 
-                    {pedOverview.overallRes && (
+                    {pedOverview.pedStats.overallRes && (
                       <Grid item xs={12} md={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "info", component: "leaderboard" }}
-                          title="Renewable Energy (RES)"
-                          description={"vs. baseline year: " + pedOverview.ped.percentSelfSupplyRenewableEnergyInBaseline + "%"}
-                          chart={resChartConfig}
+                          title={resChartConfig.title}
+                          description={resChartConfig.description}
+                          chart={{ datasets: resChartConfig.datasets }}
                         />
                       </Grid>)}
 
-                    {pedOverview.overallGhg && (
+                    {pedOverview.pedStats.overallGhg && (
                       <Grid item xs={8} md={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "dark", component: "leaderboard" }}
-                          title="Greenhouse Gas Emissions (GHG)"
-                          description={"Progress against the baseline " + pedOverview.ped.ghgEmissionsTotalInBaseline + " tCO2eq/a"}
-                          chart={ghgChartConfig}
+                          title={ghgChartConfig.title}
+                          description={ghgChartConfig.description}
+                          chart={{ datasets: ghgChartConfig.datasets }}
                         />
                       </Grid>)}
 
-                    {pedOverview.overallResGhg && (
+                    {pedOverview.pedStats.overallResGhg && (
                       <Grid item xs={8} md={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "success", component: "leaderboard" }}
-                          title="Overall Achievement Rate"
-                          description="Average of RES & GHG"
-                          chart={ghgResChartConfig}
+                          title={ghgResChartConfig.title}
+                          description={ghgResChartConfig.description}
+                          chart={{ datasets: ghgResChartConfig.datasets }}
                         />
                       </Grid>)}
 
                     <Grid item xs={12}>
                       <DetailsCard title="PED Indicators" description={" "} shadow={true}>
-                        <IndicatorsStats kpis={pedOverview.kpis} indicatorsStats={pedOverview.indicatorsStats} />
-                        <IndicatorsStatsGhg kpis={pedOverview.kpis} />
+                        <IndicatorsStats kpis={pedOverview?.pedStats?.kpisByYear} indicatorsStats={pedOverview.indicatorsStats} />
+                        <IndicatorsStatsGhg kpis={pedOverview?.pedStats?.kpisByYear} />
                       </DetailsCard>
                     </Grid>
 
@@ -395,6 +414,14 @@ function PedOverview() {
     </DashboardLayout>
 
   );
+}
+
+function calculateGaugeChartProps(value) {
+  let color = value > 0 ? "info" : "error";
+  var remainingToFill = value < 0 ? 0 : 100 - value;
+  remainingToFill = remainingToFill < 0 ? 0 : remainingToFill;
+
+  return { color: color, remainingToFill: remainingToFill };
 }
 
 export default PedOverview;

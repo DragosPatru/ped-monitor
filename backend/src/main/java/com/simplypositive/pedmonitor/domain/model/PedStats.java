@@ -14,8 +14,8 @@ import lombok.*;
 public class PedStats {
 
   Map<String, List<AnnualValue>> kpisByYear = new HashMap<>();
-  private BigDecimal overallRes;
-  private BigDecimal overallGhg;
+  private OverallStats overallSs;
+  private OverallStats overallGhg;
   private BigDecimal overallResGhg;
 
   public Optional<List<AnnualValue>> kpiByCode(String code) {
@@ -23,5 +23,14 @@ public class PedStats {
       return empty();
     }
     return of(kpisByYear.get(code));
+  }
+
+  @Getter
+  @Setter
+  @AllArgsConstructor
+  public static class OverallStats {
+    private AnnualValue currentValue;
+    private AnnualValue bestValue;
+    private AnnualValue baselineValue;
   }
 }
