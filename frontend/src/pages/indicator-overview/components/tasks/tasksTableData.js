@@ -17,7 +17,7 @@ export const tasksTableRows = (tasks) => {
         status: task.status,
         created: task.creationDate,
         deadline: task.deadline,
-        remainingBudget: task.remainingBudgetPercentage,
+        spentBudgetPercentage: task.spentBudgetPercentage,
         plannedBudget: task.plannedBudget,
         action: task,
     }))) : [];
@@ -36,7 +36,7 @@ export const tasksTableColumns = [
     { Header: "deadline", accessor: "deadline", align: "left" },
     { Header: "Planned Budget (EUR)", accessor: "plannedBudget", align: "left" },
     {
-        Header: "Remaining budget", accessor: "remainingBudget", align: "left", Cell: ({ cell: { value } }) => (
+        Header: "Completion rate (%)", accessor: "spentBudgetPercentage", align: "left", Cell: ({ cell: { value } }) => (
             <Progress value={value}></Progress>
         )
     },
@@ -58,15 +58,17 @@ const Status = ({ value }) => {
 };
 
 const Progress = ({ value }) => {
-    const displayValue = value ? value : 0;
-    const color = displayValue <= 40 ? "error" : "success";
+    var displayValue = value ? value : 0;
+    displayValue = Math.min(displayValue, 100);
+    const displayText = value ? value : 0;
+    const color = displayValue <= 50 ? "error" : "success";
     return (
         <MDBox display="flex" alignItems="center">
             <MDTypography variant="caption" color="text" fontWeight="medium">
-                {displayValue}%
+                {displayText}%
             </MDTypography>
             <MDBox ml={0.5} width="9rem">
-                <MDProgress variant="gradient" color={color} value={displayValue} />
+                <MDProgress variant="gradient" color={color} value={displayValue}/>
             </MDBox>
         </MDBox>
     )
