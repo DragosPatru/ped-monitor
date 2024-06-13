@@ -65,12 +65,10 @@ public class IndicatorTask {
   }
 
   @Transient
-  public BigDecimal getRemainingBudgetPercentage() {
-    double value = 100;
+  public BigDecimal getSpentBudgetPercentage() {
+    double value = 0;
     if (actualBudget != null && plannedBudget != null) {
-      value = (1 - actualBudget / plannedBudget) * 100;
-    } else {
-      value = plannedBudget > 0 ? 100 : 0;
+      value = (actualBudget / plannedBudget) * 100;
     }
     return withDefaultScale(value);
   }
