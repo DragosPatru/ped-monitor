@@ -16,9 +16,9 @@ import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 
-import HelpInputLabelLarge from "fragments/Labels/helpInputLabelLarge"
+import HelpInputLabelLarge from "fragments/Labels/helpInputLabelLarge";
 import PedService from "services/PedService";
-import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties"
+import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties";
 
 function EditModal({ pedOverview, isOpen, onClose }) {
   const [basicFormState, handleBasicInputChange, resetFormState] = useEditablePedState(pedOverview);

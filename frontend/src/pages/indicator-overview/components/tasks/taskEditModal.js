@@ -18,7 +18,8 @@ import MDInput from "components/MDInput";
 
 import Dropdown from "fragments/Dropdown";
 import IndicatorService from "services/IndicatorService";
-import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties"
+import { commonInputProps, commonInputPropsNotRequired } from "constants/component-properties";
+import HelpInputLabelLarge from "fragments/Labels/helpInputLabelLarge";
 
 const energyUnits = [
     { key: "MWh_EURO", title: "MWh/EURO" },
@@ -166,7 +167,9 @@ function TaskEditModal({ task, isOpen, onClose }) {
 
                             <Grid item xs={12} md={5.8} mt={2}>
                                 <MDInput
-                                    label="Record expense (EUR)"
+                                    label={
+                                        <HelpInputLabelLarge label={"Record expense (EUR) "} helpText={"Total expenses: " + Number(task?.actualBudget) + " EUR"} />
+                                      }
                                     name="expense"
                                     type="number"
                                     value={basicFormState.expense.value}
