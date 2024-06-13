@@ -27,6 +27,7 @@ import MDTypography from "components/MDTypography";
 
 // ReportsLineChart configurations
 import configs from "./configs";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(
   CategoryScale,
@@ -59,7 +60,7 @@ function ReportsLineChart({ color, title, titleVariant, italicText, description,
           mt={-5}
           height="12.5rem"
         >
-          <Line data={chartConfig.data} options={chartConfig.options} redraw />
+          <Line data={chartConfig.data} plugins={[ChartDataLabels]} options={chartConfig.options} redraw />
         </MDBox>
 
         <MDBox pt={2} pb={0} px={0} sx={{ fontStyle: fontStyle }}>
@@ -101,7 +102,7 @@ ReportsLineChart.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   date: PropTypes.string,
-  chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
+  chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.string, PropTypes.number])).isRequired,
 };
 
 export default ReportsLineChart;
