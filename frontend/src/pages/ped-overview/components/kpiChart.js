@@ -27,7 +27,7 @@ function formatKpiDataForChart(entries, unit) {
     if (!entries) {
         return null;
     }
-    const label = "Value (" + unit + ")";
+    const label = "" + unit + "";
     entries.sort((a, b) => a.year - b.year);
 
     // Map the sorted entries to labels and data
@@ -40,7 +40,8 @@ function formatKpiDataForChart(entries, unit) {
         datasets: {
             label: label,
             data: values
-        }
+        },
+        measureUnit: unit + ""
     };
 
     return formattedData;

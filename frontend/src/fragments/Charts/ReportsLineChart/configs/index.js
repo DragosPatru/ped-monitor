@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-function configs(labels, datasets) {
+function configs(labels, datasets, measureUnit) {
   return {
     data: {
       labels,
@@ -51,6 +51,25 @@ function configs(labels, datasets) {
       },
       scales: {
         y: {
+          title: {
+            display: true,
+            text: measureUnit,
+            color: "#f8f9fa",
+            align: "center", // start | center | end
+            font: {
+              size: 14,
+              weight: 300,
+              family: "Roboto",
+              style: "normal",
+              lineHeight: 1.25,
+            },
+            padding: {
+              top: 8,
+              bottom: -4,
+              left: 0,
+              right: 0,
+            },
+          },
           grid: {
             drawBorder: false,
             display: true,
@@ -63,6 +82,9 @@ function configs(labels, datasets) {
             display: true,
             color: "#f8f9fa",
             padding: 10,
+            callback: function(value, index, values) {
+              return value; // here can be customized
+            },
             font: {
               size: 14,
               weight: 300,
