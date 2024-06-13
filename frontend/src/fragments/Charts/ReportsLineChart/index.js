@@ -41,7 +41,7 @@ ChartJS.register(
 
 function ReportsLineChart({ color, title, titleVariant, italicText, description, date, chart, shadow, bgColor }) {
   //const { data, options } = configs(chart.labels || [], chart.datasets || {});
-  const chartConfig = useMemo(() => configs(chart.labels || [], chart.datasets || {}), [chart.labels, chart.datasets]);
+  const chartConfig = useMemo(() => configs(chart.labels || [], chart.datasets || {}, chart.measureUnit || ""), [chart.labels, chart.datasets, chart.measureUnit]);
   const fontStyle = italicText === true ? 'italic' : 'normal';
 
   return (
