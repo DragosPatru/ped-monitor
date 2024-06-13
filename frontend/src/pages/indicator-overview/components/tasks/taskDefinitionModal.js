@@ -141,7 +141,7 @@ function TaskDefinitionModal({ indicatorId, isOpen, onClose }) {
                                     {...commonInputProps}
                                 />
                             </Grid>
-                            <Grid item xs="none" lg={0.4}>
+                            <Grid item xs={false} lg={0.4}>
                                 <></>
                             </Grid>
                             <Grid item xs={12} lg={5.8} mt={1}>
@@ -170,7 +170,7 @@ function TaskDefinitionModal({ indicatorId, isOpen, onClose }) {
                                 />
                             </Grid>
 
-                            <Grid item xs="none" lg={0.4}>
+                            <Grid item xs={false} lg={0.4}>
                                 <></>
                             </Grid>
 

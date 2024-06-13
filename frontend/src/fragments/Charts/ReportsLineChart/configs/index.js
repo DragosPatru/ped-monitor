@@ -30,10 +30,6 @@ function configs(labels, datasets, measureUnit) {
           fill: true,
           data: datasets.data,
           maxBarThickness: 6,
-          datalabels: {
-            align: 'start',
-            anchor: 'start'
-          }
         },
       ],
     },
@@ -44,6 +40,14 @@ function configs(labels, datasets, measureUnit) {
         legend: {
           display: false,
         },
+        datalabels: {
+          color: "#f8f9fa",
+          align: 'top',
+          anchor: 'center',
+          formatter: function(value, context) {
+            return value !== null ? value.toFixed(1) : '';
+          },
+        }
       },
       interaction: {
         intersect: false,
@@ -83,7 +87,7 @@ function configs(labels, datasets, measureUnit) {
             color: "#f8f9fa",
             padding: 10,
             callback: function(value, index, values) {
-              return value; // here can be customized
+              return value; // customize the Y axis
             },
             font: {
               size: 14,
