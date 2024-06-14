@@ -165,7 +165,7 @@ function TaskEditModal({ task, isOpen, onClose }) {
                                 />
                             </Grid>
 
-                            <Grid item xs={12} md={5.8} mt={2}>
+                            <Grid item xs={12} lg={5.8} mt={2}>
                                 <MDInput
                                     label={
                                         <HelpInputLabelLarge label={"Record expense (EUR) "} helpText={"Total expenses: " + Number(task?.actualBudget) + " EUR"} />
@@ -180,7 +180,7 @@ function TaskEditModal({ task, isOpen, onClose }) {
                                 />
                             </Grid>
 
-                            <Grid item xs={false} md={6}>
+                            <Grid item xs={false} lg={6}>
                                 <></>
                             </Grid>
 

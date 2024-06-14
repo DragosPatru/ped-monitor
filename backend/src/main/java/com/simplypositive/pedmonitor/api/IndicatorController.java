@@ -68,7 +68,7 @@ public class IndicatorController implements IndicatorApi {
 
   @Override
   public ResponseEntity<?> getTasks(Integer indicatorId) throws ResourceNotFoundException {
-    List<IndicatorTask> tasks = service.getTasks(indicatorId);
+    List<IndicatorTask> tasks = service.getTasksStats(indicatorId);
     return tasks.isEmpty() ? noContent().build() : ok(tasks);
   }
 

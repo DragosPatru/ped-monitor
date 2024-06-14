@@ -60,7 +60,7 @@ const Status = ({ value }) => {
 const Progress = ({ value }) => {
     var displayValue = value ? value : 0;
     displayValue = Math.min(displayValue, 100);
-    const displayText = value ? value : 0;
+    const displayText = value ? parseFloat(value).toFixed(2) : 0;
     const color = displayValue <= 50 ? "error" : "success";
     return (
         <MDBox display="flex" alignItems="center">

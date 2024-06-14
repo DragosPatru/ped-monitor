@@ -17,6 +17,7 @@ public class PedStats {
   private OverallStats overallSs;
   private OverallStats overallGhg;
   private BigDecimal overallResGhg;
+  private BigDecimal overallTasksProgress;
 
   public Optional<List<AnnualValue>> kpiByCode(String code) {
     if (kpisByYear == null || !kpisByYear.containsKey(code)) {

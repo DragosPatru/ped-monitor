@@ -15,6 +15,7 @@ import com.simplypositive.pedmonitor.domain.model.*;
 import com.simplypositive.pedmonitor.domain.service.*;
 import com.simplypositive.pedmonitor.persistence.entity.AnnualReportEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
+import com.simplypositive.pedmonitor.persistence.entity.IndicatorTaskStats;
 import com.simplypositive.pedmonitor.persistence.entity.PedEntity;
 import com.simplypositive.pedmonitor.persistence.repository.AnnualReportRepository;
 import jakarta.transaction.Transactional;
@@ -169,8 +170,20 @@ public class ReportServiceImpl implements ReportService {
 
     PedStats stats = PedStats.builder().kpisByYear(kpisByYear).build();
     computeOverallStats(ped, stats);
+    computeOverallTasksProgress(indicators, stats);
 
     return stats;
+  }
+
+  private void computeOverallTasksProgress(List<IndicatorEntity> indicators, PedStats stats) {
+    IndicatorTaskStats taskStats = indicatorService.getTasksStats(indicators);
+    if (taskStats != null) {
+      if (taskStats.getTotalActualBudget() != null && taskStats.getTotalPlannedBudget() != null) {
+        stats.setOverallTasksProgress(
+            withScale(
+                (taskStats.getTotalActualBudget() / taskStats.getTotalPlannedBudget()) * 100, 2));
+      }
+    }
   }
 
   @Override
