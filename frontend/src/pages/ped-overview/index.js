@@ -408,7 +408,7 @@ function PedOverview() {
 
                     <Grid item xs={12}>
                       <DetailsCard title="PED Indicators" description={" "} shadow={true}>
-                        {pedOverview.pedStats.overallTasksProgress && (
+                        {pedOverview.pedStats.overallTasksProgress !== null && (
                           <MDBox bgColor={"grey-100"} p={1} borderRadius="lg" ml={2} mr={2} sx={{ width: { xs: "100%", md: "75%", lg: "50%" } }}>
                             <MDTypography variant="h6" fontWeight="medium" color="text">Overall progress of energy efficiency measures</MDTypography>
                             <Progress value={pedOverview?.pedStats?.overallTasksProgress} />
