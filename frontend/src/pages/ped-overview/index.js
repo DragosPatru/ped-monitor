@@ -13,6 +13,7 @@ import MDBox from "components/MDBox";
 import MDSnackbar from "components/MDSnackbar";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import MDProgress from "components/MDProgress";
 
 // fragments
 import DashboardLayout from "fragments/Layouts/DashboardLayout";
@@ -80,11 +81,13 @@ function PedOverview() {
                 This progress directly supports <strong>SGD 7</strong> Affordable and clean energy,
                 indicator <strong>7.2.1</strong> Renewable energy share in the total final energy consumption.
               </MDTypography>,
-              chart: {datasets: {
-                label: "Progress",
-                backgroundColors: [gaugeProps.color, "light"],
-                data: [value, gaugeProps.remainingToFill],
-              }}
+              chart: {
+                datasets: {
+                  label: "Progress",
+                  backgroundColors: [gaugeProps.color, "light"],
+                  data: [value, gaugeProps.remainingToFill],
+                }
+              }
             })
         }
 
@@ -102,11 +105,13 @@ function PedOverview() {
               Total greenhouse gas emissions per year.
             </MDTypography>,
             description: "Progress against the baseline year value of " + baselineValue + " tCO2eq/a. Lowest value was " + bestValue + " tCO2eq/a achieved in " + overallGhg.bestValue.year,
-            chart: {datasets: {
-              label: "Progress",
-              backgroundColors: [gaugeProps.color, "light"],
-              data: [value, gaugeProps.remainingToFill],
-            }}
+            chart: {
+              datasets: {
+                label: "Progress",
+                backgroundColors: [gaugeProps.color, "light"],
+                data: [value, gaugeProps.remainingToFill],
+              }
+            }
           });
         }
 
@@ -403,6 +408,17 @@ function PedOverview() {
 
                     <Grid item xs={12}>
                       <DetailsCard title="PED Indicators" description={" "} shadow={true}>
+                        {pedOverview.pedStats.overallTasksProgress && (
+                          <MDBox bgColor={"grey-100"} p={1} borderRadius="lg" ml={2} mr={2} sx={{ width: { xs: "100%", md: "75%", lg: "50%" } }}>
+                            <MDTypography variant="h6" fontWeight="medium" color="text">Overall progress of energy efficiency measures</MDTypography>
+                            <Progress value={pedOverview?.pedStats?.overallTasksProgress} />
+                            <MDBox sx={{ fontStyle: 'italic' }} >
+                              <MDTypography component="div" variant="button" color="text">
+                                This is a visualization of the overall progress for all measures defined. To view individual progress for each defined measure, please access the <strong>“Tasks”</strong> section of each category of energy related indicator in the section below.
+                              </MDTypography>
+                            </MDBox>
+                          </MDBox>)}
+
                         <IndicatorsStats kpis={pedOverview?.pedStats?.kpisByYear} indicatorsStats={pedOverview.indicatorsStats} />
                         <IndicatorsStatsGhg kpis={pedOverview?.pedStats?.kpisByYear} />
                       </DetailsCard>
@@ -433,5 +449,29 @@ function calculateGaugeChartProps(value) {
 
   return { color: color, remainingToFill: remainingToFill };
 }
+
+const Progress = ({ value }) => {
+  var displayValue = value ? value : 0;
+  displayValue = Math.min(displayValue, 100);
+  const displayText = value ? parseFloat(value).toFixed(2) : 0;
+  const color = displayValue <= 50 ? "error" : "success";
+  return (
+    <MDBox display="flex" alignItems="center" height="2rem">
+      <MDTypography variant="button" color="text" fontWeight="medium">
+        {displayText}%
+      </MDTypography>
+      <MDBox ml={0.5} width="100%" >
+        <MDProgress variant="gradient" color={color} value={displayValue} sx={{
+          height: "1rem",
+          //borderRadius: 5,
+          '& .MuiLinearProgress-bar': {
+            height: '1rem',
+            //borderRadius: 5,
+          }
+        }} />
+      </MDBox>
+    </MDBox>
+  )
+};
 
 export default PedOverview;

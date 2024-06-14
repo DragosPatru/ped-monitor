@@ -9,10 +9,7 @@ import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.IndicatorStats;
 import com.simplypositive.pedmonitor.domain.service.IndicatorService;
 import com.simplypositive.pedmonitor.domain.service.SustainabilityCalculatorRegistry;
-import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
-import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
-import com.simplypositive.pedmonitor.persistence.entity.IndicatorValue;
-import com.simplypositive.pedmonitor.persistence.entity.ResourceStatus;
+import com.simplypositive.pedmonitor.persistence.entity.*;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorRepository;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorTaskRepository;
 import com.simplypositive.pedmonitor.persistence.repository.IndicatorValueRepository;
@@ -193,8 +190,17 @@ public class IndicatorServiceImpl implements IndicatorService {
   }
 
   @Override
-  public List<IndicatorTask> getTasks(Integer indicatorId) {
+  public List<IndicatorTask> getTasksStats(Integer indicatorId) {
     return taskRepository.findAllByIndicatorIdOrderByCreatedAtDesc(indicatorId);
+  }
+
+  @Override
+  public IndicatorTaskStats getTasksStats(List<IndicatorEntity> indicators) {
+    if (indicators != null && !indicators.isEmpty()) {
+      List<Integer> ids = indicators.stream().map(i -> i.getId()).toList();
+      return taskRepository.calculateTasksStatsForIndicatorIdIn(ids);
+    }
+    return null;
   }
 
   @Override

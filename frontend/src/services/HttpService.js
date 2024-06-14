@@ -38,7 +38,7 @@ export class HttpService {
 
         this._axios.request(options)
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             // Directly resolve with res.data
             resolve(res.data);
           })

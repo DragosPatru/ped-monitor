@@ -4,6 +4,7 @@ import com.simplypositive.pedmonitor.domain.exception.ResourceNotFoundException;
 import com.simplypositive.pedmonitor.domain.model.IndicatorStats;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorEntity;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorTask;
+import com.simplypositive.pedmonitor.persistence.entity.IndicatorTaskStats;
 import com.simplypositive.pedmonitor.persistence.entity.IndicatorValue;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -37,7 +38,9 @@ public interface IndicatorService {
 
   List<IndicatorValue> getData(Integer indicatorId, Integer year);
 
-  List<IndicatorTask> getTasks(Integer indicatorId);
+  List<IndicatorTask> getTasksStats(Integer indicatorId);
+
+  IndicatorTaskStats getTasksStats(List<IndicatorEntity> indicators);
 
   IndicatorTask deleteTask(Integer taskId) throws ResourceNotFoundException;
 
