@@ -23,30 +23,30 @@ const { dark } = colors;
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function GaugeChart({ icon, title, description, height, chart }) {
-  const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.cutout);
+// custom plugin
+const gaugeChartText = {
+  id: 'gaugeChartText',
+  afterDatasetsDraw(chart, args, pluginOptions) {
+    const { ctx, data, chartArea: { top, bottom, left, right, width, height }, scales: { r } } = chart;
+    ctx.save();
+    const xCoor = chart.getDatasetMeta(0).data[0].x;
+    const yCoor = chart.getDatasetMeta(0).data[0].y;
+    ctx.fillStyle = dark.main;
+    ctx.textAllign = 'center';
+    ctx.font = '2rem sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(data.datasets[0].data[0] + '%', xCoor, yCoor);
+  }
+};
 
-  // custom plugin
-  const gaugeChartText = {
-    id: 'gaugeChartText',
-    afterDatasetsDraw(chart, args, pluginOptions) {
-      const { ctx, data, chartArea: { top, bottom, left, right, width, height }, scales: { r } } = chart;
-      ctx.save();
-      const xCoor = chart.getDatasetMeta(0).data[0].x;
-      const yCoor = chart.getDatasetMeta(0).data[0].y;
-      ctx.fillStyle = dark.main;
-      ctx.textAllign = 'center';
-      ctx.font = '2rem sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'bottom';
-      ctx.fillText(data.datasets[0].data[0] + '%', xCoor, yCoor);
-    }
-  };
+function GaugeChart({ icon, title, subtitle, description, height, chart }) {
+  const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.cutout);
 
   const renderChart = (
     <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
       {title || description ? (
-        <MDBox display="flex" px={1} pb={1} pt={description ? 1 : 0}>
+        <MDBox display="flex" px={1} pb={1} pt={1}>
           {icon.component && (
             <MDBox
               width="4rem"
@@ -61,6 +61,7 @@ function GaugeChart({ icon, title, description, height, chart }) {
               color="white"
               mt={-5}
               mr={2}
+              flexShrink={0}
             >
               <Icon fontSize="medium">{icon.component}</Icon>
             </MDBox>
@@ -70,9 +71,12 @@ function GaugeChart({ icon, title, description, height, chart }) {
           </MDBox>
         </MDBox>
       ) : null}
+      <MDBox sx={{ fontStyle: 'italic' }}>
+        {subtitle}  
+      </MDBox>
       {useMemo(
         () => (
-          <MDBox height={height}>
+          <MDBox height={height} pl={1}>
             <Doughnut data={data} options={options} plugins={[gaugeChartText]} redraw />
           </MDBox>
         ),

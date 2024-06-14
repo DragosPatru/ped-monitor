@@ -320,7 +320,7 @@ public class ReportServiceImpl implements ReportService {
         progress = ((lastValue.getValue() - baselineValue) / (100 - baselineValue)) * 100;
       }
 
-      new PedStats.OverallStats(
+      return new PedStats.OverallStats(
           new AnnualValue(lastValue.getYear(), progress),
           maxValue,
           new AnnualValue(baselineYear, baselineValue));
@@ -334,28 +334,27 @@ public class ReportServiceImpl implements ReportService {
     Optional<AnnualValue> baselineValue =
         ghgValues.stream().filter(v -> baselineYear.equals(v.getYear())).findFirst();
     if (baselineValue.isPresent()) {
-        AnnualValue lastValue =
-            Collections.max(ghgValues, Comparator.comparing(AnnualValue::getYear));
-        AnnualValue minValue =
-            Collections.min(ghgValues, Comparator.comparing(AnnualValue::getValue));
+      AnnualValue lastValue =
+          Collections.max(ghgValues, Comparator.comparing(AnnualValue::getYear));
+      AnnualValue minValue =
+          Collections.min(ghgValues, Comparator.comparing(AnnualValue::getValue));
 
-        var progress = Math.max(lastValue.getValue(), 0);
-        if (baselineValue.get().getValue() == 0.0) {
-          if (lastValue.getValue() > 0) {
-            progress = 0.0;
-          }
-
-        } else if (progress > 0) {
-          progress = (1 - lastValue.getValue() / baselineValue.get().getValue()) * 100;
-
-        } else {
-          progress = 100;
+      var progress = Math.max(lastValue.getValue(), 0);
+      if (baselineValue.get().getValue() == 0.0) {
+        if (lastValue.getValue() > 0) {
+          progress = 0.0;
         }
-        PedStats.OverallStats overallGhgStats =
-            new PedStats.OverallStats(
-                new AnnualValue(lastValue.getYear(), progress), minValue, baselineValue.get());
-        return overallGhgStats;
 
+      } else if (progress > 0) {
+        progress = (1 - lastValue.getValue() / baselineValue.get().getValue()) * 100;
+
+      } else {
+        progress = 100;
+      }
+      PedStats.OverallStats overallGhgStats =
+          new PedStats.OverallStats(
+              new AnnualValue(lastValue.getYear(), progress), minValue, baselineValue.get());
+      return overallGhgStats;
     }
     return null;
   }
