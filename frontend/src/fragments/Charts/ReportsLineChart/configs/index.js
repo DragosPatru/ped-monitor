@@ -86,8 +86,14 @@ function configs(labels, datasets, measureUnit) {
             display: true,
             color: "#f8f9fa",
             padding: 10,
-            callback: function(value, index, values) {
-              return value; // customize the Y axis
+            callback: function(value, index, values) { // customize the Y axis
+              if (value) {
+                if (Number.isInteger(value)) {
+                  return value;
+                }
+                return parseFloat(value.toFixed(2));
+              }
+              return value; 
             },
             font: {
               size: 14,

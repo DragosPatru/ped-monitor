@@ -37,7 +37,7 @@ function PedOverview() {
   const { pedId } = useParams();
   const [pedOverview, setPedOverview] = useState({});
 
-  const [resChartConfig, setResChartConfig] = useState({});
+  const [ssChartConfig, setSsChartConfig] = useState({});
   const [ghgChartConfig, setGhgChartConfig] = useState({});
   const [ghgResChartConfig, setGhgResChartConfig] = useState({});
 
@@ -66,21 +66,25 @@ function PedOverview() {
           setEditButtonVisible(false);
         }
 
-        if (overview.pedStats.overallRes) {
-          let overallRes = overview.pedStats.overallRes;
-          let value = overallRes.currentValue.value.toFixed(2);
-          let baselineValue = overallRes.baselineValue.value.toFixed(2);
-          let bestValue = overallRes.bestValue.value.toFixed(2);
+        if (overview.pedStats.overallSs) {
+          let overallSs = overview.pedStats.overallSs;
+          let value = overallSs.currentValue.value.toFixed(2);
+          let baselineValue = overallSs.baselineValue.value.toFixed(2);
+          let bestValue = overallSs.bestValue.value.toFixed(2);
           let gaugeProps = calculateGaugeChartProps(value);
-          setResChartConfig(
+          setSsChartConfig(
             {
-              title: "Progress of degree of renewable energy self-supply for " + overallRes.currentValue.year,
-              description: "Progress against the baseline year value of " + baselineValue + " %. Highest value was " + bestValue + "% achieved in " + overallRes.bestValue.year,
-              datasets: {
+              title: "Progress of degree of renewable energy self-supply for " + overallSs.currentValue.year,
+              description: "Progress against the baseline year value of " + baselineValue + " %. Highest value was " + bestValue + "% achieved in " + overallSs.bestValue.year,
+              subtitle: <MDTypography textAlign="center" component="div" variant="button" color="text">
+                This progress directly supports <strong>SGD 7</strong> Affordable and clean energy,
+                indicator <strong>7.2.1</strong> Renewable energy share in the total final energy consumption.
+              </MDTypography>,
+              chart: {datasets: {
                 label: "Progress",
                 backgroundColors: [gaugeProps.color, "light"],
                 data: [value, gaugeProps.remainingToFill],
-              }
+              }}
             })
         }
 
@@ -93,12 +97,16 @@ function PedOverview() {
 
           setGhgChartConfig({
             title: "Progress of Greenhouse Gas Emissions reduction rate for " + overallGhg.currentValue.year,
+            subtitle: <MDTypography textAlign="center" component="div" variant="button" color="text">
+              This progress directly supports <strong>SDG 13</strong> Climate actions, indicator <strong>13.2.2</strong>
+              Total greenhouse gas emissions per year.
+            </MDTypography>,
             description: "Progress against the baseline year value of " + baselineValue + " tCO2eq/a. Lowest value was " + bestValue + " tCO2eq/a achieved in " + overallGhg.bestValue.year,
-            datasets: {
+            chart: {datasets: {
               label: "Progress",
               backgroundColors: [gaugeProps.color, "light"],
               data: [value, gaugeProps.remainingToFill],
-            }
+            }}
           });
         }
 
@@ -108,10 +116,12 @@ function PedOverview() {
           setGhgResChartConfig({
             title: "Overall PED/PEN Achievement Rate",
             description: "",
-            datasets: {
-              label: "Progress",
-              backgroundColors: [gaugeProps.color, "light"],
-              data: [value, gaugeProps.remainingToFill],
+            chart: {
+              datasets: {
+                label: "Progress",
+                backgroundColors: [gaugeProps.color, "light"],
+                data: [value, gaugeProps.remainingToFill],
+              }
             }
           });
         }
@@ -168,8 +178,6 @@ function PedOverview() {
       bgWhite
     />
   );
-
-
 
 
   return (
@@ -361,33 +369,35 @@ function PedOverview() {
                       </DetailsCard>
                     </Grid>
 
-                    {pedOverview.pedStats.overallRes && (
-                      <Grid item xs={12} md={4} mt={2}>
+                    {pedOverview.pedStats.overallSs && (
+                      <Grid item xs={10} md={6} lg={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "info", component: "leaderboard" }}
-                          title={resChartConfig.title}
-                          description={resChartConfig.description}
-                          chart={{ datasets: resChartConfig.datasets }}
+                          title={ssChartConfig.title}
+                          subtitle={ssChartConfig.subtitle}
+                          description={ssChartConfig.description}
+                          chart={ssChartConfig.chart}
                         />
                       </Grid>)}
 
                     {pedOverview.pedStats.overallGhg && (
-                      <Grid item xs={8} md={4} mt={2}>
+                      <Grid item xs={10} md={6} lg={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "dark", component: "leaderboard" }}
                           title={ghgChartConfig.title}
+                          subtitle={ghgChartConfig.subtitle}
                           description={ghgChartConfig.description}
-                          chart={{ datasets: ghgChartConfig.datasets }}
+                          chart={ghgChartConfig.chart}
                         />
                       </Grid>)}
 
                     {pedOverview.pedStats.overallResGhg && (
-                      <Grid item xs={8} md={4} mt={2}>
+                      <Grid item xs={10} md={6} lg={4} mt={2}>
                         <GaugeChart
                           icon={{ color: "success", component: "leaderboard" }}
                           title={ghgResChartConfig.title}
                           description={ghgResChartConfig.description}
-                          chart={{ datasets: ghgResChartConfig.datasets }}
+                          chart={ghgResChartConfig.chart}
                         />
                       </Grid>)}
 
