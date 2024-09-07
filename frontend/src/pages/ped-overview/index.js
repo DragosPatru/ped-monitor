@@ -316,9 +316,9 @@ function PedOverview() {
 
                     <Grid item xs={12} md={6}>
                       <DetailsCard title="Geospatial and Socioeconomics" description="" shadow={true}>
-                        <Detail label="Size of focus district" textValue={pedOverview.ped.focusDistrictSize + " (sq. meters)"} />
+                        <Detail label="Size of focus district" textValue={pedOverview.ped.focusDistrictSize + " m²"} />
                         <Detail label="Population of focus district" textValue={pedOverview.ped.focusDistrictPopulation + " people"} />
-                        <Detail label="Build Up Area Size" textValue={pedOverview.ped.buildUpAreaSize + " (sq. meters)"} />
+                        <Detail label="Build Up Area Size" textValue={pedOverview.ped.buildUpAreaSize + " m²"} />
                         <Detail label="AVG Household Income" textValue={pedOverview.ped.avgHouseholdIncome + " EUR"} />
                         {pedOverview.ped.heatingDegreeDays !== null && (
                           <Detail label="Heating Degree Days" textValue={pedOverview.ped.heatingDegreeDays + "  days/year"} />
@@ -399,7 +399,7 @@ function PedOverview() {
                     {pedOverview.pedStats.overallResGhg && (
                       <Grid item xs={10} md={6} lg={4} mt={2}>
                         <GaugeChart
-                          icon={{ color: "success", component: "leaderboard" }}
+                         icon={{ color: "success", component: "leaderboard" }}
                           title={ghgResChartConfig.title}
                           description={ghgResChartConfig.description}
                           chart={ghgResChartConfig.chart}

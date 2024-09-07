@@ -6,21 +6,30 @@ import Divider from '@mui/material/Divider';
 import Grid from "@mui/material/Grid";
 
 import KpiChart from "./kpiChart";
+import KpiTable from './kpiTable';
 
 import energyRelatedIndicators from 'constants/indicators-sections';
+import indicatorsMap from 'constants/indicators-map';
 
 const renderKpi = (kpiCode, kpis, showTitle, color) => {
     let stats = null;
+    let unit = null;
     if (kpis.hasOwnProperty(kpiCode)) {
         stats = kpis[kpiCode];
+        unit = indicatorsMap.get(kpiCode).unit
     }
     if (stats === null) {
         return null;
     }
 
     return (
-        <Grid item xs={12} md={8} xl={6} key={kpiCode} mt={1}>
-            <KpiChart code={kpiCode} values={stats} showTitle={showTitle} color={color} />
+        <Grid container key={kpiCode + "_container"} mb={1}>
+            <Grid item xs={12} md={8} xl={6} key={kpiCode} mt={1}>
+                <KpiChart code={kpiCode} values={stats} showTitle={showTitle} color={color} />
+            </Grid>
+            <Grid item xs={12} md={4} xl={4} key={kpiCode + "_table"} mb={2} ml={2} mt={-1} sx={{ maxHeight: '14rem' }}>
+                <KpiTable values={stats} unit={unit} />
+            </Grid>
         </Grid>
     );
 };

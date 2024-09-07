@@ -47,7 +47,7 @@ function ReportsLineChart({ color, title, titleVariant, italicText, description,
 
   return (
     <Card sx={{ height: "100%", boxShadow: !shadow && "none" }} >
-      <MDBox padding="1rem" bgColor={bgColor}>
+      <MDBox padding="1rem" bgColor={bgColor} borderRadius="lg">
 
         <MDBox
           variant="gradient"
@@ -58,7 +58,7 @@ function ReportsLineChart({ color, title, titleVariant, italicText, description,
           py={2}
           pr={0.5}
           mt={-5}
-          height="12.5rem"
+          height="14rem"
         >
           <Line data={chartConfig.data} plugins={[ChartDataLabels]} options={chartConfig.options} redraw />
         </MDBox>

@@ -33,7 +33,7 @@ function formatKpiDataForChart(entries, unit) {
     // Map the sorted entries to labels and data
     const labels = entries.map(entry => entry.year);
     const values = entries.map(entry => entry.value);
-    
+
     var minLabel = null;
     var maxLabel = null;
     if (labels.length > 0) {
