@@ -7,14 +7,18 @@ import Grid from "@mui/material/Grid";
 
 import Indicator from "./indicator";
 import KpiChart from "./kpiChart";
+import KpiTable from './kpiTable';
 
 import energyRelatedIndicators from 'constants/indicators-sections';
 import indicatorsMap from 'constants/indicators-map';
 
+
 const renderKpi = (kpiCode, kpis, showTitle, color, bgColor) => {
     let stats = null;
+    let unit = null;
     if (kpis.hasOwnProperty(kpiCode)) {
         stats = kpis[kpiCode];
+        unit = indicatorsMap.get(kpiCode).unit
     }
 
     if (stats === null) {
@@ -22,8 +26,13 @@ const renderKpi = (kpiCode, kpis, showTitle, color, bgColor) => {
     }
 
     return (
-        <Grid item xs={12} md={8} xl={6} key={kpiCode} mt={2}>
-            <KpiChart code={kpiCode} values={stats} showTitle={showTitle} color={color} bgColor={bgColor} />
+        <Grid container key={kpiCode + "_container"} mb={1}>
+            <Grid item xs={12} md={8} xl={6} key={kpiCode} mt={2}>
+                <KpiChart code={kpiCode} values={stats} showTitle={showTitle} color={color} bgColor={bgColor} />
+            </Grid>
+            <Grid item xs={12} md={4} xl={4} key={kpiCode + "_table"} mb={2} ml={2} mt={-1} sx={{ maxHeight: '14rem' }}>
+                <KpiTable values={stats} unit={unit} color={bgColor} />
+            </Grid>
         </Grid>
     );
 };
@@ -31,7 +40,7 @@ const renderKpi = (kpiCode, kpis, showTitle, color, bgColor) => {
 const renderKpis = (kpiCodes, kpis, showTitle, color) => {
     var shouldRenderKpis = false;
     const renderedKpis = kpiCodes.map(kpiCode => {
-        const kpi = renderKpi(kpiCode, kpis, showTitle, color, "grey-100");
+        const kpi = renderKpi(kpiCode, kpis, showTitle, color);//, "grey-100");
         if (kpi !== null) {
             shouldRenderKpis = shouldRenderKpis || true;
         }
@@ -83,7 +92,7 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
         // render kpis
         const renderedKpis = renderKpis(subsection.kpis, kpis, true, "secondary")
         const kpisSection = renderedKpis ? (
-            <MDBox bgColor={"grey-100"}
+            <MDBox //bgColor={"grey-100"}
                 borderRadius="lg" p={1} pb={2} mt={2}>
                 <Grid container mt={3} mb={-2}>
                     {renderedKpis}
@@ -125,7 +134,6 @@ function IndicatorSection({ section, sectionKey, indicatorsStats, kpis }) {
         );
     };
 
-    // daca sectiunea are KPIs atunci ar trebui prezentati
     return (
         <CollapsableRow
             title={title}
